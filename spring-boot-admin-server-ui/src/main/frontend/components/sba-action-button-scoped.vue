@@ -91,19 +91,3 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "~@/assets/css/utilities";
-
-.refresh {
-  &__header {
-    background-color: $white;
-    z-index: 10;
-    padding: 0.5em 1em;
-  }
-
-  &__toggle-scope {
-    width: 10em;
-  }
-}
-</style>
-

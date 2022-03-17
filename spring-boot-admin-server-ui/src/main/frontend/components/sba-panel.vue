@@ -67,25 +67,21 @@
   }
 </script>
 
-<style lang="scss">
-  @import "~@/assets/css/utilities";
-
-  .panel {
-    margin-bottom: 1.5rem;
-    overflow: initial;
-
-    &__close {
-      margin-right: 0.75em;
-      color: $grey-light;
-      display: flex;
-      align-items: center;
-      justify-self: flex-end;
-    }
-
-    &__header--sticky {
-      position: sticky;
-      background-color: $white;
-      z-index: 10;
-    }
-  }
+<style>
+.panel {
+  margin-bottom: 1.5rem;
+  overflow: initial;
+}
+.panel__close {
+  margin-right: 0.75em;
+  color: #b5b5b5;
+  display: flex;
+  align-items: center;
+  justify-self: flex-end;
+}
+.panel__header--sticky {
+  position: sticky;
+  background-color: #fff;
+  z-index: 10;
+}
 </style>

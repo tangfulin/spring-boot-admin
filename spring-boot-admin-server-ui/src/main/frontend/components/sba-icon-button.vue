@@ -44,35 +44,28 @@
   }
 </script>
 
-<style lang="scss">
-  @import "~@/assets/css/utilities";
-
-  .icon-button {
-    background: none;
-    border: none;
-    padding: 0;
-    font-size: 1em;
-    color: inherit;
-
-    &:not([disabled]) {
-      cursor: pointer;
-
-      &:hover {
-        color: $black;
-      }
-
-      & svg {
-        fill: currentcolor;
-      }
-    }
-
-    &:disabled {
-      opacity: 0.5;
-      pointer-events: none;
-    }
-
-    &:active {
-      outline: none;
-    }
-  }
+<style>
+.icon-button {
+  background: none;
+  border: none;
+  padding: 0;
+  font-size: 1em;
+  color: inherit;
+}
+.icon-button:not([disabled]) {
+  cursor: pointer;
+}
+.icon-button:not([disabled]):hover {
+  color: #000;
+}
+.icon-button:not([disabled]) svg {
+  fill: currentcolor;
+}
+.icon-button:disabled {
+  opacity: 0.5;
+  pointer-events: none;
+}
+.icon-button:active {
+  outline: none;
+}
 </style>

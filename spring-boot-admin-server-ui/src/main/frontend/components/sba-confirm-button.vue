@@ -51,10 +51,8 @@
 </script>
 
 
-<style lang="scss">
-  @import "~@/assets/css/utilities";
-
+<style>
   .confirm-button {
-    transition: all $easing 150ms;
+    transition: all ease-out 150ms;
   }
 </style>

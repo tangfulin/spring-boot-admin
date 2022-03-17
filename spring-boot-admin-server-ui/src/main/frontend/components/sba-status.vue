@@ -58,36 +58,28 @@
   }
 </script>
 
-<style lang="scss">
-  @import "~@/assets/css/utilities";
+<style>
+.application-status {
+  text-align: center;
+  line-height: 1rem;
+  display: inline-flex;
+  flex-direction: column;
+}
+.application-status__icon {
+  color: gray;
+  margin: 0 auto;
+}
+.application-status__icon--UP {
+  color: #48c78e;
+}
+.application-status__icon--RESTRICTED {
+  color: #ffe08a;
+}
+.application-status__icon--OUT_OF_SERVICE, .application-status__icon--DOWN {
+  color: #f14668;
+}
+.application-status__icon--UNKNOWN, .application-status__icon--OFFLINE {
+  color: #7a7a7a;
+}
 
-  .application-status {
-    text-align: center;
-    line-height: 1rem;
-    display: inline-flex;
-    flex-direction: column;
-
-    &__icon {
-      color: gray;
-      margin: 0 auto;
-
-      &--UP {
-        color: $success;
-      }
-
-      &--RESTRICTED {
-        color: $warning;
-      }
-
-      &--OUT_OF_SERVICE,
-      &--DOWN {
-        color: $danger;
-      }
-
-      &--UNKNOWN,
-      &--OFFLINE {
-        color: $grey;
-      }
-    }
-  }
 </style>

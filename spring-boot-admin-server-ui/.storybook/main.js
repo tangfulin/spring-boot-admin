@@ -2,14 +2,12 @@ const path = require('path');
 
 module.exports = {
   "stories": [
-    "../src/**/*.stories.mdx",
-    "../src/**/*.stories.@(js|jsx|ts|tsx)"
+    "../src/main/frontend/components/*.stories.@(js|jsx|ts|tsx)"
   ],
   "addons": [
     "@storybook/addon-links",
     "@storybook/addon-essentials",
-    "@storybook/addon-postcss",
-    "@storybook/preset-scss"
+    '@storybook/addon-postcss',
   ],
   webpackFinal: async (config, { configType }) => {
     config.resolve = {
@@ -19,6 +17,20 @@ module.exports = {
       },
       extensions: ['.ts', '.js', '.vue'],
     }
+
+    config.module.rules.push({
+      test: /\.css$/,
+      use: [
+        {
+          loader: 'postcss-loader',
+          options: {
+            postcssOptions: require('../postcss.config'),
+          },
+        },
+      ],
+      include: path.resolve(__dirname, '../'),
+    });
+
     return config;
   },
 }
