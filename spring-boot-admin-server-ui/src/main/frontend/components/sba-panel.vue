@@ -15,24 +15,20 @@
   -->
 
 <template>
-  <div class="card panel">
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg break-inside-avoid mb-6 backdrop-filter backdrop-blur-lg bg-opacity-80">
     <header
       v-if="title"
-      class="card-header"
-      :class="{'panel__header--sticky': headerSticksBelow}"
-      v-sticks-below="headerSticksBelow"
+      class="flex justify-between px-4 py-5 sm:px-6"
+      :class="{'sticky': headerSticksBelow}"
     >
-      <p class="card-header-title">
-        <span v-text="title" />
-      </p>
-      <div class="card-header-icon" v-if="$slots['actions']">
-        <slot name="actions" />
-      </div>
-      <div class="panel__close" v-if="closeable">
-        <sba-icon-button :icon="['far', 'times-circle']" @click.stop="close" />
+      <h3 class="text-lg leading-6 font-medium text-gray-900" v-text="title" />
+
+      <div>
+        <slot v-if="$slots['actions']" name="actions" />
+        <sba-icon-button v-if="closeable" :icon="['far', 'times-circle']" @click.stop="$emit('close', $event)" />
       </div>
     </header>
-    <div v-if="$slots['default']" class="card-content">
+    <div v-if="$slots['default']" class="border-t border-gray-200 bg-white px-4 py-3">
       <slot />
     </div>
   </div>
@@ -58,30 +54,6 @@
         type: Array,
         default: undefined
       }
-    },
-    methods: {
-      close(event) {
-        this.$emit('close', event);
-      }
     }
   }
 </script>
-
-<style>
-.panel {
-  margin-bottom: 1.5rem;
-  overflow: initial;
-}
-.panel__close {
-  margin-right: 0.75em;
-  color: #b5b5b5;
-  display: flex;
-  align-items: center;
-  justify-self: flex-end;
-}
-.panel__header--sticky {
-  position: sticky;
-  background-color: #fff;
-  z-index: 10;
-}
-</style>

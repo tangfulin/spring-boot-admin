@@ -15,13 +15,15 @@
   -->
 
 <template>
-  <div class="field is-grouped is-grouped-multiline" v-if="hasTags">
-    <div class="control" v-for="(value, key) in tags" :key="key">
-      <div class="tags has-addons">
-        <span class="tag is-dark" v-text="key" />
-        <span class="tag is-light" v-text="value" />
-      </div>
-    </div>
+  <div v-if="hasTags">
+    <span v-for="(value, key) in tags" :key="key">
+      <span class="p-1">
+        <div class="inline-flex items-center bg-white leading-none rounded p-1 shadow text-teal text-sm">
+          <span class="inline-flex bg-green-200 rounded text-gray-600 h-6 px-3 justify-center items-center" v-text="key" />
+          <span class="inline-flex px-2 pl-2" v-text="value" />
+        </div>
+      </span>
+    </span>
   </div>
 </template>
 

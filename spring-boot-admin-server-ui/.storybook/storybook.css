@@ -14,6 +14,12 @@
  * limitations under the License.
  */
 
+body {
+  background-image: url("../src/main/frontend/assets/img/wave.svg");
+  background-repeat: repeat-x;
+  background-position: 0 -90px;
+}
+
 .modal {
   position: relative;
   padding: 2rem 0;
