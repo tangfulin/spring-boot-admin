@@ -15,109 +15,89 @@
   -->
 
 <template>
-  <table class="health-details table is-fullwidth">
-    <tr>
-      <th colspan="2">
-        <span v-text="name" />
-        <span class="health-details__status" :class="`health-details__status--${health.status}`"
-              v-text="health.status"
-        />
-      </th>
-    </tr>
+  <div>
+    <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+         :class="{'bg-white': index%2===0, 'bg-gray-50': index%2!==0}"
+    >
+      <dt class="text-sm font-medium text-gray-500">
+        {{ name }}
+      </dt>
+      <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+        <sba-status-badge :status="health.status" />
 
-    <tr v-if="details && details.length > 0">
-      <td class="health-details__nested" colspan="2">
-        <table class="health-details table is-fullwidth">
-          <tr class="health-details__detail" v-for="detail in details" :key="detail.name">
-            <td v-text="detail.name" />
-            <td v-if="name === 'diskSpace'" v-text="typeof detail.value === 'number' ? prettyBytes(detail.value) : detail.value" />
-            <td v-else-if="typeof detail.value === 'object'">
-              <pre class="is-breakable" v-text="toJson(detail.value)" />
-            </td>
-            <td v-else class="is-breakable" v-text="detail.value" />
-          </tr>
-        </table>
-      </td>
-    </tr>
+        <dl class="grid grid-cols-2 mt-2" v-if="details && details.length > 0">
+          <template v-for="detail in details">
+            <dt :key="detail.name + '-key'" class="font-medium" v-text="detail.name" />
 
-    <tr v-for="child in childHealth" :key="child.name">
-      <td class="health-details__nested" colspan="2">
-        <health-details :name="child.name" :health="child.value" />
-      </td>
-    </tr>
-  </table>
+            <div :key="detail.name + '-val'">
+              <dd v-if="name === 'diskSpace'"
+                  v-text="typeof detail.value === 'number' ? prettyBytes(detail.value) : detail.value"
+              />
+              <dd v-else-if="typeof detail.value === 'object'">
+                <pre class="is-breakable" v-text="toJson(detail.value)" />
+              </dd>
+              <dd v-else class="is-breakable" v-text="detail.value" />
+            </div>
+          </template>
+        </dl>
+      </dd>
+    </div>
+
+    <health-details v-for="(child, idx) in childHealth" :key="child.name" :index="idx+1" :name="child.name"
+                    :health="child.value"
+    />
+  </div>
 </template>
 
 <script>
-  import prettyBytes from 'pretty-bytes';
+import prettyBytes from 'pretty-bytes';
+import SbaStatusBadge from '@/components/sba-status-badge';
 
-  const isChildHealth = (value) => {
-    return value !== null && typeof value === 'object' && 'status' in value;
-  };
+const isChildHealth = (value) => {
+  return value !== null && typeof value === 'object' && 'status' in value;
+};
 
-  export default {
-    name: 'HealthDetails',
-    props: {
-      name: {
-        type: String,
-        required: true
-      },
-      health: {
-        type: Object,
-        required: true
-      }
+export default {
+  name: 'HealthDetails',
+  components: {SbaStatusBadge},
+  props: {
+    name: {
+      type: String,
+      required: true
     },
-    methods: {
-      prettyBytes,
-      toJson(obj) {
-        return JSON.stringify(obj, null, 2);
-      }
+    health: {
+      type: Object,
+      required: true
     },
-    computed: {
-      details() {
-        if (this.health.details) {
-          return Object.entries(this.health.details)
-            .filter(([, value]) => !isChildHealth(value))
-            .map(([name, value]) => ({name, value}));
-        }
-        return [];
-      },
-      childHealth() {
-        if (this.health.details) {
-          return Object.entries(this.health.details)
-            .filter(([, value]) => isChildHealth(value))
-            .map(([name, value]) => ({name, value}));
-        }
-        return [];
+    index: {
+      type: Number,
+      default: 0
+    }
+  },
+  methods: {
+    prettyBytes,
+    toJson(obj) {
+      return JSON.stringify(obj, null, 2);
+    }
+  },
+  computed: {
+    details() {
+      if (this.health.details) {
+        return Object.entries(this.health.details)
+          .filter(([, value]) => !isChildHealth(value))
+          .map(([name, value]) => ({name, value}));
       }
+      return [];
     },
-  }
+    childHealth() {
+      if (this.health.details) {
+        return Object.entries(this.health.details)
+          .filter(([, value]) => isChildHealth(value))
+          .map(([name, value]) => ({name, value}));
+      }
+      return [];
+    }
+  },
+}
 </script>
 
-<style lang="css">
-td.health-details__nested {
-  padding: 0 0 0 0.75em;
-  border-bottom: 0;
-}
-td.health-details__nested pre {
-  padding: 0.5em 0.75em;
-}
-.health-details__nested .table {
-  margin-bottom: 0.5em;
-}
-.health-details__status {
-  float: right;
-}
-.health-details__status--UP {
-  color: #48c78e;
-}
-.health-details__status--RESTRICTED {
-  color: #ffe08a;
-}
-.health-details__status--OUT_OF_SERVICE, .health-details__status--DOWN {
-  color: #f14668;
-}
-.health-details__status--UNKNOWN, .health-details__status--OFFLINE {
-  color: #3e8ed0;
-}
-</style>

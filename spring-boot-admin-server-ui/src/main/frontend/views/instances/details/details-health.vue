@@ -19,14 +19,17 @@
     <template v-slot:actions>
       <router-link
         :to="{ name: 'journal', query: { 'instanceId' : instance.id } }"
-        class="button icon-button"
+        class="text-sm inline-flex items-center leading-sm border border-gray-400 bg-white text-gray-700 rounded overflow-hidden px-3 py-1 hover:bg-gray-200 ml-1"
       >
         <font-awesome-icon icon="history" />
       </router-link>
     </template>
+
     <div>
       <sba-alert v-if="error" :error="error" :title="$t('instances.details.health.fetch_failed')" severity="WARN" />
-      <health-details :health="health" name="Instance" />
+      <div class="-mx-4 -my-3">
+        <health-details :health="health" name="Instance" />
+      </div>
     </div>
   </sba-panel>
 </template>
