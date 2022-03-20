@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="bg-white shadow overflow-hidden sm:rounded-lg break-inside-avoid mb-6 backdrop-filter backdrop-blur-lg bg-opacity-80">
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg break-inside-avoid mb-6 backdrop-filter backdrop-blur-sm bg-opacity-80">
     <header
       v-if="title"
       class="flex justify-between px-4 py-5 sm:px-6"

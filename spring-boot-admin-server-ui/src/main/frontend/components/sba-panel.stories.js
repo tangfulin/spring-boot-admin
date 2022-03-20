@@ -20,7 +20,17 @@ const Template = (args, {argTypes}) => {
           ${args.actions}
         </template>
         <template v-slot>
-          <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae dolor ac ante ornare pharetra. Proin
+          ${args.slot}
+        </template>
+      </sba-panel>
+    `,
+  }
+};
+
+export const WithTitle = Template.bind({});
+WithTitle.args = {
+  title: 'Title',
+  slot: `<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Phasellus vitae dolor ac ante ornare pharetra. Proin
             laoreet ex et lacinia hendrerit. Fusce sed justo at nulla pellentesque maximus sed at diam. Suspendisse sem
             lorem,
             lobortis vel orci quis, efficitur porta massa. In vel neque justo. Maecenas dapibus quam ut nisl porta,
@@ -43,16 +53,27 @@ const Template = (args, {argTypes}) => {
             placerat
             erat a rutrum. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
             Donec
-            semper erat nec ipsum molestie, eu commodo dui lobortis.</p>
-        </template>
-      </sba-panel>
-    `,
-  }
+            semper erat nec ipsum molestie, eu commodo dui lobortis.</p>`
 };
 
-export const WithTitle = Template.bind({});
-WithTitle.args = {
-  title: 'Title'
+export const WithTable = Template.bind({});
+WithTable.args = {
+  ...WithTitle.args,
+  slot: `
+    <div class="-mx-4 -my-3">
+      <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Count</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">97</dd>
+      </div>
+      <div class="bg-gray-50 px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Time total</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">0.4890s</dd>
+      </div>
+      <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+          <dt class="text-sm font-medium text-gray-500">Max duration</dt>
+          <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">0.0040s</dd>
+      </div>
+    </div>`
 };
 
 export const Closable = Template.bind({});
@@ -74,3 +95,4 @@ StickyHeader.args = {
   closeable: true,
   headerSticksBelow: ['.os-content']
 };
+
