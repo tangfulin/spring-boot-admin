@@ -13,14 +13,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-
 body {
-  background-image: url("../src/main/frontend/assets/img/wave.svg");
-  background-repeat: repeat-x;
-  background-position: 0 -90px;
+    padding: 0 !important;
 }
 
-.modal {
-  position: relative;
-  padding: 2rem 0;
+#root {
+    padding: 1rem;
+    position: relative;
+    z-index: 10;
 }
