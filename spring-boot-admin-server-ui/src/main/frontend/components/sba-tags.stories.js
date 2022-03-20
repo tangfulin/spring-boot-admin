@@ -11,8 +11,15 @@ const Template = (args, {argTypes}) => ({
   template: '<sba-tags v-bind="$props" />'
 });
 
-export const Tags = Template.bind({});
-Tags.args = {
+export const SingleTag = Template.bind({});
+SingleTag.args = {
+  tags: {
+    'This is a key': 'This a value',
+  }
+};
+
+export const MultipleTags = Template.bind({});
+MultipleTags.args = {
   tags: {
     'This is a key': 'This a value',
     simpleKey: 'value',

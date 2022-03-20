@@ -23,7 +23,6 @@
       />
       <div class="field has-icons-left">
         <sba-confirm-button class="button is-light"
-                            :class="{'is-loading' : refreshStatus === 'executing', 'is-danger' : refreshStatus === 'failed', 'is-info' : refreshStatus === 'completed'}"
                             :disabled="disabled"
                             @click="click"
         >

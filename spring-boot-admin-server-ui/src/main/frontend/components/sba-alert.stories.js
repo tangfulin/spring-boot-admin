@@ -30,25 +30,31 @@ const Template = (args, {argTypes}) => ({
 
 export const AlertError = Template.bind({});
 AlertError.args = {
-  title: 'Titel',
-  error: new Error('Message'),
+  title: 'Server error',
+  error: new Error('Error reading from endpoint /applications'),
   severity: 'ERROR'
 };
 
 export const AlertWarning = Template.bind({});
 AlertWarning.args = {
   ...AlertError.args,
+  title: 'Warning',
+  error: new Error('The response took longer than expected.'),
   severity: 'WARN'
 };
 
 export const AlertInfo = Template.bind({});
 AlertInfo.args = {
   ...AlertError.args,
+  title: 'Hint',
+  error: new Error('Check GC information as well!'),
   severity: 'INFO'
 };
 
 export const AlertSuccess = Template.bind({});
 AlertSuccess.args = {
   ...AlertError.args,
+  title: 'Successful',
+  error: new Error('Changes have been applied.'),
   severity: 'SUCCESS'
 };

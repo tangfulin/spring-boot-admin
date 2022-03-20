@@ -15,12 +15,12 @@
   -->
 
 <template>
-  <button @click="click" class="confirm-button" :class="{ 'is-warning' : confirm }" v-on-clickaway="abort">
+  <sba-button @click="click" :class="{ 'is-warning' : confirm }" v-on-clickaway="abort">
     <slot name="confirm" v-if="confirm">
-      <span v-text="$t('term.confirm')" />
+      <div v-text="$t('term.confirm')" />
     </slot>
     <slot v-else />
-  </button>
+  </sba-button>
 </template>
 
 <script>
@@ -36,23 +36,13 @@
         this.confirm = false;
       },
       click(event) {
+        this.confirm = !this.confirm;
         if (this.confirm) {
-          this.$el.style.width = null;
           this.$emit('click', event);
         } else {
-          const width = this.$el.getBoundingClientRect().width;
-          this.$el.style.width = `${width}px`;
           event.stopPropagation();
         }
-        this.confirm = !this.confirm;
       }
     }
   }
 </script>
-
-
-<style>
-  .confirm-button {
-    transition: all ease-out 150ms;
-  }
-</style>
