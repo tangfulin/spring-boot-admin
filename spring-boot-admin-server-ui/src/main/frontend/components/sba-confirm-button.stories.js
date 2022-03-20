@@ -31,17 +31,5 @@ const Template = (args, {argTypes}) => {
 
 export const DefaultButton = Template.bind({});
 DefaultButton.args = {
-  label: 'Default button',
-};
-
-export const PrimaryButton = Template.bind({});
-PrimaryButton.args = {
-  label: 'Primary button',
-  'type': 'primary'
-};
-
-export const DangerButton = Template.bind({});
-DangerButton.args = {
-  label: 'Danger button',
-  'type': 'danger'
+  label: 'Default confirm button',
 };

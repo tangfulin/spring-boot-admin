@@ -28,9 +28,11 @@
 
   export default {
     directives: {onClickaway},
-    data: () => ({
-      confirm: false
-    }),
+    data() {
+      return {
+        confirm: false
+      };
+    },
     methods: {
       abort() {
         this.confirm = false;

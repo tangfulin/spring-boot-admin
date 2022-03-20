@@ -15,26 +15,27 @@
   -->
 
 <template>
-  <div class="field is-narrow">
-    <div class="control">
-      <button
-        v-if="scope === 'application'"
-        class="button is-primary is-active"
-        @click="toggleScope('instance')"
-      >
-        <font-awesome-icon icon="cubes" />&nbsp;
-        <span v-text="$t('term.application')" />
-      </button>
-      <button
-        v-else
-        class="button"
-        @click="toggleScope('application')"
-      >
-        <font-awesome-icon icon="cube" />&nbsp;&nbsp;
-        <span v-text="$t('term.instance')" />
-      </button>
-    </div>
-    <p class="help has-text-centered">
+  <div>
+    <sba-button
+      v-if="scope === 'application'"
+      class="w-full"
+      :class="classNames"
+      @click="toggleScope('instance')"
+    >
+      <font-awesome-icon icon="cubes" />&nbsp;
+      <span v-text="$t('term.application')" />
+    </sba-button>
+    <sba-button
+      v-else
+      class="w-full"
+      :class="classNames"
+      @click="toggleScope('application')"
+    >
+      <font-awesome-icon icon="cube" />&nbsp;&nbsp;
+      <span v-text="$t('term.instance')" />
+    </sba-button>
+
+    <p class="text-center text-xs pt-1 truncate">
       <span v-if="scope === 'application'"
             v-text="$t('term.affects_all_instances', {count: instanceCount})"
       />
@@ -44,7 +45,9 @@
 </template>
 
 <script>
+import SbaButton from '@/components/sba-button';
 export default {
+  components: {SbaButton},
   model: {
     prop: 'scope',
     event: 'changeScope'
@@ -61,8 +64,11 @@ export default {
   },
   data() {
     return {
-      selectedScope: 'instance'
-    }
+      classNames: []
+    };
+  },
+  mounted() {
+    this.classNames = [...this.$el.classList];
   },
   methods: {
     toggleScope(newScope) {
@@ -71,9 +77,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-.button {
-  width: 100%;
-}
-</style>

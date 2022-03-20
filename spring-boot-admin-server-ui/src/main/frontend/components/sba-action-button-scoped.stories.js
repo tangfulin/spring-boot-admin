@@ -67,6 +67,7 @@ const TemplateWithSlot = (args, {argTypes}) => ({
     <template v-slot="slotProps">
       <span v-if="slotProps.refreshStatus === 'completed'">Status Is Completed</span>
       <span v-else-if="slotProps.refreshStatus === 'failed'">Status Is Failed</span>
+      <span v-else-if="slotProps.refreshStatus === 'pending'">Working...</span>
       <span v-else>Default Label</span>
     </template>
     </sba-action-button-scoped>`,
