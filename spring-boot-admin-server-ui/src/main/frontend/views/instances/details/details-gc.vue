@@ -16,28 +16,20 @@
 
 <template>
   <sba-panel v-if="hasLoaded" :title="$t('instances.details.gc.title')">
-    <div>
-      <sba-alert v-if="error" :error="error" :title="$t('instances.details.gc.fetch_failed')" />
+    <sba-alert v-if="error" :error="error" :title="$t('instances.details.gc.fetch_failed')" />
 
-      <div v-if="current" class="level">
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading" v-text="$t('instances.details.gc.count')" />
-            <p v-text="current.count" />
-          </div>
-        </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading" v-text="$t('instances.details.gc.time_spent_total')" />
-            <p v-text="`${current.total_time.asSeconds().toFixed(4)}s`" />
-          </div>
-        </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading" v-text="$t('instances.details.gc.time_spent_max')" />
-            <p v-text="`${current.max.asSeconds().toFixed(4)}s`" />
-          </div>
-        </div>
+    <div v-if="current" class="flex w-full">
+      <div class="flex-1 text-center">
+        <p class="font-bold" v-text="$t('instances.details.gc.count')" />
+        <p v-text="current.count" />
+      </div>
+      <div class="flex-1 text-center">
+        <p class="font-bold" v-text="$t('instances.details.gc.time_spent_total')" />
+        <p v-text="`${current.total_time.asSeconds().toFixed(4)}s`" />
+      </div>
+      <div class="flex-1 text-center">
+        <p class="font-bold" v-text="$t('instances.details.gc.time_spent_max')" />
+        <p v-text="`${current.max.asSeconds().toFixed(4)}s`" />
       </div>
     </div>
   </sba-panel>

@@ -94,16 +94,11 @@
   }
 </script>
 
-<style lang="scss">
-  .logger-control {
-    &__level {
-      &--inherited {
-        opacity: 0.5;
-
-        &:hover {
-          opacity: 1;
-        }
-      }
-    }
-  }
+<style lang="css">
+.logger-control__level--inherited {
+  opacity: 0.5;
+}
+.logger-control__level--inherited:hover {
+  opacity: 1;
+}
 </style>

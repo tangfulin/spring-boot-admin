@@ -64,33 +64,27 @@
     }
   }
 </script>
-<style lang="scss">
-  @import "~@/assets/css/utilities";
 
-  .instances-list td {
-    vertical-align: middle;
-  }
+<style lang="css">
+.instances-list td {
+  vertical-align: middle;
+}
+.instance-list-item__status {
+  width: 32px;
+}
+.instance-list-item__actions {
+  text-align: right;
+  opacity: 0;
+  transition: all ease-out 86ms;
+  will-change: opacity;
+  margin-right: 32px;
+}
+*:hover > .instance-list-item__actions {
+  opacity: 1;
+}
+.instance-list-item__actions > * {
+  width: 16px;
+  height: 16px;
+}
 
-  .instance-list-item {
-    &__status {
-      width: $gap;
-    }
-
-    &__actions {
-      text-align: right;
-      opacity: 0;
-      transition: all $easing $speed;
-      will-change: opacity;
-      margin-right: $gap;
-
-      *:hover > & {
-        opacity: 1;
-      }
-
-      & > * {
-        width: ($gap / 2);
-        height: ($gap / 2);
-      }
-    }
-  }
 </style>

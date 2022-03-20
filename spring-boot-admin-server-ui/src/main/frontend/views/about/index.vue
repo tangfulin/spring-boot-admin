@@ -119,41 +119,32 @@
   };
 </script>
 
-<style lang="scss">
-  .about-links {
-    display: flex;
-    align-items: center;
-
-    & > * {
-      margin-right: 0.5rem;
-    }
-  }
-
-  $stackoverflow: #f48024;
-  .button.is-stackoverflow.is-outlined {
-    background-color: transparent;
-    border-color: $stackoverflow;
-    color: $stackoverflow;
-
-    &:hover,
-    &:focus {
-      background-color: $stackoverflow;
-      border-color: $stackoverflow;
-      color: white;
-    }
-  }
-
-  $gitter: #ed1965;
-  .button.is-gitter.is-outlined {
-    background-color: transparent;
-    border-color: $gitter;
-    color: $gitter;
-
-    &:hover,
-    &:focus {
-      background-color: $gitter;
-      border-color: $gitter;
-      color: white;
-    }
-  }
+<style lang="css">
+.about-links {
+  display: flex;
+  align-items: center;
+}
+.about-links > * {
+  margin-right: 0.5rem;
+}
+.button.is-stackoverflow.is-outlined {
+  background-color: transparent;
+  border-color: #f48024;
+  color: #f48024;
+}
+.button.is-stackoverflow.is-outlined:hover, .button.is-stackoverflow.is-outlined:focus {
+  background-color: #f48024;
+  border-color: #f48024;
+  color: white;
+}
+.button.is-gitter.is-outlined {
+  background-color: transparent;
+  border-color: #ed1965;
+  color: #ed1965;
+}
+.button.is-gitter.is-outlined:hover, .button.is-gitter.is-outlined:focus {
+  background-color: #ed1965;
+  border-color: #ed1965;
+  color: white;
+}
 </style>

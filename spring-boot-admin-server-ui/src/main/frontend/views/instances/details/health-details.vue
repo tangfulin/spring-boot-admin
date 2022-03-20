@@ -94,41 +94,30 @@
   }
 </script>
 
-<style lang="scss">
-  @import "~@/assets/css/utilities";
-
-  td.health-details__nested {
-    padding: 0 0 0 0.75em;
-    border-bottom: 0;
-  }
-
-  td.health-details__nested pre {
-    padding: 0.5em 0.75em;
-  }
-
-  .health-details__nested .table {
-    margin-bottom: 0.5em;
-  }
-
-  .health-details__status {
-    float: right;
-
-    &--UP {
-      color: $success;
-    }
-
-    &--RESTRICTED {
-      color: $warning;
-    }
-
-    &--OUT_OF_SERVICE,
-    &--DOWN {
-      color: $danger;
-    }
-
-    &--UNKNOWN,
-    &--OFFLINE {
-      color: $grey;
-    }
-  }
+<style lang="css">
+td.health-details__nested {
+  padding: 0 0 0 0.75em;
+  border-bottom: 0;
+}
+td.health-details__nested pre {
+  padding: 0.5em 0.75em;
+}
+.health-details__nested .table {
+  margin-bottom: 0.5em;
+}
+.health-details__status {
+  float: right;
+}
+.health-details__status--UP {
+  color: #48c78e;
+}
+.health-details__status--RESTRICTED {
+  color: #ffe08a;
+}
+.health-details__status--OUT_OF_SERVICE, .health-details__status--DOWN {
+  color: #f14668;
+}
+.health-details__status--UNKNOWN, .health-details__status--OFFLINE {
+  color: #3e8ed0;
+}
 </style>

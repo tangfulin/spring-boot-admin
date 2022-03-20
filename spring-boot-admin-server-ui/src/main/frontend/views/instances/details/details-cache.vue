@@ -163,7 +163,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="css">
 .datasource-current {
   margin-bottom: 0 !important;
 }

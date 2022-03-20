@@ -139,32 +139,25 @@
   }
 </script>
 
-<style lang="scss">
-  @import "~@/assets/css/utilities";
+<style lang="css">
+.mem-chart__svg {
+  height: 159px;
+  width: 100%;
+}
+.mem-chart__area--committed {
+  fill: #ffe08a;
+  opacity: 0.8;
+}
+.mem-chart__area--used {
+  fill: #3e8ed0;
+  opacity: 0.8;
+}
+.mem-chart__area--metaspace {
+  fill: #00d1b2;
+  opacity: 0.8;
+}
+.mem-chart__line--max {
+  stroke: #3e8ed0;
+}
 
-  .mem-chart {
-    &__svg {
-      height: 159px;
-      width: 100%;
-    }
-
-    &__area {
-      &--committed {
-        fill: $warning;
-        opacity: 0.8;
-      }
-      &--used {
-        fill: $info;
-        opacity: 0.8;
-      }
-      &--metaspace {
-        fill: $primary;
-        opacity: 0.8;
-      }
-    }
-
-    &__line--max {
-      stroke: $grey;
-    }
-  }
 </style>

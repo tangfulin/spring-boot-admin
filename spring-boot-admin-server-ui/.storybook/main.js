@@ -1,4 +1,4 @@
-const path = require('path');
+const {resolve} = require("path");
 
 module.exports = {
   "stories": [
@@ -13,9 +13,10 @@ module.exports = {
     config.resolve = {
       alias: {
         'vue$': 'vue/dist/vue.esm.js',
-        "@": path.resolve(__dirname, '../src/main/frontend'),
+        "@": resolve(__dirname, '../src/main/frontend'),
+        "~": resolve(__dirname, '../node_modules'),
       },
-      extensions: ['.ts', '.js', '.vue'],
+      extensions: ['.ts', '.js', '.vue', '.css'],
     }
 
     config.module.rules.push({
@@ -28,7 +29,7 @@ module.exports = {
           },
         },
       ],
-      include: path.resolve(__dirname, '../'),
+      include: resolve(__dirname, '../'),
     });
 
     return config;

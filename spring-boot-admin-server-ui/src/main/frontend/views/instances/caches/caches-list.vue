@@ -148,10 +148,9 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-.caches {
-  td, th {
-    vertical-align: middle;
-  }
+<style lang="css">
+.caches td, .caches th {
+  vertical-align: middle;
 }
+
 </style>

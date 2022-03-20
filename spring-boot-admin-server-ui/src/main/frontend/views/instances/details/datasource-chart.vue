@@ -113,24 +113,17 @@
   }
 </script>
 
-<style lang="scss">
-    @import "~@/assets/css/utilities";
+<style lang="css">
+.datasource-chart__svg {
+  height: 159px;
+  width: 100%;
+}
+.datasource-chart__area--active {
+  fill: #3e8ed0;
+  opacity: 0.8;
+}
+.datasource-chart__line--max {
+  stroke: #3e8ed0;
+}
 
-    .datasource-chart {
-        &__svg {
-            height: 159px;
-            width: 100%;
-        }
-
-        &__area {
-            &--active {
-                fill: $info;
-                opacity: 0.8;
-            }
-        }
-
-        &__line--max {
-            stroke: $grey;
-        }
-    }
 </style>

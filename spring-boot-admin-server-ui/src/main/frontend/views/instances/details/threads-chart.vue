@@ -114,25 +114,18 @@
   }
 </script>
 
-<style lang="scss">
-  @import "~@/assets/css/utilities";
+<style lang="css">
+.threads-chart__svg {
+  height: 159px;
+  width: 100%;
+}
+.threads-chart__area--live {
+  fill: #ffe08a;
+  opacity: 0.8;
+}
+.threads-chart__area--daemon {
+  fill: #3e8ed0;
+  opacity: 0.8;
+}
 
-  .threads-chart {
-    &__svg {
-      height: 159px;
-      width: 100%;
-    }
-
-    &__area {
-      &--live {
-        fill: $warning;
-        opacity: 0.8;
-      }
-      &--daemon {
-        fill: $info;
-        opacity: 0.8;
-      }
-    }
-
-  }
 </style>

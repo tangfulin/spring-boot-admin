@@ -316,9 +316,7 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-@import "~@/assets/css/utilities";
-
+<style lang="css">
 .httptraces__limit {
   width: 5em;
 }

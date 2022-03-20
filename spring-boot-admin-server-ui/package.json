@@ -6,14 +6,10 @@
     "build": "vue-cli-service build",
     "test:unit": "vuencli-service test:unit",
     "lint": "vue-cli-service lint",
+    "build-storybook": "build-storybook",
     "lint:fix": "vue-cli-service lint --fix",
-    "watch": "vue-cli-service build --watch",
     "storybook": "start-storybook -p 6006 -s public",
-    "build-storybook": "build-storybook"
-  },
-  "engines": {
-    "node": ">=15",
-    "npm": ">=7"
+    "watch": "vue-cli-service build --watch"
   },
   "dependencies": {
     "@fortawesome/fontawesome-svg-core": "1.2.36",
@@ -24,8 +20,6 @@
     "ansi_up": "5.1.0",
     "autolinker": "3.14.3",
     "axios": "0.26.0",
-    "bulma": "0.9.3",
-    "bulma-badge": "3.0.1",
     "core-js": "3.20.3",
     "d3-array": "3.1.1",
     "d3-axis": "3.0.0",
@@ -56,7 +50,6 @@
     "@storybook/addon-essentials": "6.4.14",
     "@storybook/addon-links": "6.4.14",
     "@storybook/addon-postcss": "2.0.0",
-    "@storybook/preset-scss": "1.0.3",
     "@storybook/vue": "6.4.14",
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/user-event": "13.5.0",
@@ -85,6 +78,7 @@
     "postcss": "^7.0.39",
     "postcss-import": "^12.0.1",
     "tailwindcss": "npm:@tailwindcss/postcss7-compat@^2.2.17",
+    "vue-cli-plugin-postcss-preset": "^1.0.2",
     "vue-loader": "15.9.8",
     "vue-template-compiler": "2.6.14",
     "webpack-bundle-analyzer": "4.5.0"
@@ -172,6 +166,10 @@
       "**/*.spec.js"
     ],
     "testURL": "http://example.com"
+  },
+  "engines": {
+    "node": ">=15",
+    "npm": ">=7"
   },
   "msw": {
     "workerDirectory": "public"

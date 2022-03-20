@@ -13,18 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@import "~@/assets/css/utilities";
 
 .external-view {
   display: flex;
   width: 100%;
-  height: calc(100vh - #{$navbar-height-px});
+  height: calc(100vh - 52px);
   flex-direction: column;
-
-  & > * {
-    flex-grow: 1;
-    border: none;
-    margin: 0;
-    padding: 0;
-  }
+}
+.external-view > * {
+  flex-grow: 1;
+  border: none;
+  margin: 0;
+  padding: 0;
 }

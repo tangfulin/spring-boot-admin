@@ -282,82 +282,61 @@ const interval = 1000;
   }
 </script>
 
-<style lang="scss">
-  @import "~@/assets/css/utilities";
+<style lang="css">
+.trace-chart__svg {
+  height: 200px;
+  width: 100%;
+}
+.trace-chart__hover {
+  stroke: #b5b5b5;
+  stroke-width: 1px;
+}
+.trace-chart__tooltip {
+  position: absolute;
+  background: #000;
+  opacity: 0.8;
+  pointer-events: none;
+  border-radius: 6px;
+  padding: 0.825em;
+  width: 200px;
+}
+.trace-chart__tooltip table th, .trace-chart__tooltip table td {
+  border: none;
+  color: #b5b5b5;
+  padding: 0.25em 0.75em;
+}
+.trace-chart__tooltip table td {
+  text-align: right;
+}
+.trace-chart__tooltip--left {
+  left: 5px;
+}
+.trace-chart__tooltip--right {
+  right: 5px;
+}
+.trace-chart .selection {
+  stroke: none;
+  fill: rgba(0, 0, 0, 0.2);
+  fill-opacity: 1;
+}
+.trace-chart__axis-y .domain {
+  stroke: none;
+}
+.trace-chart__axis-y .tick:not(:first-of-type) line {
+  stroke-dasharray: 2, 2;
+  stroke: #b5b5b5;
+}
+.trace-chart__area--totalSuccess {
+  fill: #48c78e;
+  opacity: 0.8;
+}
+.trace-chart__area--totalClientErrors {
+  fill: #ffe08a;
+  opacity: 0.8;
+}
+.trace-chart__area--totalServerErrors {
+  fill: #f14668;
+  opacity: 0.8;
+}
 
-  .trace-chart {
-    &__svg {
-      height: 200px;
-      width: 100%;
-    }
-
-    &__hover {
-      stroke: $grey-light;
-      stroke-width: 1px;
-    }
-
-    &__tooltip {
-      position: absolute;
-      background: $black;
-      opacity: 0.8;
-      pointer-events: none;
-      border-radius: $radius-large;
-      padding: 0.825em;
-      width: 200px;
-
-      & table th,
-      & table td {
-        border: none;
-        color: $grey-light;
-        padding: 0.25em 0.75em;
-      }
-
-      & table td {
-        text-align: right;
-      }
-
-      &--left {
-        left: 5px;
-      }
-      &--right {
-        right: 5px;
-      }
-    }
-
-    & .selection {
-      stroke: none;
-      fill: rgba(0, 0, 0, 0.2);
-      fill-opacity: 1;
-    }
-
-    &__axis-y {
-      & .domain {
-        stroke: none;
-      }
-
-      .tick:not(:first-of-type) {
-        & line {
-          stroke-dasharray: 2, 2;
-          stroke: $grey-light;
-        }
-      }
-    }
-
-    &__area {
-      &--totalSuccess {
-        fill: $success;
-        opacity: 0.8;
-      }
-
-      &--totalClientErrors {
-        fill: $warning;
-        opacity: 0.8;
-      }
-
-      &--totalServerErrors {
-        fill: $danger;
-        opacity: 0.8;
-      }
-    }
-  }
 </style>

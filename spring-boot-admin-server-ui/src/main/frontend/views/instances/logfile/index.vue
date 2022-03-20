@@ -149,62 +149,49 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "~@/assets/css/utilities";
-
+<style lang="css">
 .logfile-view {
   padding: 0 1.5em 1.5em;
   position: relative;
-
-  pre {
-    padding: 0 .5em;
-    margin-bottom: 1px;
-
-    &:hover {
-      background: $grey-lighter;
-    }
-  }
-
-  .log-viewer {
-    padding: 9.5px;
-    background-color: #fff;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-    overflow: auto;
-
-    &--wrap-lines {
-      pre {
-        white-space: pre-wrap;
-      }
-    }
-  }
-
-  &-actions {
-    top: $navbar-height-px;
-    right: ($gap /2);
-    display: flex;
-    align-items: center;
-    justify-content: flex-end;
-
-    &--sticky {
-      position: sticky;
-      background: #fff;
-      box-shadow: 0 4px 2px -2px #ccc;
-    }
-  }
-
-  &-action {
-    margin-left: .5em;
-
-    &__navigation {
-      display: inline-flex;
-      flex-direction: column;
-      justify-content: space-between;
-      margin-right: 0.5rem;
-    }
-  }
 }
-
+.logfile-view pre {
+  padding: 0 0.5em;
+  margin-bottom: 1px;
+}
+.logfile-view pre:hover {
+  background: #dbdbdb;
+}
+.logfile-view .log-viewer {
+  padding: 9.5px;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  overflow: auto;
+}
+.logfile-view .log-viewer--wrap-lines pre {
+  white-space: pre-wrap;
+}
+.logfile-view-actions {
+  top: 52px;
+  right: 16px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+.logfile-view-actions--sticky {
+  position: sticky;
+  background: #fff;
+  box-shadow: 0 4px 2px -2px #ccc;
+}
+.logfile-view-action {
+  margin-left: 0.5em;
+}
+.logfile-view-action__navigation {
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-right: 0.5rem;
+}
 .rotated {
   transform: rotate(90deg);
 }

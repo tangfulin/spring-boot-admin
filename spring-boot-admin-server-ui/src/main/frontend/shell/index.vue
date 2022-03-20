@@ -16,45 +16,43 @@
 
 <template>
   <div id="app">
-    <sba-navbar :views="mainViews" :applications="applications" :error="error" :applications-initialized="applicationsInitialized" />
-    <router-view :views="childViews" :applications="applications" :error="error" :applications-initialized="applicationsInitialized" />
+    <router-view :views="childViews" :applications="applications" :error="error"
+                 :applications-initialized="applicationsInitialized"
+    />
   </div>
 </template>
 
 <script>
-  import sbaNavbar from './navbar';
-
-  export default {
-    props: {
-      views: {
-        type: Array,
-        default: () => []
-      },
-      applications: {
-        type: Array,
-        default: () => [],
-      },
-      error: {
-        type: Error,
-        default: null
-      },
-      applicationsInitialized: {
-        type: Boolean,
-        default: false
-      }
+export default {
+  props: {
+    views: {
+      type: Array,
+      default: () => []
     },
-    components: {sbaNavbar},
-    computed: {
-      mainViews() {
-        return this.views.filter(view => !view.parent);
-      },
-      activeMainViewName() {
-        const currentView = this.$route.meta.view;
-        return currentView && (currentView.parent || currentView.name);
-      },
-      childViews() {
-        return this.views.filter(view => view.parent === this.activeMainViewName);
-      }
+    applications: {
+      type: Array,
+      default: () => [],
+    },
+    error: {
+      type: Error,
+      default: null
+    },
+    applicationsInitialized: {
+      type: Boolean,
+      default: false
+    }
+  },
+  computed: {
+    mainViews() {
+      return this.views.filter(view => !view.parent);
+    },
+    activeMainViewName() {
+      const currentView = this.$route.meta.view;
+      return currentView && (currentView.parent || currentView.name);
+    },
+    childViews() {
+      return this.views.filter(view => view.parent === this.activeMainViewName);
     }
   }
+}
 </script>

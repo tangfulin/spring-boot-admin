@@ -120,7 +120,7 @@
   }
 </script>
 
-<style lang="scss">
+<style lang="css">
   .control.has-inline-text {
     line-height: 2.25em;
   }

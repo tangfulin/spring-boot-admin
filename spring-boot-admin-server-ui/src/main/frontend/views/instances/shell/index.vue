@@ -15,17 +15,16 @@
   -->
 
 <template>
-  <div class="instances">
-    <div class="instances__body">
-      <div class="instances__sidebar">
-        <instance-sidebar
-          v-if="instance"
-          :views="views"
-          :instance="instance"
-          :application="application"
-        />
-      </div>
-      <div class="instances__view">
+  <div class="h-full">
+    <div class="bg-wave" v-html="WaveBackground" />
+    <div class="h-full">
+      <instance-sidebar
+        v-if="instance"
+        :views="views"
+        :instance="instance"
+        :application="application"
+      />
+      <div class="h-full overflow-y-auto relative z-0 ml-60">
         <router-view v-if="instance" :instance="instance" :application="application" />
       </div>
     </div>
@@ -34,6 +33,7 @@
 
 <script>
   import InstanceSidebar from './sidebar';
+  import WaveBackground from '!raw-loader!../../../assets/img/wave.svg'
 
   export default {
     components: {InstanceSidebar},
@@ -53,6 +53,11 @@
       error: {
         type: Error,
         default: null
+      }
+    },
+    data() {
+      return {
+        WaveBackground,
       }
     },
     computed: {
@@ -77,41 +82,32 @@
   }
 </script>
 
-<style lang="scss">
-  @import "~@/assets/css/utilities";
-
-  $sidebar-width-px: 220px;
-
-  .instances {
-    display: flex;
-    flex-grow: 1;
-    flex-direction: column;
-
-    &__body {
-      display: flex;
-      flex-grow: 1;
-    }
-
-    &__view,
-    &__sidebar {
-      position: relative;
-    }
-
-    &__sidebar {
-      z-index: 20;
-      position: fixed;
-      top: $navbar-height-px;
-      bottom: 0;
-      left: 0;
-      width: $sidebar-width-px;
-    }
-
-    &__view {
-      flex-grow: 1;
-      flex-shrink: 1;
-      z-index: 10;
-      max-width: 100%;
-      padding-left: $sidebar-width-px;
-    }
-  }
+<style lang="css">
+.instances {
+  display: flex;
+  flex-grow: 1;
+  flex-direction: column;
+}
+.instances__body {
+  display: flex;
+  flex-grow: 1;
+}
+.instances__view, .instances__sidebar {
+  position: relative;
+}
+.instances__sidebar {
+  z-index: 20;
+  position: fixed;
+  top: 52px;
+  bottom: 0;
+  left: 0;
+  width: 220px;
+}
+.instances__view {
+  flex-grow: 1;
+  flex-shrink: 1;
+  z-index: 10;
+  max-width: 100%;
+  padding-left: 220px;
+}
 </style>

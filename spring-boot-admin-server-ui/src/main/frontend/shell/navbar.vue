@@ -138,9 +138,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "~@/assets/css/utilities";
-
+<style>
 .logo {
   align-self: center;
   flex-basis: content;
@@ -149,9 +147,9 @@ export default {
   font-size: 1.5em;
   font-weight: 600;
   white-space: nowrap;
+}
 
-  img {
-    margin-right: 0.5em;
-  }
+.logo img {
+  margin-right: 0.5em;
 }
 </style>

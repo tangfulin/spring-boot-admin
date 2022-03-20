@@ -16,47 +16,27 @@
 
 <template>
   <sba-panel :title="$t('instances.details.metadata.title')">
-    <div class="content metadata" v-if="metadata">
-      <table class="table" v-if="!isEmptyMetadata">
-        <tr v-for="(value, key) in metadata" :key="key">
-          <td class="metadata__key" v-text="key" />
-          <td>
-            <sba-formatted-obj :value="value" />
-          </td>
-        </tr>
-      </table>
-      <p v-else class="is-muted" v-text="$t('instances.details.metadata.No metadata provided.')" />
-    </div>
+    <sba-key-value-table class="-mx-4 -my-3" v-if="!isEmptyMetadata" :map="metadata" />
   </sba-panel>
 </template>
 
 <script>
-  import Instance from '@/services/instance';
+import Instance from '@/services/instance';
 
-  export default {
-    props: {
-      instance: {
-        type: Instance,
-        required: true
-      }
+export default {
+  props: {
+    instance: {
+      type: Instance,
+      required: true
+    }
+  },
+  computed: {
+    metadata() {
+      return this.instance.registration.metadata;
     },
-    computed: {
-      metadata() {
-        return this.instance.registration.metadata;
-      },
-      isEmptyMetadata() {
-        return Object.keys(this.metadata).length <= 0;
-      }
+    isEmptyMetadata() {
+      return Object.keys(this.instance.registration.metadata).length <= 0;
     }
   }
+}
 </script>
-
-<style lang="scss">
-  .metadata {
-    overflow: auto;
-
-    &__key {
-      vertical-align: top;
-    }
-  }
-</style>

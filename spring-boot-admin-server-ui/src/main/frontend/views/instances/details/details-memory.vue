@@ -19,32 +19,25 @@
     <div>
       <sba-alert v-if="error" :error="error" :title="$t('instances.details.memory.fetch_failed')" />
 
-      <div v-if="current" class="level memory-current">
-        <div v-if="current.metaspace" class="level-item has-text-centered">
-          <div>
-            <p class="heading has-bullet has-bullet-primary" v-text="$t('instances.details.memory.metaspace')" />
-            <p v-text="prettyBytes(current.metaspace)" />
-          </div>
+      <div v-if="current" class="flex w-full">
+        <div v-if="current.metaspace" class="flex-1 text-center">
+          <p class="font-bold" v-text="$t('instances.details.memory.metaspace')" />
+          <p v-text="prettyBytes(current.metaspace)" />
         </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading has-bullet has-bullet-info" v-text="$t('instances.details.memory.used')" />
-            <p v-text="prettyBytes(current.used)" />
-          </div>
+        <div class="flex-1 text-center">
+          <p class="font-bold" v-text="$t('instances.details.memory.used')" />
+          <p v-text="prettyBytes(current.used)" />
         </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading has-bullet has-bullet-warning" v-text="$t('instances.details.memory.size')" />
-            <p v-text="prettyBytes(current.committed)" />
-          </div>
+        <div class="flex-1 text-center">
+          <p class="font-bold" v-text="$t('instances.details.memory.size')" />
+          <p v-text="prettyBytes(current.committed)" />
         </div>
-        <div v-if="current.max >= 0" class="level-item has-text-centered">
-          <div>
-            <p class="heading" v-text="$t('instances.details.memory.max')" />
-            <p v-text="prettyBytes(current.max)" />
-          </div>
+        <div v-if="current.max >= 0" class="flex-1 text-center">
+          <p class="font-bold" v-text="$t('instances.details.memory.max')" />
+          <p v-text="prettyBytes(current.max)" />
         </div>
       </div>
+
       <mem-chart v-if="chartData.length > 0" :data="chartData" />
     </div>
   </sba-panel>
@@ -136,9 +129,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "~@/assets/css/utilities";
-
+<style lang="css">
 .memory-current {
   margin-bottom: 0 !important;
 }

@@ -104,20 +104,17 @@
   }
 </script>
 
-<style lang="scss">
-  .auditevents {
-    table-layout: fixed;
-
-    td {
-      vertical-align: middle;
-    }
-
-    &__event--is-detailed td {
-      border: none !important;
-    }
-
-    &__event-detail {
-      overflow: auto;
-    }
-  }
+<style lang="css">
+.auditevents {
+  table-layout: fixed;
+}
+.auditevents td {
+  vertical-align: middle;
+}
+.auditevents__event--is-detailed td {
+  border: none !important;
+}
+.auditevents__event-detail {
+  overflow: auto;
+}
 </style>

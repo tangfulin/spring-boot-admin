@@ -99,49 +99,41 @@
   };
 </script>
 
-<style lang="scss">
-  @import "~@/assets/css/utilities";
-
-  .wallboard {
-    background-color: $grey-dark;
-    height: calc(100vh - #{$navbar-height-px});
-    width: 100%;
-
-    & .application {
-      color: $white-ter;
-      font-size: 1em;
-      font-weight: $weight-normal;
-      line-height: 1;
-      text-align: center;
-
-      overflow: hidden;
-      display: flex;
-      flex-direction: column;
-
-      &__name {
-        width: 100%;
-        padding: 2.5%;
-        color: $white;
-        font-size: 2em;
-        font-weight: $weight-semibold;
-        line-height: 1.125;
-      }
-
-      &__version {
-        color: $white-ter;
-        font-size: 1.25em;
-        line-height: 1.25;
-      }
-
-      &__header {
-        width: 90%;
-        margin-bottom: 0.5em;
-      }
-
-      &__footer {
-        width: 90%;
-        margin-top: 0.5em;
-      }
-    }
-  }
+<style lang="postcss">
+.wallboard {
+  background-color: #4a4a4a;
+  height: calc(100vh - 52px);
+  width: 100%;
+}
+.wallboard .application {
+  color: #f5f5f5;
+  font-size: 1em;
+  font-weight: 400;
+  line-height: 1;
+  text-align: center;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+.wallboard .application__name {
+  width: 100%;
+  padding: 2.5%;
+  color: #fff;
+  font-size: 2em;
+  font-weight: 600;
+  line-height: 1.125;
+}
+.wallboard .application__version {
+  color: #f5f5f5;
+  font-size: 1.25em;
+  line-height: 1.25;
+}
+.wallboard .application__header {
+  width: 90%;
+  margin-bottom: 0.5em;
+}
+.wallboard .application__footer {
+  width: 90%;
+  margin-top: 0.5em;
+}
 </style>

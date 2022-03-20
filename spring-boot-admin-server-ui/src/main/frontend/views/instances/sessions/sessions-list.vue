@@ -149,10 +149,8 @@
     }
   }
 </script>
-<style lang="scss">
-  .sessions {
-    td, th {
-      vertical-align: middle;
-    }
-  }
+<style lang="css">
+.sessions td, .sessions th {
+  vertical-align: middle;
+}
 </style>

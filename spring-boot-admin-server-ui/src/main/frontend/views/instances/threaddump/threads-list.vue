@@ -211,89 +211,66 @@ const maxPixelsPerSeconds = 15;
     }
   }
 </script>
-<style lang="scss">
-  @import "~@/assets/css/utilities";
-
-  .threads {
-    table-layout: fixed;
-
-    &__thread-name {
-      width: 250px;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      white-space: nowrap;
-    }
-
-    &__thread-details {
-      table-layout: fixed;
-
-      & td:first-child:not(.threads__thread-stacktrace) {
-        width: 20%;
-      }
-    }
-    &__thread-stacktrace {
-      overflow: auto;
-      max-height: 300px;
-    }
-
-    &__timeline {
-      width: auto;
-      overflow: hidden;
-      text-overflow: ellipsis;
-      padding-left: 0 !important;
-      padding-right: 0 !important;
-
-      & svg {
-        display: block; //prevent margin bottom on svg
-      }
-    }
-
-    &__scale {
-      & .domain {
-        display: none;
-      }
-    }
-  }
-
-  .thread {
-    stroke: $black;
-    stroke-width: 1px;
-    stroke-opacity: .1;
-
-    &--runnable {
-      fill: $success;
-
-      &:hover,
-      &.thread--clicked {
-        fill: darken($success, 20%)
-      }
-    }
-
-    &--waiting {
-      fill: $warning;
-
-      &:hover,
-      &.thread--clicked {
-        fill: darken($warning, 20%)
-      }
-    }
-
-    &--timed_waiting {
-      fill: $warning;
-
-      &:hover,
-      &.thread--clicked {
-        fill: darken($warning, 20%)
-      }
-    }
-
-    &--blocked {
-      fill: $danger;
-
-      &:hover,
-      &.thread--clicked {
-        fill: darken($warning, 20%)
-      }
-    }
-  }
+<style lang="css">
+.threads {
+  table-layout: fixed;
+}
+.threads__thread-name {
+  width: 250px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.threads__thread-details {
+  table-layout: fixed;
+}
+.threads__thread-details td:first-child:not(.threads__thread-stacktrace) {
+  width: 20%;
+}
+.threads__thread-stacktrace {
+  overflow: auto;
+  max-height: 300px;
+}
+.threads__timeline {
+  width: auto;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  padding-left: 0 !important;
+  padding-right: 0 !important;
+}
+.threads__timeline svg {
+  display: block;
+}
+.threads__scale .domain {
+  display: none;
+}
+.thread {
+  stroke: #000;
+  stroke-width: 1px;
+  stroke-opacity: 0.1;
+}
+.thread--runnable {
+  fill: #48c78e;
+}
+.thread--runnable:hover, .thread--runnable.thread--clicked {
+  fill: #288159;
+}
+.thread--waiting {
+  fill: #ffe08a;
+}
+.thread--waiting:hover, .thread--waiting.thread--clicked {
+  fill: #ffc524;
+}
+.thread--timed_waiting {
+  fill: #ffe08a;
+}
+.thread--timed_waiting:hover, .thread--timed_waiting.thread--clicked {
+  fill: #ffc524;
+}
+.thread--blocked {
+  fill: #f14668;
+}
+.thread--blocked:hover, .thread--blocked.thread--clicked {
+  fill: #ffc524;
+}
 </style>

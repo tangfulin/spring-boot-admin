@@ -116,24 +116,17 @@
   }
 </script>
 
-<style lang="scss">
-    @import "~@/assets/css/utilities";
-
-    .cache-chart {
-        &__svg {
-            height: 159px;
-            width: 100%;
-        }
-
-        &__area {
-            &--miss {
-                fill: $warning;
-                opacity: 0.8;
-            }
-            &--hit {
-                fill: $info;
-                opacity: 0.8;
-            }
-        }
-    }
+<style lang="css">
+.cache-chart__svg {
+  height: 159px;
+  width: 100%;
+}
+.cache-chart__area--miss {
+  fill: #ffe08a;
+  opacity: 0.8;
+}
+.cache-chart__area--hit {
+  fill: #3e8ed0;
+  opacity: 0.8;
+}
 </style>

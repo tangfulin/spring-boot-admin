@@ -292,59 +292,48 @@ export default {
   }
 }
 </script>
-<style lang="scss">
-@import "~@/assets/css/utilities";
-
+<style lang="css">
 .application-list-item {
-  transition: all $easing $speed;
-
-  .icon-button {
-    padding: 0.5em 1em;
-  }
-
-  &.is-active {
-    margin: 0.75rem -0.75rem;
-    max-width: unset;
-  }
-
-  &__header {
-    display: flex;
-    flex-direction: row;
-    justify-content: flex-start;
-    align-items: center;
-
-    *:not(.is-active) > &:hover {
-      background-color: $white-bis;
-    }
-
-    & > *:not(:first-child) {
-      margin-left: 12px;
-    }
-
-    .title {
-      flex-grow: 1;
-      flex-basis: 50%;
-      margin: 0.75rem 0;
-    }
-
-    &__actions {
-      justify-self: end;
-      opacity: 0;
-      transition: all $easing $speed;
-      will-change: opacity;
-      margin-right: ($gap / 2);
-      display: flex;
-
-      *:hover > &,
-      *.is-active & {
-        opacity: 1;
-      }
-
-      & > * {
-        width: ($gap / 2);
-        height: ($gap / 2);
-      }
-    }
-  }
+  transition: all ease-out 86ms;
 }
+.application-list-item .icon-button {
+  padding: 0.5em 1em;
+}
+.application-list-item.is-active {
+  margin: 0.75rem -0.75rem;
+  max-width: unset;
+}
+.application-list-item__header {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-start;
+  align-items: center;
+}
+*:not(.is-active) > .application-list-item__header:hover {
+  background-color: #fafafa;
+}
+.application-list-item__header > *:not(:first-child) {
+  margin-left: 12px;
+}
+.application-list-item__header .title {
+  flex-grow: 1;
+  flex-basis: 50%;
+  margin: 0.75rem 0;
+}
+.application-list-item__header__actions {
+  justify-self: end;
+  opacity: 0;
+  transition: all ease-out 86ms;
+  will-change: opacity;
+  margin-right: 16px;
+  display: flex;
+}
+*:hover > .application-list-item__header__actions, *.is-active .application-list-item__header__actions {
+  opacity: 1;
+}
+.application-list-item__header__actions > * {
+  width: calc(32px / 2);
+  height: calc(32px / 2);
+}
+
 </style>

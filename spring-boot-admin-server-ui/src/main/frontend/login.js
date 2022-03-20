@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import '@/assets/css/base.scss';
+import '@/assets/css/base.css';
 import i18n from './i18n'
 
 document.querySelectorAll('[data-i18n]')

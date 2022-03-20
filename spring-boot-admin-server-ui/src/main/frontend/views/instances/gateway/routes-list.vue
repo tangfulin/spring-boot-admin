@@ -119,14 +119,12 @@
     }
   }
 </script>
-<style lang="scss">
-  .routes {
-    td, th {
-      vertical-align: middle;
-    }
+<style lang="css">
+.routes td, .routes th {
+  vertical-align: middle;
+}
+.routes__delete-action {
+  text-align: right;
+}
 
-    &__delete-action {
-      text-align: right;
-    }
-  }
 </style>

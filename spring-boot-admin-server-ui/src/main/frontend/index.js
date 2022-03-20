@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import '@/assets/css/base.css';
+import './assets/css/base.css';
 import axios from '@/utils/axios';
 import moment from 'moment';
 import Vue from 'vue';

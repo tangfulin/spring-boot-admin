@@ -32,10 +32,14 @@ const colors = {
   },
 }
 module.exports = {
-  purge: ['./index.html', './src/**/*.{vue,js,ts,jsx,tsx}'],
-  darkMode: false, // or 'media' or 'class'
+  purge: [],
   theme: {
     colors,
+    extend: {
+      columns: {
+        '2': '14rem',
+      }
+    }
   },
   variants: {
     extend: {},

@@ -57,14 +57,14 @@
   }
 </script>
 
-<style lang="scss">
-  .heapdump {
-    display: flex;
-    justify-content: space-around;
+<style lang="css">
+.heapdump {
+  display: flex;
+  justify-content: space-around;
+}
+.heapdump > div {
+  display: flex;
+  flex-direction: column;
+}
 
-    & > div {
-      display: flex;
-      flex-direction: column;
-    }
-  }
 </style>

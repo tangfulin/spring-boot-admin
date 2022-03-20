@@ -238,46 +238,36 @@ export default {
 }
 </script>
 
-<style lang="scss">
-@import "~@/assets/css/utilities";
-
+<style lang="css">
 .m-bean {
-  transition: all $easing $speed;
-
-  &.is-active {
-    margin: 0.75rem -0.75rem;
-    max-width: unset;
-  }
-
-  &.is-active .m-bean--header {
-    padding-bottom: 0;
-  }
-
-  &:not(.is-active) .m-bean--header:hover {
-    background-color: $white-bis;
-  }
-
-  &--header {
-    & .level .level-left {
-      width: 100%;
-
-      & .level-item {
-        min-width: 0;
-        flex-shrink: 1;
-
-        & p {
-          overflow: hidden;
-          white-space: nowrap;
-          text-overflow: ellipsis;
-        }
-      }
-    }
-
-    &--close {
-      position: absolute;
-      right: 0.75rem;
-      top: 0.75rem;
-    }
-  }
+  transition: all ease-out 86ms;
 }
+.m-bean.is-active {
+  margin: 0.75rem -0.75rem;
+  max-width: unset;
+}
+.m-bean.is-active .m-bean--header {
+  padding-bottom: 0;
+}
+.m-bean:not(.is-active) .m-bean--header:hover {
+  background-color: #fafafa;
+}
+.m-bean--header .level .level-left {
+  width: 100%;
+}
+.m-bean--header .level .level-left .level-item {
+  min-width: 0;
+  flex-shrink: 1;
+}
+.m-bean--header .level .level-left .level-item p {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+.m-bean--header--close {
+  position: absolute;
+  right: 0.75rem;
+  top: 0.75rem;
+}
+
 </style>

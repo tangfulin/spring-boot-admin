@@ -197,23 +197,21 @@
     }
   }
 </script>
-<style lang="scss">
-  table .metrics {
-    &__label {
-      width: 300px;
-      white-space: pre-wrap;
-    }
-    &__actions {
-      width: 1px;
-      vertical-align: middle;
-    }
-    &__statistic-name * {
-      vertical-align: middle;
-    }
+<style lang="css">
+table .metrics__label {
+  width: 300px;
+  white-space: pre-wrap;
+}
+table .metrics__actions {
+  width: 1px;
+  vertical-align: middle;
+}
+table .metrics__statistic-name * {
+  vertical-align: middle;
+}
+table .metrics__statistic-value {
+  text-align: right;
+  vertical-align: middle;
+}
 
-    &__statistic-value {
-      text-align: right;
-      vertical-align: middle;
-    }
-  }
 </style>

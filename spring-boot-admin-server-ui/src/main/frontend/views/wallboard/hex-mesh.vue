@@ -171,55 +171,38 @@
   export {calcLayout};
 </script>
 
-<style lang="scss">
-  @import "~@/assets/css/utilities";
-
-  .hex-mesh {
-    background-color: $grey-dark;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: space-around;
-    align-items: center;
-  }
-
-  .hex {
-    fill-opacity: 0.05;
-    stroke-width: 0.5;
-    stroke-opacity: 0.8;
-
-    & polygon {
-      fill: none;
-      stroke: $grey;
-      transition: all $easing 250ms;
-    }
-
-    @each $name, $pair in $colors {
-      &.is-#{$name} polygon {
-        $color: nth($pair, 1);
-        fill: $color;
-        fill-opacity: 0.3;
-        stroke: $color;
-        stroke-opacity: 0.95;
-        stroke-width: 1.5;
-      }
-    }
-
-    &.is-selectable:hover {
-      cursor: pointer;
-      & polygon {
-        fill-opacity: 0.85;
-        stroke-opacity: 1;
-      }
-    }
-
-    &__body {
-      width: 100%;
-      height: 100%;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      align-items: center;
-    }
-  }
+<style lang="css">
+.hex-mesh {
+  background-color: #4a4a4a;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+.hex {
+  fill-opacity: 0.05;
+  stroke-width: 0.5;
+  stroke-opacity: 0.8;
+}
+.hex polygon {
+  fill: none;
+  stroke: #3e8ed0;
+  transition: all ease-out 250ms;
+}
+.hex.is-selectable:hover {
+  cursor: pointer;
+}
+.hex.is-selectable:hover polygon {
+  fill-opacity: 0.85;
+  stroke-opacity: 1;
+}
+.hex__body {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 </style>

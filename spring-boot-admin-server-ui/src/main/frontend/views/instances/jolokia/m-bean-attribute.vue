@@ -117,9 +117,7 @@
   }
 </script>
 
-<style lang="scss">
-  @import "~@/assets/css/utilities";
-
+<style lang="css">
   .m-bean-attribute--text {
     resize: vertical;
     min-height: 120px;

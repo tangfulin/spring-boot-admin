@@ -54,24 +54,19 @@
     }
   }
 </script>
-<style lang="scss">
-  @import "~@/assets/css/utilities";
+<style lang="css">
+.application-summary {
+  display: contents;
+}
+.application-summary__status {
+  width: 32px;
+}
+.application-summary__name, .application-summary__version {
+  flex-grow: 1;
+  flex-basis: 50%;
+}
+.application-summary__name.title {
+  margin: 0.75rem 0;
+}
 
-  .application-summary {
-    display: contents;
-
-    &__status {
-      width: $gap;
-    }
-
-    &__name,
-    &__version {
-      flex-grow: 1;
-      flex-basis: 50%;
-    }
-
-    &__name.title {
-      margin: 0.75rem 0;
-    }
-  }
 </style>

@@ -15,63 +15,47 @@
   -->
 
 <template>
-  <section class="section">
-    <div class="details-header">
-      <h1 v-if="instance" class="title" v-text="instance.registration.name" />
-      <h2 v-if="instance" class="subtitle is-5">
-        Id: <span v-text="instance.id" />
-      </h2>
-      <sba-tags v-if="instance" :tags="instance.tags" />
-      <div class="details-header__urls">
-        <a :href="instance.registration.serviceUrl" class="button is-small ">
-          <font-awesome-icon icon="home" />&nbsp;
-          <span v-text="instance.registration.serviceUrl" />
+  <section>
+    <div class="sticky shadow-sm top-0 w-full bg-white py-1 px-2 backdrop-filter backdrop-blur-lg bg-opacity-20 flex z-50">
+      <div class="flex-1" />
+      <div class="flex-1 text-center" />
+      <div class="flex-1 text-right">
+        <a :href="instance.registration.serviceUrl" :title="instance.registration.serviceUrl" class="text-xs inline-flex items-center leading-sm border border-gray-400 bg-white text-gray-700 rounded overflow-hidden px-3 py-1 hover:bg-gray-200 ml-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+          </svg>
         </a>
-        <a :href="instance.registration.managementUrl" class="button is-small ">
-          <font-awesome-icon icon="wrench" />&nbsp;
-          <span v-text="instance.registration.managementUrl" />
+        <a :href="instance.registration.managementUrl" :title="instance.registration.managementUrl" class="text-xs inline-flex items-center leading-sm border border-gray-400 bg-white text-gray-700 rounded overflow-hidden px-3 py-1 hover:bg-gray-200 ml-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-3 7h3m-3 4h3m-6-4h.01M9 16h.01" />
+          </svg>
         </a>
-        <a :href="instance.registration.healthUrl" class="button is-small ">
-          <font-awesome-icon icon="heartbeat" />&nbsp;
-          <span v-text="instance.registration.healthUrl" />
+        <a :href="instance.registration.healthUrl" :title="instance.registration.healthUrl" class="text-xs inline-flex items-center leading-sm border border-gray-400 bg-white text-gray-700 rounded overflow-hidden px-3 py-1 hover:bg-gray-200 ml-1">
+          <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
+            <path stroke-linecap="round" stroke-linejoin="round" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
+          </svg>
         </a>
       </div>
     </div>
-    <hr>
+
+    <details-hero :instance="instance" />
+
     <sba-alert v-if="error" :error="error" :title="$t('instances.details.fetch_failed')" />
-    <div class="columns is-desktop">
-      <div class="column is-half-desktop">
-        <details-info v-if="hasInfo" :instance="instance" />
-        <details-metadata v-if="hasMetadata" :instance="instance" />
-      </div>
-      <div class="column is-half-desktop">
-        <details-health :instance="instance" />
-      </div>
+
+    <div class="columns-2 mx-6 my-6 gap-6">
+      <details-info v-if="hasInfo" :instance="instance" />
+      <details-metadata v-if="hasMetadata" :instance="instance" />
+      <details-health :instance="instance" />
     </div>
-    <div class="columns is-desktop">
-      <div class="column is-half-desktop">
-        <details-process v-if="hasProcess" :instance="instance" />
-        <details-gc v-if="hasGc" :instance="instance" />
-      </div>
-      <div class="column is-half-desktop">
-        <details-threads v-if="hasThreads" :instance="instance" />
-      </div>
-    </div>
-    <div class="columns is-desktop">
-      <div class="column is-half-desktop">
-        <details-memory v-if="hasMemory" :instance="instance" type="heap" />
-      </div>
-      <div class="column is-half-desktop">
-        <details-memory v-if="hasMemory" :instance="instance" type="nonheap" />
-      </div>
-    </div>
-    <div class="columns is-desktop">
-      <div class="column is-half-desktop">
-        <details-datasources v-if="hasDatasources" :instance="instance" />
-      </div>
-      <div class="column is-half-desktop">
-        <details-caches v-if="hasCaches" :instance="instance" />
-      </div>
+
+    <div class="columns-2 mx-6 my-6 gap-6">
+      <details-process v-if="hasProcess" :instance="instance" />
+      <details-gc v-if="hasGc" :instance="instance" />
+      <details-threads v-if="hasThreads" :instance="instance" />
+      <details-memory v-if="hasMemory" :instance="instance" type="heap" />
+      <details-memory v-if="hasMemory" :instance="instance" type="nonheap" />
+      <details-datasources v-if="hasDatasources" :instance="instance" />
+      <details-caches v-if="hasCaches" :instance="instance" />
     </div>
   </section>
 </template>
@@ -89,10 +73,12 @@ import detailsMetadata from './details-metadata';
 import detailsProcess from './details-process';
 import detailsThreads from './details-threads';
 import {VIEW_GROUP} from '../../index';
+import DetailsHero from './details-hero';
 
 export default {
   /* eslint-disable vue/no-unused-components */
   components: {
+    DetailsHero,
     detailsHealth,
     detailsInfo,
     detailsProcess,
@@ -174,20 +160,3 @@ export default {
   }
 }
 </script>
-
-
-<style lang="scss">
-@import "~@/assets/css/utilities";
-
-.details-header {
-  margin-bottom: 1.5rem;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-
-  &__urls {
-    width: 100%;
-    text-align: center;
-  }
-}
-</style>

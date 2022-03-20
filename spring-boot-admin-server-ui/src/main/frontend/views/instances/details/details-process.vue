@@ -15,46 +15,18 @@
   -->
 
 <template>
-  <sba-panel v-if="hasLoaded" :title="$t('instances.details.process.title')">
-    <div>
-      <sba-alert v-if="error" :error="error" :title="$t('instances.details.process.fetch_failed')" />
-
-      <div class="level">
-        <div v-if="pid" class="level-item has-text-centered">
-          <div>
-            <p class="heading" v-text="$t('instances.details.process.pid')" />
-            <p v-text="pid" />
-          </div>
-        </div>
-        <div v-if="uptime" class="level-item has-text-centered">
-          <div>
-            <p class="heading" v-text="$t('instances.details.process.uptime')" />
-            <p>
-              <process-uptime :value="toMillis(uptime.value, uptime.baseUnit)" />
-            </p>
-          </div>
-        </div>
-        <div v-if="processCpuLoad" class="level-item has-text-centered">
-          <div>
-            <p class="heading" v-text="$t('instances.details.process.process_cpu_usage')" />
-            <p v-text="processCpuLoad.toFixed(2)" />
-          </div>
-        </div>
-        <div v-if="systemCpuLoad" class="level-item has-text-centered">
-          <div>
-            <p class="heading" v-text="$t('instances.details.process.system_cpu_usage')" />
-            <p v-text="systemCpuLoad.toFixed(2)" />
-          </div>
-        </div>
-        <div v-if="systemCpuCount" class="level-item has-text-centered">
-          <div>
-            <p class="heading" v-text="$t('instances.details.process.cpus')" />
-            <p v-text="systemCpuCount" />
-          </div>
-        </div>
+  <div>
+    <sba-panel v-if="hasLoaded" :title="$t('instances.details.process.title')">
+      <div>
+        <sba-alert v-if="error" :error="error" :title="$t('instances.details.process.fetch_failed')" />
+        <sba-key-value-table class="-mx-4 -my-3" :map="tableData">
+          <template v-slot:uptime="value">
+            <process-uptime :value="value.value" />
+          </template>
+        </sba-key-value-table>
       </div>
-    </div>
-  </sba-panel>
+    </sba-panel>
+  </div>
 </template>
 
 <script>
@@ -88,6 +60,32 @@ export default {
     this.fetchPid();
     this.fetchUptime();
     this.fetchCpuCount();
+  },
+  computed: {
+    tableData() {
+      return {
+        pid: {
+          label: this.$t('instances.details.process.pid'),
+          value: this.pid
+        },
+        uptime: {
+          label: this.$t('instances.details.process.uptime'),
+          value: toMillis(this.uptime.value, this.uptime.baseUnit)
+        },
+        processCpuLoad: {
+          label: this.$t('instances.details.process.process_cpu_usage'),
+          value: this.processCpuLoad?.toFixed(2)
+        },
+        systemCpuLoad: {
+         label: this.$t('instances.details.process.system_cpu_usage'),
+         value:  this.systemCpuLoad?.toFixed(2)
+        },
+        cpus: {
+         label: this.$t('instances.details.process.cpus'),
+         value:  this.systemCpuCount
+        }
+      }
+    },
   },
   methods: {
     toMillis,

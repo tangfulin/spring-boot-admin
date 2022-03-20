@@ -75,13 +75,11 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="css">
 .info {
   overflow: auto;
-
-  &__key {
-    vertical-align: top;
-  }
 }
-
+.info__key {
+  vertical-align: top;
+}
 </style>

@@ -19,26 +19,21 @@
     <div>
       <sba-alert v-if="error" :error="error" :title="$t('instances.details.threads.fetch_failed')" />
 
-      <div v-if="current" class="level threads-current">
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading has-bullet has-bullet-warning" v-text="$t('instances.details.threads.live')" />
-            <p v-text="current.live" />
-          </div>
+      <div v-if="current" class="flex w-full">
+        <div class="flex-1 text-center">
+          <p class="font-bold" v-text="$t('instances.details.threads.live')" />
+          <p v-text="current.live" />
         </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading  has-bullet has-bullet-info" v-text="$t('instances.details.threads.daemon')" />
-            <p v-text="current.daemon" />
-          </div>
+        <div class="flex-1 text-center">
+          <p class="font-bold" v-text="$t('instances.details.threads.daemon')" />
+          <p v-text="current.daemon" />
         </div>
-        <div class="level-item has-text-centered">
-          <div>
-            <p class="heading" v-text="$t('instances.details.threads.peak_live')" />
-            <p v-text="current.peak" />
-          </div>
+        <div class="flex-1 text-center">
+          <p class="font-bold" v-text="$t('instances.details.threads.peak_live')" />
+          <p v-text="current.peak" />
         </div>
       </div>
+
       <threads-chart v-if="chartData.length > 0" :data="chartData" />
     </div>
   </sba-panel>
@@ -107,7 +102,7 @@ export default {
 }
 </script>
 
-<style lang="scss">
+<style lang="css">
 .threads-current {
   margin-bottom: 0 !important;
 }

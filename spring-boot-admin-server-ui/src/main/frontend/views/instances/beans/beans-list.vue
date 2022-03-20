@@ -129,15 +129,10 @@
     })
   }
 </script>
-<style lang="scss">
-  @import "~@/assets/css/utilities";
 
-  .beans {
-    table.beans__bean-detail {
-      tbody tr {
-        pointer-events: none;
-        background-color: $white-ter;
-      }
-    }
-  }
+<style lang="css">
+.beans table.beans__bean-detail tbody tr {
+  pointer-events: none;
+  background-color: #f5f5f5;
+}
 </style>

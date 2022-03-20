@@ -103,56 +103,41 @@ export default {
   }
 </script>
 
-<style lang="scss">
-  @import "~@/assets/css/utilities";
-
-  .httptraces {
-    table-layout: fixed;
-
-    td {
-      vertical-align: middle;
-      overflow: hidden;
-      word-wrap: break-word;
-    }
-
-    &__trace {
-      &--is-detailed td {
-        border: none !important;
-      }
-
-      &-timestamp {
-        width: 130px;
-      }
-
-      &-method {
-        width: 100px;
-      }
-
-      &-uri {
-        width: auto;
-      }
-
-      &-status {
-        width: 80px;
-      }
-
-      &-contentType {
-        width: 200px;
-      }
-
-      &-contentLength {
-        width: 100px;
-      }
-
-      &-timeTaken {
-        width: 120px;
-      }
-
-      &-detail {
-        overflow: auto;
-      }
-    }
-  }
-
+<style lang="css">
+.httptraces {
+  table-layout: fixed;
+}
+.httptraces td {
+  vertical-align: middle;
+  overflow: hidden;
+  word-wrap: break-word;
+}
+.httptraces__trace--is-detailed td {
+  border: none !important;
+}
+.httptraces__trace-timestamp {
+  width: 130px;
+}
+.httptraces__trace-method {
+  width: 100px;
+}
+.httptraces__trace-uri {
+  width: auto;
+}
+.httptraces__trace-status {
+  width: 80px;
+}
+.httptraces__trace-contentType {
+  width: 200px;
+}
+.httptraces__trace-contentLength {
+  width: 100px;
+}
+.httptraces__trace-timeTaken {
+  width: 120px;
+}
+.httptraces__trace-detail {
+  overflow: auto;
+}
 </style>
 
