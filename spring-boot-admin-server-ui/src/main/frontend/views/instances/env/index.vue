@@ -15,22 +15,22 @@
   -->
 
 <template>
-  <section :class="{ 'is-loading' : !hasLoaded }" class="-my-6 -mx-6">
-    <sba-alert v-if="error" :error="error" :title="$t('instances.env.fetch_failed')" />
+  <sba-instance-section :loading="isLoading">
+    <template v-slot:before>
+      <sba-alert v-if="error" :error="error" :title="$t('instances.env.fetch_failed')" />
 
-    <sba-sticky-subnav>
-      <div v-if="env">
-        <div class="mx-6">
+      <sba-sticky-subnav>
+        <div v-if="env" class="mx-6">
           <sba-input name="filter" v-model="filter" type="search" :placeholder="$t('term.filter')">
             <template v-slot:prepend>
               <font-awesome-icon icon="filter" />
             </template>
           </sba-input>
         </div>
-      </div>
-    </sba-sticky-subnav>
+      </sba-sticky-subnav>
+    </template>
 
-    <div class="mx-6 my-6">
+    <template>
       <div v-if="env && env.activeProfiles.length > 0" class="mb-6">
         <span v-for="profile in env.activeProfiles" :key="profile">
           <sba-tag :key="profile" :label="$t('instances.env.active_profile')" :value="profile" />
@@ -53,7 +53,9 @@
                  :title="propertySource.name"
       >
         <div class="-mx-4 -my-3" v-if="propertySource.properties && Object.keys(propertySource.properties).length > 0">
-          <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" v-for="(value, name) in propertySource.properties" :key="`${propertySource.name}-${name}`">
+          <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+               v-for="(value, name) in propertySource.properties" :key="`${propertySource.name}-${name}`"
+          >
             <dt class="text-sm font-medium text-gray-500">
               <span v-text="name" /><br>
               <small v-if="value.origin" v-text="value.origin" />
@@ -63,8 +65,8 @@
         </div>
         <p v-else class="is-muted" v-text="$t('instances.env.no_properties')" />
       </sba-panel>
-    </div>
-  </section>
+    </template>
+  </sba-instance-section>
 </template>
 
 <script>
@@ -72,8 +74,9 @@ import Instance from '@/services/instance';
 import pickBy from 'lodash/pickBy';
 import {VIEW_GROUP} from '../../index';
 import sbaEnvManager from './env-manager';
-  import refresh from './refresh';
-  import Application from '@/services/application';
+import refresh from './refresh';
+import Application from '@/services/application';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
 
 const filterProperty = (needle) => (property, name) => {
   return name.toString().toLowerCase().includes(needle) || (property.value && property.value.toString().toLowerCase().includes(needle));
@@ -94,15 +97,15 @@ export default {
     instance: {
       type: Instance,
       required: true
-      },
-      application: {
-        type: Application,
-        required: true
+    },
+    application: {
+      type: Application,
+      required: true
     }
   },
-    components: {sbaEnvManager, refresh},
+  components: {SbaInstanceSection, sbaEnvManager, refresh},
   data: () => ({
-    hasLoaded: false,
+    isLoading: true,
     error: null,
     env: null,
     filter: null,
@@ -138,7 +141,7 @@ export default {
         console.warn('Fetching environment failed:', error);
         this.error = error;
       }
-      this.hasLoaded = true;
+      this.isLoading = false;
     },
     async determineEnvManagerSupport() {
       try {

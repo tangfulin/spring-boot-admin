@@ -15,62 +15,66 @@
   -->
 
 <template>
-  <section class="section">
-    <sba-alert v-if="error" :error="error" :title="$t('instances.metrics.fetch_failed')" />
-    <div v-if="isOldMetrics" class="message is-warning">
-      <div class="message-body" v-text="$t('instances.metrics.metrics_not_supported_spring_boot_1')" />
-    </div>
-    <form v-else-if="availableMetrics.length > 0" class="field" @submit.prevent="handleSubmit">
-      <div class="field">
-        <div class="control">
-          <div class="select">
-            <select v-model="selectedMetric">
-              <option v-for="metric in availableMetrics" :key="metric" v-text="metric" />
-            </select>
+  <sba-instance-section>
+    <template v-slot:before>
+      <sba-alert v-if="error" :error="error" :title="$t('instances.metrics.fetch_failed')" />
+    </template>
+    <template>
+      <div v-if="isOldMetrics" class="message is-warning">
+        <div class="message-body" v-text="$t('instances.metrics.metrics_not_supported_spring_boot_1')" />
+      </div>
+      <form v-else-if="availableMetrics.length > 0" class="field" @submit.prevent="handleSubmit">
+        <div class="field">
+          <div class="control">
+            <div class="select">
+              <select v-model="selectedMetric">
+                <option v-for="metric in availableMetrics" :key="metric" v-text="metric" />
+              </select>
+            </div>
           </div>
         </div>
-      </div>
-      <div>
-        <p v-if="stateFetchingTags === 'executing'" class="is-loading" v-text="$t('instances.metrics.fetching_tags')" />
+        <div>
+          <p v-if="stateFetchingTags === 'executing'" class="is-loading" v-text="$t('instances.metrics.fetching_tags')" />
 
-        <div v-if="availableTags" class="box">
-          <div v-for="tag in availableTags" :key="tag.tag" class="field is-horizontal">
-            <div class="field-label">
-              <label class="label" v-text="tag.tag" />
-            </div>
-            <div class="field-body">
-              <div class="control">
-                <div class="select">
-                  <select v-model="selectedTags[tag.tag]">
-                    <option :value="undefined">
-                      -
-                    </option>
-                    <option v-for="value in tag.values" :key="value" :value="value" v-text="value" />
-                  </select>
+          <div v-if="availableTags" class="box">
+            <div v-for="tag in availableTags" :key="tag.tag" class="field is-horizontal">
+              <div class="field-label">
+                <label class="label" v-text="tag.tag" />
+              </div>
+              <div class="field-body">
+                <div class="control">
+                  <div class="select">
+                    <select v-model="selectedTags[tag.tag]">
+                      <option :value="undefined">
+                        -
+                      </option>
+                      <option v-for="value in tag.values" :key="value" :value="value" v-text="value" />
+                    </select>
+                  </div>
                 </div>
               </div>
             </div>
-          </div>
-          <p v-if="availableTags && availableTags.length === 0" v-text="$t('instances.metrics.no_tags_available')" />
-          <div class="field is-grouped is-grouped-right">
-            <div class="control">
-              <button class="button is-primary" type="submit" v-text="$t('instances.metrics.add_metric')" />
+            <p v-if="availableTags && availableTags.length === 0" v-text="$t('instances.metrics.no_tags_available')" />
+            <div class="field is-grouped is-grouped-right">
+              <div class="control">
+                <button class="button is-primary" type="submit" v-text="$t('instances.metrics.add_metric')" />
+              </div>
             </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
 
-    <metric v-for="metric in metrics"
-            :key="metric.name"
-            :instance="instance"
-            :metric-name="metric.name"
-            :statistic-types="metric.types"
-            :tag-selections="metric.tagSelections"
-            @remove="removeMetric"
-            @type-select="handleTypeSelect"
-    />
-  </section>
+      <metric v-for="metric in metrics"
+              :key="metric.name"
+              :instance="instance"
+              :metric-name="metric.name"
+              :statistic-types="metric.types"
+              :tag-selections="metric.tagSelections"
+              @remove="removeMetric"
+              @type-select="handleTypeSelect"
+      />
+    </template>
+  </sba-instance-section>
 </template>
 
 <script>
@@ -78,9 +82,10 @@ import Instance from '@/services/instance';
 import sortBy from 'lodash/sortBy';
 import Metric from './metric';
 import {VIEW_GROUP} from '../../index';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
 
 export default {
-  components: {Metric},
+  components: {SbaInstanceSection, Metric},
   props: {
     instance: {
       type: Instance,

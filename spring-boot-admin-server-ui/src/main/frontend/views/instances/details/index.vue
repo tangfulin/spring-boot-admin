@@ -15,50 +15,53 @@
   -->
 
 <template>
-  <section class="-mx-6 -my-6">
-    <details-nav :instance="instance" />
-    <details-hero :instance="instance" />
+  <sba-instance-section>
+    <template v-slot:before>
+      <details-nav :instance="instance" />
+      <details-hero :instance="instance" />
 
-    <sba-alert v-if="error" :error="error" :title="$t('instances.details.fetch_failed')" />
+      <sba-alert v-if="error" :error="error" :title="$t('instances.details.fetch_failed')" />
+    </template>
+    <template>
+      <div class="flex gap-6">
+        <div class="flex-1">
+          <details-info v-if="hasInfo" :instance="instance" />
+          <details-metadata v-if="hasMetadata" :instance="instance" />
+        </div>
+        <div class="flex-1">
+          <details-health :instance="instance" />
+        </div>
+      </div>
 
-    <div class="flex mx-6 my-6 gap-6">
-      <div class="flex-1">
-        <details-info v-if="hasInfo" :instance="instance" />
-        <details-metadata v-if="hasMetadata" :instance="instance" />
+      <div class="flex gap-6">
+        <div class="flex-1">
+          <details-process v-if="hasProcess" :instance="instance" class="break-inside-avoid" />
+          <details-gc v-if="hasGc" :instance="instance" />
+        </div>
+        <div class="flex-1">
+          <details-threads v-if="hasThreads" :instance="instance" />
+        </div>
       </div>
-      <div class="flex-1">
-        <details-health :instance="instance" />
-      </div>
-    </div>
 
-    <div class="flex mx-6 my-6 gap-6">
-      <div class="flex-1">
-        <details-process v-if="hasProcess" :instance="instance" class="break-inside-avoid" />
-        <details-gc v-if="hasGc" :instance="instance" />
+      <div class="flex gap-6">
+        <div class="flex-1">
+          <details-memory v-if="hasMemory" :instance="instance" type="heap" />
+        </div>
+        <div class="flex-1">
+          <details-memory v-if="hasMemory" :instance="instance" type="nonheap" />
+        </div>
       </div>
-      <div class="flex-1">
-        <details-threads v-if="hasThreads" :instance="instance" />
-      </div>
-    </div>
 
-    <div class="flex mx-6 my-6 gap-6">
-      <div class="flex-1">
-        <details-memory v-if="hasMemory" :instance="instance" type="heap" />
+      <div class="flex gap-6">
+        <div class="flex-1">
+          <details-datasources v-if="hasDatasources" :instance="instance" />
+        </div>
+        <div class="flex-1">
+          <details-caches v-if="hasCaches" :instance="instance" />
+        </div>
       </div>
-      <div class="flex-1">
-        <details-memory v-if="hasMemory" :instance="instance" type="nonheap" />
-      </div>
-    </div>
-
-    <div class="flex mx-6 my-6 gap-6">
-      <div class="flex-1">
-        <details-datasources v-if="hasDatasources" :instance="instance" />
-      </div>
-      <div class="flex-1">
-        <details-caches v-if="hasCaches" :instance="instance" />
-      </div>
-    </div>
-  </section>
+    </template>
+  </sba-instance-section>
 </template>
 
 <script>
@@ -76,10 +79,12 @@ import detailsThreads from './details-threads';
 import {VIEW_GROUP} from '../../index';
 import DetailsHero from './details-hero';
 import DetailsNav from '@/views/instances/details/details-nav';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
 
 export default {
   /* eslint-disable vue/no-unused-components */
   components: {
+    SbaInstanceSection,
     DetailsNav,
     DetailsHero,
     detailsHealth,
