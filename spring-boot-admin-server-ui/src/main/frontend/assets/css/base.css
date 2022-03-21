@@ -37,3 +37,14 @@
     --tw-rotate: 90deg;
     transform: rotate(var(--tw-rotate));
 }
+
+table.table-wide td {
+    @apply px-2 py-1.5;
+}
+
+table.table-striped tr:nth-child(even) {
+    @apply bg-gray-50;
+}
+td.label, td .label {
+    @apply text-sm font-medium text-gray-500;
+}

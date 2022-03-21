@@ -15,20 +15,25 @@
   -->
 
 <template>
-  <section :class="{ 'is-loading' : !hasLoaded }" class="section">
-    <template v-if="hasLoaded">
-      <sba-alert v-if="errorFetch" :error="errorFetch" :title="$t('instances.threaddump.fetch_failed')" />
+  <sba-instance-section :loading="!hasLoaded" :error="errorFetch">
+    <template v-if="threads" v-slot:before>
+      <sba-sticky-subnav>
+        <div class="mx-6 text-right">
+          <sba-button @click="downloadThreaddump" size="sm">
+            <font-awesome-icon icon="download" />&nbsp;
+            <span v-text="$t('instances.threaddump.download')" />
+          </sba-button>
+        </div>
+      </sba-sticky-subnav>
+    </template>
+    <template>
       <sba-alert v-if="errorDownload" :error="errorDownload" :title="$t('instances.threaddump.download_failed')" />
 
-      <div v-if="threads" class="control">
-        <button class="button is-primary" @click="downloadThreaddump">
-          <font-awesome-icon icon="download" />&nbsp;
-          <span v-text="$t('instances.threaddump.download')" />
-        </button>
-      </div>
-      <threads-list v-if="threads" :thread-timelines="threads" />
+      <sba-panel>
+        <threads-list v-if="threads" :thread-timelines="threads" />
+      </sba-panel>
     </template>
-  </section>
+  </sba-instance-section>
 </template>
 
 <script>
@@ -40,6 +45,8 @@ import moment from 'moment';
 import threadsList from './threads-list';
 import {VIEW_GROUP} from '../../index';
 import {take} from 'rxjs/operators';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
+import SbaButton from '@/components/sba-button';
 
 export default {
   props: {
@@ -49,7 +56,7 @@ export default {
     }
   },
   mixins: [subscribing],
-  components: {threadsList},
+  components: {SbaButton, SbaInstanceSection, threadsList},
   data: () => ({
     hasLoaded: false,
     errorFetch: null,
