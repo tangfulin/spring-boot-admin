@@ -44,7 +44,7 @@ export default {
       required: true
     },
     error: {
-      type: Error,
+      type: [Error, Object],
       default: null
     },
     severity: {
