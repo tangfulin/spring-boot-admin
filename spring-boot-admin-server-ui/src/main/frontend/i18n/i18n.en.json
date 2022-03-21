@@ -27,6 +27,7 @@
     "execution_successful": "Execution successful",
     "failed": "Failed",
     "float": "Float",
+    "filter": "Filter",
     "hours": "{count} hour | {count} hours",
     "instance": "Instance",
     "instances": "Instances",

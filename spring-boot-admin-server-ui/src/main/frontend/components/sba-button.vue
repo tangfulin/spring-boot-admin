@@ -1,6 +1,6 @@
 <template>
   <button @click="$emit('click', $event)"
-          class="focus:ring-4 font-medium text-sm px-5 py-2.5 text-center"
+          class="focus:ring-4 font-medium text-sm text-center"
           :class="classNames"
   >
     <slot />
@@ -18,14 +18,27 @@ export default {
     flat: {
       type: Boolean,
       default: false
+    },
+    size: {
+      type: String,
+      default: () => ''
     }
   },
   computed: {
     classNames() {
       const classNames = [];
 
-      if(!this.flat) {
-        classNames.push('rounded-lg')
+      if (!this.flat) {
+        classNames.push('rounded')
+      }
+
+      switch (this.size) {
+        case 'sm':
+          classNames.push('px-3 py-1')
+          break;
+        case '':
+        default:
+          classNames.push('px-5 py-2.5')
       }
 
       switch (this.type) {

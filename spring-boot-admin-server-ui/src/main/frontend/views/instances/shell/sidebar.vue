@@ -46,6 +46,7 @@
           exact-active-class=""
           :class="{'navbar-link__active' : isActiveGroup(group) }"
         >
+          <span v-html="group.icon" />
           <span v-text="hasMultipleViews(group) ? getGroupTitle(group.id) : $t(group.views[0].label)" />
           <svg aria-hidden="true" focusable="false" data-prefix="fas" class="w-3 h-3 ml-auto" v-if="hasMultipleViews(group)"
                :class="{'-rotate-90': !isActiveGroup(group), '': isActiveGroup(group)}"
@@ -86,6 +87,7 @@ import sticksBelow from '@/directives/sticks-below';
 import Application from '@/services/application';
 import Instance from '@/services/instance';
 import {compareBy} from '@/utils/collections';
+import {VIEW_GROUP_ICON} from '@/views';
 
 export default {
   props: {
@@ -128,6 +130,7 @@ export default {
           groups.set(groupName, {
             ...group,
             order: Math.min(group.order, view.order),
+            icon: VIEW_GROUP_ICON[groupName],
             views: [...group.views, view]
           })
         }

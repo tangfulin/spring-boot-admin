@@ -16,14 +16,15 @@
 
 <template>
   <div id="app">
-    <router-view :views="childViews" :applications="applications" :error="error"
-                 :applications-initialized="applicationsInitialized"
-    />
+    <sba-navbar :views="mainViews" :applications="applications" :error="error" :applications-initialized="applicationsInitialized" />
+    <router-view :views="childViews" :applications="applications" :error="error" :applications-initialized="applicationsInitialized" />
   </div>
 </template>
 
 <script>
+import SbaNavbar from '@/shell/navbar';
 export default {
+  components: {SbaNavbar},
   props: {
     views: {
       type: Array,

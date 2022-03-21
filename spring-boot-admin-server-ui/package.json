@@ -4,7 +4,7 @@
   "description": "Spring Boot Admin UI",
   "scripts": {
     "build": "vue-cli-service build",
-    "test:unit": "vuencli-service test:unit",
+    "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "build-storybook": "build-storybook",
     "lint:fix": "vue-cli-service lint --fix",
@@ -52,6 +52,7 @@
     "@storybook/addon-links": "6.4.14",
     "@storybook/addon-postcss": "2.0.0",
     "@storybook/vue": "6.4.14",
+    "@tailwindcss/forms": "^0.3.4",
     "@testing-library/jest-dom": "5.16.1",
     "@testing-library/user-event": "13.5.0",
     "@testing-library/vue": "5.8.2",

@@ -15,26 +15,29 @@
   -->
 
 <template>
-  <section class="section" :class="{isLoading: isLoading}">
+  <section class="-my-6 -mx-6" :class="{isLoading: isLoading}">
     <sba-alert v-if="error" :error="error" :title="$t('instances.beans.fetch_failed')" />
 
-    <div class="field">
-      <p class="control is-expanded has-icons-left">
-        <input
-          class="input"
-          type="search"
-          v-model="filter"
-        >
-        <span class="icon is-small is-left">
-          <font-awesome-icon icon="filter" />
-        </span>
-      </p>
+    <sba-sticky-subnav>
+      <div class="mx-6">
+        <sba-input name="filter" v-model="filter" type="search" :placeholder="$t('term.filter')">
+          <template v-slot:prepend>
+            <font-awesome-icon icon="filter" />
+          </template>
+          <template v-slot:append>
+            {{ filterResultString }}
+          </template>
+        </sba-input>
+      </div>
+    </sba-sticky-subnav>
+
+    <div class="mx-6 my-6">
+      <template v-for="context in filteredContexts">
+        <sba-panel :title="context.name" :header-sticks-below="['#navigation']" :key="context.name">
+          <beans-list :beans="context.beans" :key="`${context.name}-beans`" />
+        </sba-panel>
+      </template>
     </div>
-    <template v-for="context in filteredContexts">
-      <sba-panel :title="context.name" :header-sticks-below="['#navigation']" :key="context.name">
-        <beans-list :beans="context.beans" :key="`${context.name}-beans`" />
-      </sba-panel>
-    </template>
   </section>
 </template>
 
@@ -45,7 +48,6 @@
   import BeansList from '@/views/instances/beans/beans-list';
   import isEmpty from 'lodash/isEmpty';
   import {VIEW_GROUP} from '../../index';
-  import SbaPanel from '@/components/sba-panel';
 
   class Bean {
     constructor(name, bean) {
@@ -76,7 +78,7 @@
   };
 
   export default {
-    components: {SbaPanel, BeansList},
+    components: {BeansList},
     props: {
       instance: {
         type: Instance,
@@ -90,6 +92,16 @@
       filter: '',
     }),
     computed: {
+      filterResultString() {
+        const totalBeans = this.contexts.reduce((count, ctx) => {
+          return count + ctx.beans?.length
+        }, 0)
+        const filteredBeansLength = this.filteredContexts.reduce((count, ctx) => {
+          return count + ctx.beans?.length
+        }, 0)
+
+        return `${filteredBeansLength}/${totalBeans}`;
+      },
       filteredContexts() {
         const filterFn = this.getFilterFn();
         return this.contexts.map(ctx => ({

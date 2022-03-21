@@ -25,7 +25,9 @@
         :application="application"
       />
       <div class="h-full overflow-y-auto relative z-0 ml-60">
-        <router-view v-if="instance" :instance="instance" :application="application" />
+        <div class="mx-6 my-6">
+          <router-view v-if="instance" :instance="instance" :application="application" />
+        </div>
       </div>
     </div>
   </div>
