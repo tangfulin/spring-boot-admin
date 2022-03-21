@@ -42,7 +42,7 @@
         <th class="label" v-text="$t('instances.beans.dependencies')" />
         <td class="value px-4">
           <ul>
-            <li v-for="(dependency, idx) in bean.dependencies"
+            <li v-for="(dependency) in bean.dependencies"
                 class="list-disc break-all"
                 :key="dependency" v-text="dependency"
             />
