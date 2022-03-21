@@ -15,37 +15,36 @@
   -->
 
 <template>
-  <section :class="{ 'is-loading' : !hasLoaded }" class="section">
-    <sba-alert v-if="error" :error="error" :title="$t('instances.configprops.fetch_failed')" />
+  <sba-instance-section :loading="!hasLoaded" :error="error">
+    <template v-slot:before>
+      <sba-sticky-subnav>
+        <div class="mx-6">
+          <sba-input name="filter" v-model="filter" type="search" :placeholder="$t('term.filter')">
+            <template v-slot:prepend>
+              <font-awesome-icon icon="filter" />
+            </template>
+          </sba-input>
+        </div>
+      </sba-sticky-subnav>
+    </template>
 
-    <div class="field">
-      <p class="control is-expanded has-icons-left">
-        <input
-          v-model="filter"
-          class="input"
-          type="search"
-        >
-        <span class="icon is-small is-left">
-          <font-awesome-icon icon="filter" />
-        </span>
-      </p>
-    </div>
     <sba-panel v-for="bean in configurationPropertiesBeans"
                :key="bean.name"
                :header-sticks-below="['#navigation']"
                :title=" bean.name"
     >
-      <table v-if="Object.keys(bean.properties).length > 0"
-             class="table is-fullwidth"
-      >
-        <tr v-for="(value, name) in bean.properties" :key="`${bean.name}-${name}`">
-          <td v-text="name" />
-          <td class="is-breakable" v-text="value" />
-        </tr>
-      </table>
-      <p v-else class="is-muted" v-text="$t('instances.configprops.fetch_failed')" />
+      <div class="-mx-4 -my-3">
+        <table v-if="Object.keys(bean.properties).length > 0"
+               class="table-auto w-full"
+        >
+          <tr v-for="(value, name, idx) in bean.properties" :key="`${bean.name}-${name}`" :class="{'bg-gray-50': idx%2===0}">
+            <td class="w-1/2 px-4 py-3" v-text="name" />
+            <td class="px-4 py-3" v-text="value" />
+          </tr>
+        </table>
+      </div>
     </sba-panel>
-  </section>
+  </sba-instance-section>
 </template>
 
 <script>
@@ -54,6 +53,8 @@ import isEmpty from 'lodash/isEmpty';
 import mapKeys from 'lodash/mapKeys';
 import pickBy from 'lodash/pickBy';
 import {VIEW_GROUP} from '../../index';
+import SbaPanel from '@/components/sba-panel';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
 
 const filterProperty = (needle) => (value, name) => {
   return name.toString().toLowerCase().includes(needle) || (value && value.toString().toLowerCase().includes(needle));
@@ -115,6 +116,7 @@ const flattenConfigurationPropertiesBeans = (configprops) => {
 };
 
 export default {
+  components: {SbaInstanceSection, SbaPanel},
   props: {
     instance: {
       type: Instance,
