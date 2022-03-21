@@ -15,10 +15,8 @@
   -->
 
 <template>
-  <sba-instance-section :loading="isLoading">
+  <sba-instance-section :loading="isLoading" :error="error">
     <template v-slot:before>
-      <sba-alert v-if="error" :error="error" :title="$t('instances.env.fetch_failed')" />
-
       <sba-sticky-subnav>
         <div v-if="env" class="mx-6">
           <sba-input name="filter" v-model="filter" type="search" :placeholder="$t('term.filter')">

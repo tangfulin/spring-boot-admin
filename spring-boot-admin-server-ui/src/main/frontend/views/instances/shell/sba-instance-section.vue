@@ -3,6 +3,8 @@
     <slot name="before" />
 
     <div class="px-6 py-6">
+      <sba-alert class="mb-6" v-if="error" :error="error" :title="$t('term.fetch_failed')" />
+
       <slot />
     </div>
   </section>
@@ -15,6 +17,10 @@ export default {
     loading: {
       type: Boolean,
       default: false
+    },
+    error: {
+      type: Error,
+      default: null
     }
   }
 }

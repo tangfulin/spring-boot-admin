@@ -15,10 +15,7 @@
   -->
 
 <template>
-  <sba-instance-section>
-    <template v-slot:before>
-      <sba-alert v-if="error" :error="error" :title="$t('instances.metrics.fetch_failed')" />
-    </template>
+  <sba-instance-section :error="error">
     <template>
       <div v-if="isOldMetrics" class="message is-warning">
         <div class="message-body" v-text="$t('instances.metrics.metrics_not_supported_spring_boot_1')" />

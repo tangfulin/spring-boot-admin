@@ -13,7 +13,6 @@
       "context_update": "Aktualisieren",
       "context_update_failed": "Fehlgeschlagen",
       "context_updated": "Aktualisiert",
-      "fetch_failed": "Das Laden der Umgebungskonfiguration ist fehlgeschlagen.",
       "no_properties": "Keine Eigenschaften gesetzt",
       "refresh": "Umgebungskonfiguration neu laden",
       "application": "Anwendung",
