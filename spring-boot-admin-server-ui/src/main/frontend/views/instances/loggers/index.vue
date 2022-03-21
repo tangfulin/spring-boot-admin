@@ -66,7 +66,7 @@
         label: 'instances.loggers.label',
         component: this,
         group: VIEW_GROUP.LOGGING,
-        order: 300,
+        order: 200,
         isEnabled: ({instance}) => instance.hasEndpoint('loggers')
       });
     }

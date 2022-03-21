@@ -38,7 +38,7 @@ export default {
       }
       switch (this.size) {
         case 'sm':
-          classNames.push('px-3 py-1')
+          classNames.push('px-3 py-2')
           break;
         case '':
         default:

@@ -19,7 +19,9 @@
     <sba-button
       v-if="scope === 'application'"
       class="w-full"
+      size="sm"
       :class="classNames"
+      :title="$t('term.affects_all_instances', {count: instanceCount})"
       @click="toggleScope('instance')"
     >
       <font-awesome-icon icon="cubes" />&nbsp;
@@ -28,14 +30,16 @@
     <sba-button
       v-else
       class="w-full"
+      size="sm"
       :class="classNames"
+      :title="$t('term.affects_this_instance_only')"
       @click="toggleScope('application')"
     >
       <font-awesome-icon icon="cube" />&nbsp;&nbsp;
       <span v-text="$t('term.instance')" />
     </sba-button>
 
-    <p class="text-center text-xs pt-1 truncate">
+    <p class="text-center text-xs pt-1 truncate" v-if="showInfo">
       <span v-if="scope === 'application'"
             v-text="$t('term.affects_all_instances', {count: instanceCount})"
       />
@@ -60,6 +64,10 @@ export default {
     instanceCount: {
       type: Number,
       required: true
+    },
+    showInfo: {
+      type: Boolean,
+      default: true
     }
   },
   data() {

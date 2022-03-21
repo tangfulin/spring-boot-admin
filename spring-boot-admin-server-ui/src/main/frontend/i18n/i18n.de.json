@@ -25,6 +25,7 @@
     "fetch_failed": "Abruf der Daten fehlgeschlagen.",
     "float": "Float",
     "hours": "{count} Stunde | {count} Stunden",
+    "instance": "Instanz",
     "instances": "Instanzen",
     "integer": "Integer",
     "milliseconds": "Millisekunden",
