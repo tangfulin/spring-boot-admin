@@ -15,17 +15,15 @@
   -->
 
 <template>
-  <table class="metrics table is-fullwidth">
-    <thead>
-      <tr>
-        <th class="metrics__label" :title="description" v-text="metricName" />
-        <th class="metrics__statistic-name"
-            v-for="statistic in statistics"
-            :key="`head-${statistic}`"
-        >
-          <span v-text="statistic" />
-          <div class="select is-small is-pulled-right">
+  <div>
+    <sba-panel :title="metricName">
+      <template v-slot:actions>
+        <div class="inline-flex items-center" v-for="statistic in statistics" :key="`head-${statistic}`">
+          <span class="block font-medium text-gray-700 px-3" v-text="statistic" />
+
+          <div class="relative rounded-md shadow-sm">
             <select :value="statisticTypes[statistic]"
+                    class="focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm border-gray-300 rounded-md"
                     @change="$emit('type-select', metricName, statistic, $event.target.value)"
             >
               <option :value="undefined">
@@ -38,29 +36,32 @@
               <option value="bytes" v-text="$t('term.bytes')" />
             </select>
           </div>
-        </th>
-        <td />
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(tags, idx) in tagSelections" :key="idx">
-        <td class="metrics__label">
-          <span v-text="getLabel(tags)" />
-          <span class="has-text-warning" v-if="errors[idx]" :title="errors[idx]">
-            <font-awesome-icon icon="exclamation-triangle" />
-          </span>
-        </td>
-        <td class="metrics__statistic-value"
-            v-for="statistic in statistics"
-            :key="`value-${idx}-${statistic}`"
-            v-text="getValue(measurements[idx], statistic)"
-        />
-        <td class="metrics__actions">
-          <sba-icon-button :icon="'trash'" @click.stop="handleRemove(idx)" />
-        </td>
-      </tr>
-    </tbody>
-  </table>
+        </div>
+      </template>
+
+      <template>
+        <div class="-mx-4 -my-3">
+          <div v-for="(tags, idx) in tagSelections" :key="idx" class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" :class="{'bg-gray-50': idx%2!==0}">
+            <div class="text-sm font-medium text-gray-500">
+              <span class="whitespace-pre" v-text="getLabel(tags)" :title="getLabel(tags)" />
+              <span class="text-yellow-300 pl-1" v-if="errors[idx]" :title="errors[idx]">
+                <font-awesome-icon icon="exclamation-triangle" />
+              </span>
+            </div>
+            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+              <div v-for="(statistic, statistic_index) in statistics"
+                   :key="`value-${idx}-${statistic}`"
+                   class="flex items-center"
+              >
+                <span class="flex-1" v-text="getValue(measurements[idx], statistic)" />
+                <sba-icon-button v-if="statistic_index === 0" class="self-end" :icon="'trash'" @click.stop="handleRemove(idx)" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </template>
+    </sba-panel>
+  </div>
 </template>
 
 <script>
@@ -115,6 +116,10 @@
       statisticTypes: {
         type: Object,
         default: () => ({})
+      },
+      index: {
+        type: Number,
+        default: 0
       }
     },
     data: () => ({

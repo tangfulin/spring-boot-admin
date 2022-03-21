@@ -22,6 +22,9 @@ const Template = (args, {argTypes}) => {
         <template v-slot>
           ${args.slot}
         </template>
+        <template v-slot:footer v-if="${'footer' in args}">
+          ${args.footer}
+        </template>
       </sba-panel>
     `,
   }
@@ -96,3 +99,14 @@ StickyHeader.args = {
   headerSticksBelow: ['.os-content']
 };
 
+export const NoTitle = Template.bind({});
+NoTitle.args = {
+  ...WithTitle.args,
+  title: undefined
+};
+
+export const WithTitleAndFooter = Template.bind({});
+WithTitleAndFooter.args = {
+  ...WithTitle.args,
+  footer: 'Hello from the footer!'
+};

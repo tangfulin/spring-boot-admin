@@ -1,6 +1,6 @@
 <template>
   <button @click="$emit('click', $event)"
-          class="focus:ring-4 font-medium text-sm text-center"
+          class="font-medium text-sm text-center focus:outline-none "
           :class="classNames"
   >
     <slot />
@@ -29,7 +29,7 @@ export default {
       const classNames = [];
 
       if (!this.flat) {
-        classNames.push('rounded')
+        classNames.push('rounded-md shadow-sm')
       }
 
       switch (this.size) {
@@ -50,7 +50,7 @@ export default {
           break;
         case '':
         default:
-          classNames.push('text-gray-900 border-gray-300 border bg-white hover:bg-gray-100 focus:ring-blue-300');
+          classNames.push('text-gray-900 border-gray-300 border border-gray-300 bg-white focus:ring-indigo-500 focus:border-indigo-500');
           break;
       }
 

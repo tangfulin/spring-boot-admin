@@ -16,61 +16,56 @@
 
 <template>
   <sba-instance-section :error="error">
-    <template>
-      <div v-if="isOldMetrics" class="message is-warning">
-        <div class="message-body" v-text="$t('instances.metrics.metrics_not_supported_spring_boot_1')" />
-      </div>
-      <form v-else-if="availableMetrics.length > 0" class="field" @submit.prevent="handleSubmit">
-        <div class="field">
-          <div class="control">
-            <div class="select">
-              <select v-model="selectedMetric">
+    <sba-panel v-if="!isOldMetrics && availableMetrics.length > 0">
+      <form class="grid grid-cols-6 gap-6">
+        <div class="col-span-3">
+          <div>
+            <label for="metric" class="block text-sm font-medium text-gray-700" v-text="$t('instances.metrics.label')" />
+            <div class="mt-1 relative rounded-md shadow-sm">
+              <select v-model="selectedMetric" id="metric" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
                 <option v-for="metric in availableMetrics" :key="metric" v-text="metric" />
               </select>
             </div>
           </div>
         </div>
-        <div>
-          <p v-if="stateFetchingTags === 'executing'" class="is-loading" v-text="$t('instances.metrics.fetching_tags')" />
-
-          <div v-if="availableTags" class="box">
-            <div v-for="tag in availableTags" :key="tag.tag" class="field is-horizontal">
-              <div class="field-label">
-                <label class="label" v-text="tag.tag" />
-              </div>
-              <div class="field-body">
-                <div class="control">
-                  <div class="select">
-                    <select v-model="selectedTags[tag.tag]">
-                      <option :value="undefined">
-                        -
-                      </option>
-                      <option v-for="value in tag.values" :key="value" :value="value" v-text="value" />
-                    </select>
-                  </div>
-                </div>
+        <div class="col-span-3 space-y-3">
+          <template v-if="availableTags">
+            <div v-for="tag in availableTags" :key="tag.tag">
+              <label for="metric2" class="block text-sm font-medium text-gray-700">{{ tag.tag }}</label>
+              <div class="mt-1 relative rounded-md shadow-sm">
+                <select v-model="selectedTags[tag.tag]" id="metric2" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                  <option :value="undefined">
+                    -
+                  </option>
+                  <option v-for="value in tag.values" :key="value" :value="value" v-text="value" />
+                </select>
               </div>
             </div>
-            <p v-if="availableTags && availableTags.length === 0" v-text="$t('instances.metrics.no_tags_available')" />
-            <div class="field is-grouped is-grouped-right">
-              <div class="control">
-                <button class="button is-primary" type="submit" v-text="$t('instances.metrics.add_metric')" />
-              </div>
-            </div>
-          </div>
+          </template>
         </div>
       </form>
 
-      <metric v-for="metric in metrics"
-              :key="metric.name"
-              :instance="instance"
-              :metric-name="metric.name"
-              :statistic-types="metric.types"
-              :tag-selections="metric.tagSelections"
-              @remove="removeMetric"
-              @type-select="handleTypeSelect"
-      />
-    </template>
+      <template v-slot:footer>
+        <div class="text-right">
+          <sba-button type="primary" @click="handleSubmit">
+            {{ $t('instances.metrics.add_metric') }}
+          </sba-button>
+        </div>
+      </template>
+    </sba-panel>
+
+    <p v-if="stateFetchingTags === 'executing'" class="is-loading" v-text="$t('instances.metrics.fetching_tags')" />
+
+    <metric v-for="(metric, index) in metrics"
+            :key="metric.name"
+            :index="index"
+            :instance="instance"
+            :metric-name="metric.name"
+            :statistic-types="metric.types"
+            :tag-selections="metric.tagSelections"
+            @remove="removeMetric"
+            @type-select="handleTypeSelect"
+    />
   </sba-instance-section>
 </template>
 
@@ -171,6 +166,7 @@ export default {
           this.availableMetrics.sort();
           this.selectedMetric = this.availableMetrics[0];
         } else {
+          this.error = new Error(this.$t('instances.metrics.metrics_not_supported_spring_boot_1'));
           this.isOldMetrics = true;
         }
       } catch (error) {

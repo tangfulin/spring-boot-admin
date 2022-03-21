@@ -18,7 +18,7 @@
   <div class="bg-white shadow overflow-hidden sm:rounded-lg break-inside-avoid mb-6 backdrop-filter backdrop-blur-sm bg-opacity-80">
     <header
       v-if="title"
-      class="flex justify-between px-4 py-5 sm:px-6"
+      class="flex justify-between px-4 py-5 sm:px-6 items-center"
       :class="{'sticky': headerSticksBelow}"
     >
       <h3 class="text-lg leading-6 font-medium text-gray-900" v-text="title" />
@@ -28,9 +28,14 @@
         <sba-icon-button v-if="closeable" :icon="['far', 'times-circle']" @click.stop="$emit('close', $event)" />
       </div>
     </header>
-    <div v-if="$slots['default']" class="border-t border-gray-200 bg-white px-4 py-3">
+    <div v-if="'default' in $slots" class="border-t border-gray-200 px-4 py-3" :class="{'bg-white': !!title}">
       <slot />
     </div>
+    <footer v-if="'footer' in $slots">
+      <div class="px-4 py-3 border-t bg-gray-50">
+        <slot name="footer" />
+      </div>
+    </footer>
   </div>
 </template>
 
@@ -44,7 +49,7 @@
     props: {
       title: {
         type: String,
-        required: true
+        default: undefined
       },
       closeable: {
         type: Boolean,
