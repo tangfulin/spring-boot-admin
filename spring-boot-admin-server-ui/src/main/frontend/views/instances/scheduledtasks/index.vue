@@ -15,26 +15,24 @@
   -->
 
 <template>
-  <section :class="{ 'is-loading' : !hasLoaded }" class="section">
-    <template v-if="hasLoaded">
-      <sba-alert v-if="error" :error="error" :title="$t('instances.scheduledtasks.fetch_failed')" />
-
-      <div v-else-if="!hasData" class="message is-warning">
+  <sba-instance-section :loading="!hasLoaded" :error="err">
+    <sba-panel>
+      <div v-if="!hasData" class="message is-warning">
         <div class="message-body" v-text="$t('instances.scheduledtasks.no_scheduledtasks')" />
       </div>
 
       <template v-if="hasCronData">
-        <table class="table is-fullwidth">
+        <table class="table-auto w-full">
           <thead>
             <tr>
-              <th v-text="$t('instances.scheduledtasks.cron.runnable')" />
+              <th class="text-left" v-text="$t('instances.scheduledtasks.cron.runnable')" />
               <th v-text="$t('instances.scheduledtasks.cron.expression')" />
             </tr>
           </thead>
           <tbody v-for="task in cron" :key="task.runnable.target">
             <tr>
               <td v-text="task.runnable.target" />
-              <td class="monospaced" v-text="task.expression" />
+              <td class="font-mono text-center text-sm" v-text="task.expression" />
             </tr>
           </tbody>
         </table>
@@ -79,15 +77,18 @@
           </tbody>
         </table>
       </template>
-    </template>
-  </section>
+    </sba-panel>
+  </sba-instance-section>
 </template>
 
 <script>
 import Instance from '@/services/instance';
 import {VIEW_GROUP} from '../../index';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
+import SbaPanel from '@/components/sba-panel';
 
 export default {
+  components: {SbaPanel, SbaInstanceSection},
   props: {
     instance: {
       type: Instance,
