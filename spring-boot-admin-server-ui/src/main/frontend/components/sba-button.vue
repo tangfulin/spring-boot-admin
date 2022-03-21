@@ -1,6 +1,7 @@
 <template>
   <button @click="$emit('click', $event)"
-          class="font-medium text-sm text-center focus:outline-none "
+          :disabled="disabled"
+          class="font-medium text-sm text-center focus:outline-none"
           :class="classNames"
   >
     <slot />
@@ -22,6 +23,10 @@ export default {
     size: {
       type: String,
       default: () => ''
+    },
+    disabled: {
+      type: Boolean,
+      default: false
     }
   },
   computed: {
@@ -31,7 +36,6 @@ export default {
       if (!this.flat) {
         classNames.push('rounded-md shadow-sm')
       }
-
       switch (this.size) {
         case 'sm':
           classNames.push('px-3 py-1')
@@ -53,6 +57,11 @@ export default {
           classNames.push('text-gray-900 border-gray-300 border border-gray-300 bg-white focus:ring-indigo-500 focus:border-indigo-500');
           break;
       }
+
+      if (this.disabled) {
+        classNames.push('text-gray-900')
+      }
+
 
       return classNames.join(' ');
     }

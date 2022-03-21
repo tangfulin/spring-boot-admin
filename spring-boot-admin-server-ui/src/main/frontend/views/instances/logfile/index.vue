@@ -15,43 +15,57 @@
   -->
 
 <template>
-  <div :class="{ 'is-loading' : !hasLoaded}" class="section logfile-view">
-    <sba-alert v-if="error" :error="error" :title="$t('instances.logfile.fetch_failed')" />
+  <sba-instance-section :loading="!hasLoaded" :error="error">
+    <template v-slot:before>
+      <sba-sticky-subnav>
+        <div class="mx-6 flex items-center justify-end">
+          <div class="flex items-start">
+            <div class="flex items-center h-5">
+              <input id="wraplines" name="wraplines" v-model="wrapLines" type="checkbox"
+                     class="focus:ring-indigo-500 h-4 w-4 text-indigo-600 border-gray-300 rounded"
+              >
+            </div>
+            <div class="ml-3 text-sm">
+              <label for="wraplines" class="font-medium text-gray-700" v-text="$t('instances.logfile.wrap_lines')" />
+            </div>
+          </div>
 
-    <div v-if="hasLoaded" :class="{ 'logfile-view-actions--sticky' : !atTop }" class="logfile-view-actions">
-      <div class="logfile-view-action">
-        <label class="checkbox">
-          <input v-model="wrapLines" type="checkbox">
-          <span v-text="$t('instances.logfile.wrap_lines')" />
-        </label>
-      </div>
-      <div class="logfile-view-action logfile-view-action__navigation">
-        <sba-icon-button :disabled="atTop" icon="step-backward" icon-class="rotated" size="lg"
-                         @click="scrollToTop"
-        />
-        <sba-icon-button :disabled="atBottom" icon="step-forward" icon-class="rotated" size="lg"
-                         @click="scrollToBottom"
-        />
-      </div>
-      <a :href="`instances/${instance.id}/actuator/logfile`" class="logfile-view-action button" target="_blank">
-        <font-awesome-icon icon="download" />&nbsp;
-        <span v-text="$t('instances.logfile.download')" />
-      </a>
-    </div>
+          <div class="mx-3">
+            <sba-button size="sm" @click="scrollToTop" :disabled="atTop">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                   stroke="currentColor" stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M7 11l5-5m0 0l5 5m-5-5v12" />
+              </svg>
+            </sba-button>
+            <sba-button size="sm" @click="scrollToBottom" :disabled="atBottom">
+              <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
+                   stroke="currentColor" stroke-width="2"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M17 13l-5 5m0 0l-5-5m5 5V6" />
+              </svg>
+            </sba-button>
+          </div>
 
-    <div :class="{'log-viewer--wrap-lines': wrapLines}" class="log-viewer">
-      <table>
-        <tr v-if="skippedBytes">
-          <td v-text="`skipped ${prettyBytes(skippedBytes)}`" />
-        </tr>
-      </table>
-    </div>
-    <!-- log will be appended here -->
-  </div>
+          <sba-button size="sm" @click="downloadLogfile()">
+            <font-awesome-icon icon="download" />&nbsp;
+            <span v-text="$t('instances.logfile.download')" />
+          </sba-button>
+        </div>
+      </sba-sticky-subnav>
+    </template>
+
+    <template>
+      <sba-panel :title="$t('instances.logfile.label')" :subtitle="skippedBytesString">
+        <div :class="{'wrap-lines': wrapLines}" class="log-viewer overflow-x-auto text-sm">
+          <table />
+        </div>
+      </sba-panel>
+    </template>
+  </sba-instance-section>
 </template>
 
 <script>
-import subscribing from '@/mixins/subscribing';
 import Instance from '@/services/instance';
 import autolink from '@/utils/autolink';
 import {animationFrameScheduler, concatAll, concatMap, map, of, tap} from '@/utils/rxjs';
@@ -59,8 +73,15 @@ import AnsiUp from 'ansi_up';
 import chunk from 'lodash/chunk';
 import prettyBytes from 'pretty-bytes';
 import {VIEW_GROUP} from '../../index';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
+import SbaPanel from '@/components/sba-panel';
+import SbaStickySubnav from '@/components/sba-sticky-subnav';
+import SbaButton from '@/components/sba-button';
+import subscribing from '@/mixins/subscribing';
+import {debounceTime, fromEvent} from 'rxjs';
 
 export default {
+  components: {SbaButton, SbaStickySubnav, SbaPanel, SbaInstanceSection},
   props: {
     instance: {
       type: Instance,
@@ -71,19 +92,42 @@ export default {
   data: () => ({
     hasLoaded: false,
     error: null,
-    atBottom: true,
-    atTop: false,
+    atBottom: false,
+    atTop: true,
     skippedBytes: null,
-    wrapLines: true
+    wrapLines: true,
+    scrollSubcription: null
   }),
   created() {
     this.ansiUp = new AnsiUp();
-  },
-  mounted() {
-    window.addEventListener('scroll', this.onScroll);
+    const scrollcontainer = document.querySelector('main');
+    this.scrollSubcription = fromEvent(scrollcontainer, 'scroll')
+      .pipe(
+        debounceTime(25),
+        map(v => v.target.scrollTop)
+      )
+      .subscribe(v => {
+        this.atTop = v === 0;
+        this.atBottom = scrollcontainer.firstChild.clientHeight === scrollcontainer.scrollHeight - scrollcontainer.scrollTop
+      })
   },
   beforeDestroy() {
-    window.removeEventListener('scroll', this.onScroll);
+    if (this.scrollSubcription) {
+      try {
+        !this.scrollSubcription.closed && this.scrollSubcription.unsubscribe();
+      } finally {
+        this.scrollSubcription = null;
+      }
+    }
+
+  },
+  computed: {
+    skippedBytesString() {
+      if (this.skippedBytes != null) {
+        return `skipped ${prettyBytes(this.skippedBytes)}`;
+      }
+      return '';
+    }
   },
   methods: {
     prettyBytes,
@@ -107,10 +151,10 @@ export default {
               pre.innerHTML = autolink(this.ansiUp.ansi_to_html(line));
               col.appendChild(pre)
               row.appendChild(col)
-              vm.$el.querySelector('.log-viewer > table').appendChild(row);
+              document.querySelector('.log-viewer > table')?.appendChild(row);
             });
 
-            if (vm.atBottom) {
+            if (!vm.atBottom) {
               vm.scrollToBottom();
             }
           },
@@ -121,17 +165,14 @@ export default {
           }
         });
     },
-    onScroll() {
-      const scrollingEl = document.scrollingElement;
-      const visibleHeight = document.documentElement.clientHeight;
-      this.atBottom = visibleHeight === scrollingEl.scrollHeight - scrollingEl.scrollTop;
-      this.atTop = scrollingEl.scrollTop <= 0;
-    },
     scrollToTop() {
-      document.scrollingElement.scrollTop = 0;
+      document.querySelector('main').scrollTop = 0;
     },
     scrollToBottom() {
-      document.scrollingElement.scrollTop = document.scrollingElement.scrollHeight;
+      document.querySelector('main').scrollTop = document.querySelector('main').scrollHeight;
+    },
+    downloadLogfile() {
+      window.open(`instances/${this.instance.id}/actuator/logfile`, '_blank');
     }
   },
   install({viewRegistry}) {
@@ -150,49 +191,24 @@ export default {
 </script>
 
 <style lang="css">
-.logfile-view {
-  padding: 0 1.5em 1.5em;
-  position: relative;
-}
-.logfile-view pre {
+.log-viewer pre {
   padding: 0 0.5em;
   margin-bottom: 1px;
 }
-.logfile-view pre:hover {
+
+.log-viewer pre:hover {
   background: #dbdbdb;
 }
-.logfile-view .log-viewer {
+
+.log-viewer.wrap-lines pre {
+  @apply whitespace-pre-wrap;
+}
+
+.log-viewer {
   padding: 9.5px;
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
   overflow: auto;
-}
-.logfile-view .log-viewer--wrap-lines pre {
-  white-space: pre-wrap;
-}
-.logfile-view-actions {
-  top: 52px;
-  right: 16px;
-  display: flex;
-  align-items: center;
-  justify-content: flex-end;
-}
-.logfile-view-actions--sticky {
-  position: sticky;
-  background: #fff;
-  box-shadow: 0 4px 2px -2px #ccc;
-}
-.logfile-view-action {
-  margin-left: 0.5em;
-}
-.logfile-view-action__navigation {
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: space-between;
-  margin-right: 0.5rem;
-}
-.rotated {
-  transform: rotate(90deg);
 }
 </style>

@@ -24,11 +24,11 @@
         :instance="instance"
         :application="application"
       />
-      <div class="h-full overflow-y-auto relative z-0 ml-60">
-        <div class="mb-8">
+      <main class="h-full overflow-y-auto relative z-0 ml-60">
+        <div class="mb-8 flex flex-col">
           <router-view v-if="instance" :instance="instance" :application="application" />
         </div>
-      </div>
+      </main>
     </div>
   </div>
 </template>
@@ -84,32 +84,3 @@
   }
 </script>
 
-<style lang="css">
-.instances {
-  display: flex;
-  flex-grow: 1;
-  flex-direction: column;
-}
-.instances__body {
-  display: flex;
-  flex-grow: 1;
-}
-.instances__view, .instances__sidebar {
-  position: relative;
-}
-.instances__sidebar {
-  z-index: 20;
-  position: fixed;
-  top: 52px;
-  bottom: 0;
-  left: 0;
-  width: 220px;
-}
-.instances__view {
-  flex-grow: 1;
-  flex-shrink: 1;
-  z-index: 10;
-  max-width: 100%;
-  padding-left: 220px;
-}
-</style>

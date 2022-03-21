@@ -21,7 +21,10 @@
       class="flex justify-between px-4 py-5 sm:px-6 items-center"
       :class="{'sticky': headerSticksBelow}"
     >
-      <h3 class="text-lg leading-6 font-medium text-gray-900" v-text="title" />
+      <h3 class="text-lg leading-6 font-medium text-gray-900">
+        <span v-text="title" />&nbsp;
+        <span v-if="subtitle" v-text="subtitle" class="text-sm text-gray-500" />
+      </h3>
 
       <div>
         <slot v-if="$slots['actions']" name="actions" />
@@ -48,6 +51,10 @@
     directives: {sticksBelow},
     props: {
       title: {
+        type: String,
+        default: undefined
+      },
+      subtitle: {
         type: String,
         default: undefined
       },
