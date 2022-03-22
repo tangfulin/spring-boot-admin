@@ -20,7 +20,7 @@
       <tr v-for="logger in loggers.slice(0, this.visibleLimit)" :key="logger.name">
         <td class="w-9/12">
           <span class="break-all" v-text="logger.name" />&nbsp;
-          <span class="tag is-primary is-uppercase" v-if="logger.isNew" v-text="$t('instances.loggers.new')" />
+          <sba-tag class="tag is-primary is-uppercase" v-if="logger.isNew" :value="$t('instances.loggers.new')" />
         </td>
         <td class="w-1/4">
           <sba-logger-control class="is-pulled-right"

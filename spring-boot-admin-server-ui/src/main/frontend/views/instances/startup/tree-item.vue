@@ -23,7 +23,7 @@
         </a>
         <span v-text="item.startupStep.name" />&nbsp;<small>(#<span v-text="item.startupStep.id" />)</small>
       </div>
-      <div class="column column--duration monospaced text-right" v-text="item.duration.toFixed(4)" :title="item.duration + 'ms'" />
+      <div class="column column--duration" v-text="item.duration.toFixed(4)" :title="item.duration + 'ms'" />
       <div class="column column--details">
         <span v-for="(tag, index) in item.startupStep.tags" :key="index">
           <strong>{{ tag.key }}: </strong>

@@ -33,8 +33,8 @@
 
         <span v-text="$t('instances.startup.column.name')" />
       </div>
-      <div class="column column--duration text-right" v-text="$t('instances.startup.column.duration')" />
-      <div class="column column--details" v-text="$t('instances.startup.column.details')" />
+      <div class="text-right" v-text="$t('instances.startup.column.duration')" />
+      <div class="break-all" v-text="$t('instances.startup.column.details')" />
     </div>
     <ul v-if="tree">
       <tree-item
@@ -120,7 +120,7 @@ export default {
   @apply justify-center;
 }
 .enforce-word-wrap {
-  word-break: break-all;
+  @apply break-all;
 }
 .tree .checkbox-expand-all {
   margin-right: 5px;
@@ -148,14 +148,12 @@ export default {
   @apply truncate inline-flex items-center w-full;
   padding: 0.5em 0.75em;
 }
-.tree .row .column--name {
-  grid-area: 0.25;
-}
-.tree .row .column--duration {
-  grid-area: 0.0833333333;
-}
 .tree .row .column--details {
   grid-area: 0.0416666667;
+  @apply break-all block;
+}
+.tree .row .column--duration {
+  @apply text-sm font-mono text-right;
 }
 .tree-item {
   margin: 0;

@@ -49,6 +49,7 @@ export default {
   @apply font-medium text-sm text-center focus:outline-none text-gray-900 border-gray-300 border border-gray-300 bg-white focus:ring-indigo-500 focus:border-indigo-500;
 }
 
+
 .btn:disabled {
   @apply text-gray-900;
 }
@@ -71,6 +72,9 @@ export default {
 
 .btn.is-light {
   @apply text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm;
+}
+.btn.is-light.is-active {
+  @apply bg-gray-300;
 }
 
 .btn.is-black {
