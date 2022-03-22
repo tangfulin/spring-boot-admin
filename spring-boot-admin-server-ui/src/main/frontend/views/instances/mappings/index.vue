@@ -15,38 +15,34 @@
   -->
 
 <template>
-  <section :class="{ 'is-loading' : !hasLoaded }" class="section">
-    <template v-if="hasLoaded">
-      <sba-alert v-if="error" :error="error" :title="$t('instances.mappings.fetch_failed')" />
+  <sba-instance-section :loading="!hasLoaded" :error="error">
+    <div v-if="isOldMetrics" class="message is-warning">
+      <div class="message-body" v-text="$t('instances.mappings.mappings_not_supported_spring_boot_1')" />
+    </div>
+    <template v-for="(context, ctxName) in contexts">
+      <h3 :key="ctxName" class="title" v-text="ctxName" />
 
-      <div v-if="isOldMetrics" class="message is-warning">
-        <div class="message-body" v-text="$t('instances.mappings.mappings_not_supported_spring_boot_1')" />
-      </div>
-      <template v-for="(context, ctxName) in contexts">
-        <h3 :key="ctxName" class="title" v-text="ctxName" />
+      <dispatcher-mappings v-if="hasDispatcherServlets(context)"
+                           :key="`${ctxName}_dispatcherServlets`"
+                           :dispatchers="context.mappings.dispatcherServlets"
+      />
 
-        <dispatcher-mappings v-if="hasDispatcherServlets(context)"
-                             :key="`${ctxName}_dispatcherServlets`"
-                             :dispatchers="context.mappings.dispatcherServlets"
-        />
+      <dispatcher-mappings v-if="hasDispatcherHandlers(context)"
+                           :key="`${ctxName}_dispatcherHandlers`"
+                           :dispatchers="context.mappings.dispatcherHandlers"
+      />
 
-        <dispatcher-mappings v-if="hasDispatcherHandlers(context)"
-                             :key="`${ctxName}_dispatcherHandlers`"
-                             :dispatchers="context.mappings.dispatcherHandlers"
-        />
+      <servlet-mappings v-if="hasServlet(context)"
+                        :key="`${ctxName}_servlets`"
+                        :servlets="context.mappings.servlets"
+      />
 
-        <servlet-mappings v-if="hasServlet(context)"
-                          :key="`${ctxName}_servlets`"
-                          :servlets="context.mappings.servlets"
-        />
-
-        <servlet-filter-mappings v-if="hasServletFilters(context)"
-                                 :key="`${ctxName}_servletFilters`"
-                                 :servlet-filters="context.mappings.servletFilters"
-        />
-      </template>
+      <servlet-filter-mappings v-if="hasServletFilters(context)"
+                               :key="`${ctxName}_servletFilters`"
+                               :servlet-filters="context.mappings.servletFilters"
+      />
     </template>
-  </section>
+  </sba-instance-section>
 </template>
 
 <script>
@@ -55,9 +51,10 @@ import DispatcherMappings from '@/views/instances/mappings/DispatcherMappings';
 import ServletFilterMappings from '@/views/instances/mappings/ServletFilterMappings';
 import ServletMappings from '@/views/instances/mappings/ServletMappings';
 import {VIEW_GROUP} from '../../index';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
 
 export default {
-  components: {DispatcherMappings, ServletMappings, ServletFilterMappings},
+  components: {SbaInstanceSection, DispatcherMappings, ServletMappings, ServletFilterMappings},
   props: {
     instance: {
       type: Instance,

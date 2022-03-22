@@ -18,7 +18,12 @@
   <sba-instance-section :loading="!hasLoaded" :error="error">
     <template v-slot:before>
       <sba-sticky-subnav>
-        <div class="mx-6 flex items-center justify-end">
+        <div class="mx-6 flex items-center justify-end gap-1">
+          <div class="flex-1">
+            <span v-text="$t('instances.logfile.label')" />&nbsp;
+            <small v-text="skippedBytesString" />
+          </div>
+
           <div class="flex items-start">
             <div class="flex items-center h-5">
               <input id="wraplines" name="wraplines" v-model="wrapLines" type="checkbox"
@@ -30,7 +35,7 @@
             </div>
           </div>
 
-          <div class="mx-3">
+          <div class="mx-3 inline-flex items-center">
             <sba-button size="sm" @click="scrollToTop" :disabled="atTop">
               <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4" fill="none" viewBox="0 0 24 24"
                    stroke="currentColor" stroke-width="2"
@@ -56,11 +61,9 @@
     </template>
 
     <template>
-      <sba-panel :title="$t('instances.logfile.label')" :subtitle="skippedBytesString">
-        <div :class="{'wrap-lines': wrapLines}" class="log-viewer overflow-x-auto text-sm">
-          <table />
-        </div>
-      </sba-panel>
+      <div :class="{'wrap-lines': wrapLines}" class="log-viewer overflow-x-auto text-sm -mx-6 -my-20 pt-14">
+        <table class="table-striped" />
+      </div>
     </template>
   </sba-instance-section>
 </template>
@@ -100,15 +103,14 @@ export default {
   }),
   created() {
     this.ansiUp = new AnsiUp();
-    const scrollcontainer = document.querySelector('main');
-    this.scrollSubcription = fromEvent(scrollcontainer, 'scroll')
+    this.scrollSubcription = fromEvent(window, 'scroll')
       .pipe(
         debounceTime(25),
-        map(v => v.target.scrollTop)
+        map(event => event.target.scrollingElement.scrollTop)
       )
-      .subscribe(v => {
-        this.atTop = v === 0;
-        this.atBottom = scrollcontainer.firstChild.clientHeight === scrollcontainer.scrollHeight - scrollcontainer.scrollTop
+      .subscribe(scrollTop => {
+        this.atTop = scrollTop === 0;
+        this.atBottom = document.scrollingElement.clientHeight === document.scrollingElement.scrollHeight - document.scrollingElement.scrollTop
       })
   },
   beforeDestroy() {
@@ -119,7 +121,6 @@ export default {
         this.scrollSubcription = null;
       }
     }
-
   },
   computed: {
     skippedBytesString() {
@@ -166,10 +167,10 @@ export default {
         });
     },
     scrollToTop() {
-      document.querySelector('main').scrollTop = 0;
+      document.scrollingElement.scrollTop = 0;
     },
     scrollToBottom() {
-      document.querySelector('main').scrollTop = document.querySelector('main').scrollHeight;
+      document.scrollingElement.scrollTop = document.scrollingElement.scrollHeight;
     },
     downloadLogfile() {
       window.open(`instances/${this.instance.id}/actuator/logfile`, '_blank');
@@ -192,7 +193,7 @@ export default {
 
 <style lang="css">
 .log-viewer pre {
-  padding: 0 0.5em;
+  padding: 0 0.75em;
   margin-bottom: 1px;
 }
 
@@ -205,10 +206,7 @@ export default {
 }
 
 .log-viewer {
-  padding: 9.5px;
   background-color: #fff;
-  border: 1px solid #ccc;
-  border-radius: 4px;
   overflow: auto;
 }
 </style>

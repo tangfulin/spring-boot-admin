@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <nav class="bg-black">
+  <nav class="bg-black fixed top-0 w-full h-14 z-50">
     <div class="mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-14">
         <div class="flex items-center">

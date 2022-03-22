@@ -66,21 +66,23 @@
       </sba-sticky-subnav>
     </template>
 
-    <div v-if="failedInstances > 0" class="message is-warning">
-      <div class="message-body">
-        <font-awesome-icon class="has-text-warning" icon="exclamation-triangle" />
-        <span
-          v-text="$t('instances.loggers.fetch_failed_some_instances', {failed: failedInstances, count: instanceCount})"
-        />
+    <sba-panel>
+      <div v-if="failedInstances > 0" class="message is-warning">
+        <div class="message-body">
+          <font-awesome-icon class="has-text-warning" icon="exclamation-triangle" />
+          <span
+            v-text="$t('instances.loggers.fetch_failed_some_instances', {failed: failedInstances, count: instanceCount})"
+          />
+        </div>
       </div>
-    </div>
 
-    <loggers-list
-      :levels="loggerConfig.levels"
-      :loggers="filteredLoggers"
-      :loggers-status="loggersStatus"
-      @configureLogger="({logger, level}) => configureLogger(logger, level)"
-    />
+      <loggers-list
+        :levels="loggerConfig.levels"
+        :loggers="filteredLoggers"
+        :loggers-status="loggersStatus"
+        @configureLogger="({logger, level}) => configureLogger(logger, level)"
+      />
+    </sba-panel>
   </sba-instance-section>
 </template>
 
@@ -91,6 +93,7 @@ import LoggersList from './loggers-list';
 import SbaToggleScopeButton from '@/components/sba-toggle-scope-button';
 import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
 import SbaStickySubnav from '@/components/sba-sticky-subnav';
+import SbaPanel from '@/components/sba-panel';
 
 const isClassName = name => /\.[A-Z]/.test(name);
 
@@ -114,7 +117,7 @@ const addLoggerCreationEntryIfLoggerNotPresent = (nameFilter, loggers) => {
 };
 
 export default {
-  components: {SbaStickySubnav, SbaInstanceSection, SbaToggleScopeButton, LoggersList},
+  components: {SbaPanel, SbaStickySubnav, SbaInstanceSection, SbaToggleScopeButton, LoggersList},
   directives: {sticksBelow},
   props: {
     instanceCount: {
@@ -203,15 +206,3 @@ export default {
   }
 }
 </script>
-
-<style lang="css">
-.loggers__header {
-  background-color: #fff;
-  z-index: 10;
-  padding: 0.5em 1em;
-}
-.loggers__toggle-scope {
-  width: 10em;
-}
-
-</style>

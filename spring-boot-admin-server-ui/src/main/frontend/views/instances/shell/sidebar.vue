@@ -16,7 +16,7 @@
 
 <template>
   <aside
-    class="w-60 h-full flex flex-col shadow-md bg-white absolute overflow-hidden backdrop-filter backdrop-blur-lg bg-opacity-40 z-30"
+    class="fixed w-60 h-full flex flex-col shadow-md bg-white overflow-hidden backdrop-filter backdrop-blur-lg bg-opacity-40 z-30"
   >
     <ul class="relative px-1 py-1 overflow-y-auto">
       <li class="relative mb-1">

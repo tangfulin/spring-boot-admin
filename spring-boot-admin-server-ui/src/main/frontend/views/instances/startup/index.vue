@@ -15,11 +15,11 @@
   -->
 
 <template>
-  <div class="section startup-view">
-    <sba-alert v-if="error" :error="error" :title="$t('instances.startup.fetch_failed')" />
-
-    <tree-table v-if="hasLoaded" :expand="expandedNodes" :tree="eventTree" @change="saveTreeState" />
-  </div>
+  <sba-instance-section :error="error">
+    <div class="section startup-view bg-white -mx-6 -my-6 backdrop-filter backdrop-blur-sm bg-opacity-80">
+      <tree-table v-if="hasLoaded" :expand="expandedNodes" :tree="eventTree" @change="saveTreeState" />
+    </div>
+  </sba-instance-section>
 </template>
 
 <script>
@@ -27,9 +27,11 @@ import Instance from '@/services/instance';
 import {StartupActuatorService} from '@/services/startup-actuator';
 import {VIEW_GROUP} from '../../index';
 import TreeTable from '@/views/instances/startup/tree-table';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
+import SbaPanel from '@/components/sba-panel';
 
 export default {
-  components: {TreeTable},
+  components: {SbaPanel, SbaInstanceSection, TreeTable},
   props: {
     instance: {
       type: Instance,

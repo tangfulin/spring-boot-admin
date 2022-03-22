@@ -24,8 +24,8 @@
         :instance="instance"
         :application="application"
       />
-      <main class="h-full overflow-y-auto relative z-0 ml-60">
-        <div class="mb-8 flex flex-col">
+      <main class="h-full relative z-0 ml-60">
+        <div class="">
           <router-view v-if="instance" :instance="instance" :application="application" />
         </div>
       </main>

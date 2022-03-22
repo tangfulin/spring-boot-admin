@@ -15,31 +15,31 @@
   -->
 
 <template>
-  <div class="field is-grouped logger-control">
-    <div class="control buttons has-addons">
-      <button
-        v-for="levelOption in levelOptions"
-        :key="levelOption"
-        class="button logger-control__level"
-        :class="cssClass(levelOption)"
-        v-text="levelOption"
-        @click.stop="selectLevel(levelOption)"
-      />
-    </div>
-    <div class="control">
-      <button
-        class="button is-light"
-        :class="{ 'is-loading' : getStatusForLevel(null) === 'executing' }"
-        :disabled="!isConfigured || !allowReset"
-        @click.stop="selectLevel(null)"
-        v-text="$t('instances.loggers.reset')"
-      />
-    </div>
+  <div class="inline-flex">
+    <sba-button
+      v-for="levelOption in levelOptions"
+      :key="levelOption"
+      class="ml-1"
+      :button-class="cssClass(levelOption)"
+      v-text="levelOption"
+      @click.stop="selectLevel(levelOption)"
+      size="sm"
+    />
+    <sba-button
+      class="ml-3"
+      :class="{ 'is-loading' : getStatusForLevel(null) === 'executing' }"
+      :disabled="!isConfigured || !allowReset"
+      @click.stop="selectLevel(null)"
+      v-text="$t('instances.loggers.reset')"
+      size="sm"
+    />
   </div>
 </template>
 
 <script>
+  import SbaButton from '@/components/sba-button';
   export default {
+    components: {SbaButton},
     props: {
       value: {
         type: Array,
@@ -93,12 +93,3 @@
     }
   }
 </script>
-
-<style lang="css">
-.logger-control__level--inherited {
-  opacity: 0.5;
-}
-.logger-control__level--inherited:hover {
-  opacity: 1;
-}
-</style>

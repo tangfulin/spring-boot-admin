@@ -15,19 +15,14 @@
   -->
 
 <template>
-  <table class="table is-hoverable is-fullwidth">
-    <thead>
-      <tr>
-        <th>
-          Logger
-        </th>
-      </tr>
-    </thead>
+  <table class="w-full">
     <tbody>
       <tr v-for="logger in loggers.slice(0, this.visibleLimit)" :key="logger.name">
-        <td>
-          <span class="is-breakable" v-text="logger.name" />&nbsp;
+        <td class="w-9/12">
+          <span class="break-all" v-text="logger.name" />&nbsp;
           <span class="tag is-primary is-uppercase" v-if="logger.isNew" v-text="$t('instances.loggers.new')" />
+        </td>
+        <td class="w-1/4">
           <sba-logger-control class="is-pulled-right"
                               :level-options="levels"
                               :value="logger.level"

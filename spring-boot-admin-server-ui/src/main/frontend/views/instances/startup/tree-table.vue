@@ -17,13 +17,20 @@
 <template>
   <div class="tree">
     <div class="row row--head">
-      <div class="column column--name">
-        <input class="checkbox-expand-all"
-               type="checkbox"
-               @change="expandTree"
-               v-model="isExpanded"
-               :title="$t('instances.startup.expand_all')"
-        >
+      <div class="inline-flex items-center">
+        <div class="mx-3">
+          <sba-button v-if="!isExpanded" @click="expandTree" size="sm">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="h-4 w-4">
+              <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zM7.646.146a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 1.707V5.5a.5.5 0 0 1-1 0V1.707L6.354 2.854a.5.5 0 1 1-.708-.708l2-2zM8 10a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 0 1 .708-.708L7.5 14.293V10.5A.5.5 0 0 1 8 10z" />
+            </svg>
+          </sba-button>
+          <sba-button v-if="isExpanded" @click="expandTree" size="sm">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 16 16" class="h-4 w-4">
+              <path fill-rule="evenodd" d="M1 8a.5.5 0 0 1 .5-.5h13a.5.5 0 0 1 0 1h-13A.5.5 0 0 1 1 8zm7-8a.5.5 0 0 1 .5.5v3.793l1.146-1.147a.5.5 0 0 1 .708.708l-2 2a.5.5 0 0 1-.708 0l-2-2a.5.5 0 1 1 .708-.708L7.5 4.293V.5A.5.5 0 0 1 8 0zm-.5 11.707-1.146 1.147a.5.5 0 0 1-.708-.708l2-2a.5.5 0 0 1 .708 0l2 2a.5.5 0 0 1-.708.708L8.5 11.707V15.5a.5.5 0 0 1-1 0v-3.793z" />
+            </svg>
+          </sba-button>
+        </div>
+
         <span v-text="$t('instances.startup.column.name')" />
       </div>
       <div class="column column--duration text-right" v-text="$t('instances.startup.column.duration')" />
@@ -44,9 +51,10 @@
 <script>
 import TreeItem from '@/views/instances/startup/tree-item';
 import {StartupActuatorEventTree} from '@/services/startup-activator-tree';
+import SbaButton from '@/components/sba-button';
 
 export default {
-  components: {TreeItem},
+  components: {SbaButton, TreeItem},
   props: {
     tree: {
       type: StartupActuatorEventTree,
@@ -81,10 +89,12 @@ export default {
   },
   methods: {
     expandTree() {
-      if (this.isExpanded) {
+      if (!this.isExpanded) {
         this.expandedNodes = new Set(this.tree.getEvents().map(e => e.startupStep.id));
+        this.isExpanded = true;
       } else {
         this.expandedNodes = new Set();
+        this.isExpanded = false;
       }
     },
     onToggle($event) {
@@ -104,10 +114,10 @@ export default {
 
 <style lang="css">
 .text-right {
-  text-align: right;
+  @apply justify-end;
 }
 .text-center {
-  text-align: center;
+  @apply justify-center;
 }
 .enforce-word-wrap {
   word-break: break-all;
@@ -124,10 +134,7 @@ export default {
   border-bottom: 1px solid #dbdbdb;
 }
 .tree .row--head {
-  background-color: #fff;
-  position: sticky;
-  z-index: 100;
-  top: 54px;
+  @apply bg-white sticky z-50 top-14;
   grid-template-rows: 1fr;
   color: #363636;
   border: none;
@@ -138,9 +145,8 @@ export default {
   padding-bottom: 0.5em;
 }
 .tree .row .column {
+  @apply truncate inline-flex items-center w-full;
   padding: 0.5em 0.75em;
-  overflow: hidden;
-  text-overflow: ellipsis;
 }
 .tree .row .column--name {
   grid-area: 0.25;
@@ -157,18 +163,13 @@ export default {
   transition-duration: 125ms;
 }
 .tree-item .icon {
-  width: 7.2px;
-  height: 6px;
+  @apply w-4 h-4 flex items-center;
   margin-right: 10px;
-  border-top: 6px solid transparent;
-  border-left: 7.2px solid #555;
-  border-bottom: 6px solid transparent;
 }
 .tree-item .icon--open {
   transform: rotate(90deg);
 }
 .tree-item .icon.empty {
-  border: none;
 }
 .tree-item[tree-item-depth="1"] {
   background-color: rgba(66, 211, 165, 0.2);

@@ -1,7 +1,7 @@
 <template>
   <button @click="$emit('click', $event)"
           :disabled="disabled"
-          class="font-medium text-sm text-center focus:outline-none"
+          class="btn"
           :class="classNames"
   >
     <slot />
@@ -12,10 +12,6 @@
 export default {
   name: 'SbaButton',
   props: {
-    type: {
-      type: String,
-      default: ''
-    },
     flat: {
       type: Boolean,
       default: false
@@ -27,44 +23,61 @@ export default {
     disabled: {
       type: Boolean,
       default: false
+    },
+    buttonClass: {
+      type: Object,
+      default: () => {}
     }
   },
   computed: {
     classNames() {
-      const classNames = [];
-
-      if (!this.flat) {
-        classNames.push('rounded-md shadow-sm')
-      }
-      switch (this.size) {
-        case 'sm':
-          classNames.push('px-3 py-2')
-          break;
-        case '':
-        default:
-          classNames.push('px-5 py-2.5')
-      }
-
-      switch (this.type) {
-        case 'primary':
-          classNames.push('text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300');
-          break;
-        case 'danger':
-          classNames.push('text-white bg-red-600 hover:bg-red-700 focus:ring-red-300');
-          break;
-        case '':
-        default:
-          classNames.push('text-gray-900 border-gray-300 border border-gray-300 bg-white focus:ring-indigo-500 focus:border-indigo-500');
-          break;
-      }
-
-      if (this.disabled) {
-        classNames.push('text-gray-900')
-      }
-
-
-      return classNames.join(' ');
+      return {
+        ...this.buttonClass,
+        'rounded-md shadow-sm': !this.flat,
+        // Sizes
+        'px-3 py-2': this.size === 'sm',
+        'px-5 py-2.5': this.size === ''
+        // Types
+      };
     }
   }
 }
 </script>
+
+<style>
+.btn {
+  @apply font-medium text-sm text-center focus:outline-none text-gray-900 border-gray-300 border border-gray-300 bg-white focus:ring-indigo-500 focus:border-indigo-500;
+}
+
+.btn:disabled {
+  @apply text-gray-900;
+}
+
+.btn.is-danger {
+  @apply text-white bg-red-600 hover:bg-red-700 focus:ring-red-300;
+}
+
+.btn.is-warning {
+  @apply focus:outline-none text-white bg-yellow-400 hover:bg-yellow-500 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm;
+}
+
+.btn.is-info {
+  @apply text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:ring-blue-300 font-medium rounded-lg text-sm focus:outline-none ;
+}
+
+.btn.is-success {
+  @apply focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm;
+}
+
+.btn.is-light {
+  @apply text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm;
+}
+
+.btn.is-black {
+  @apply text-white bg-gray-800 hover:bg-gray-900 focus:outline-none focus:ring-4 focus:ring-gray-300 font-medium rounded-lg text-sm;
+}
+
+.btn.is-primary {
+  @apply text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300;
+}
+</style>
