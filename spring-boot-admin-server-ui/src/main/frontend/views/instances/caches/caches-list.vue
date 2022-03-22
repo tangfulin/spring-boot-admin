@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <table class="caches table is-fullwidth">
+  <table class="table-auto w-full">
     <thead>
       <tr>
         <th v-html="$t('instances.caches.name')" />
@@ -148,9 +148,3 @@ export default {
   }
 }
 </script>
-<style lang="css">
-.caches td, .caches th {
-  vertical-align: middle;
-}
-
-</style>

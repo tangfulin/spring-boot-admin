@@ -16,22 +16,21 @@
 
 <template>
   <div class="inline-flex">
-    <sba-button
-      v-for="levelOption in levelOptions"
-      :key="levelOption"
-      class="ml-1"
-      :button-class="cssClass(levelOption)"
-      v-text="levelOption"
-      @click.stop="selectLevel(levelOption)"
-      size="sm"
-    />
+    <div class="btn-group">
+      <sba-button
+        v-for="levelOption in levelOptions"
+        :key="levelOption"
+        :button-class="cssClass(levelOption)"
+        v-text="levelOption"
+        @click.stop="selectLevel(levelOption)"
+      />
+    </div>
     <sba-button
       class="ml-3"
       :class="{ 'is-loading' : getStatusForLevel(null) === 'executing' }"
       :disabled="!isConfigured || !allowReset"
       @click.stop="selectLevel(null)"
       v-text="$t('instances.loggers.reset')"
-      size="sm"
     />
   </div>
 </template>

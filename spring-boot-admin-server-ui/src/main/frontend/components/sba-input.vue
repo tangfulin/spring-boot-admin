@@ -8,8 +8,9 @@
         <slot name="prepend" />
       </span>
 
-      <input type="text" :id="id"
+      <input :id="id"
              :value="value"
+             :type="type"
              :placeholder="placeholder"
              @input="$event => $emit('input', $event.target.value)"
              class="focus:ring-indigo-500 focus:border-indigo-500 focus:z-10 relative flex-1 block w-full rounded-none sm:text-sm border-gray-300"

@@ -1,7 +1,7 @@
 <template>
   <button @click="$emit('click', $event)"
           :disabled="disabled"
-          class="btn"
+          class="btn relative"
           :class="classNames"
   >
     <slot />
@@ -18,7 +18,7 @@ export default {
     },
     size: {
       type: String,
-      default: () => ''
+      default: 'sm'
     },
     disabled: {
       type: Boolean,
@@ -44,11 +44,10 @@ export default {
 }
 </script>
 
-<style>
+<style class="css">
 .btn {
   @apply font-medium text-sm text-center focus:outline-none text-gray-900 border-gray-300 border border-gray-300 bg-white focus:ring-indigo-500 focus:border-indigo-500;
 }
-
 
 .btn:disabled {
   @apply text-gray-900;

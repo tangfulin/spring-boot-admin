@@ -4,7 +4,7 @@
       <div class="flex-1" />
       <div class="flex-1 text-center" />
       <div class="flex-1 text-right">
-        <sba-button size="sm" class="border-gray-400 ml-1"
+        <sba-button class="border-gray-400 ml-1"
                     @click="openLink(instance.registration.serviceUrl)"
                     :title="instance.registration.serviceUrl"
         >
@@ -17,7 +17,7 @@
           </svg>
         </sba-button>
 
-        <sba-button size="sm" class="border-gray-400 ml-1"
+        <sba-button class="border-gray-400 ml-1"
                     @click="openLink(instance.registration.managementUrl)"
                     :title="instance.registration.managementUrl"
         >
@@ -30,7 +30,7 @@
           </svg>
         </sba-button>
 
-        <sba-button size="sm" class="border-gray-400 ml-1"
+        <sba-button class="border-gray-400 ml-1"
                     @click="openLink(instance.registration.healthUrl)"
                     :title="instance.registration.healthUrl"
         >

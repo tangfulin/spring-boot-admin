@@ -33,6 +33,7 @@ const colors = {
 }
 module.exports = {
   purge: [],
+  darkMode: 'class',
   theme: {
     colors,
     extend: {

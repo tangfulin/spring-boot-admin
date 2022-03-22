@@ -28,6 +28,23 @@
     height: 100px;
 }
 
+.btn-group {
+    @apply inline-flex items-center;
+}
+.btn-group button:first-child {
+    @apply rounded-r-none;
+}
+.btn-group button:not(:first-child):not(:last-child) {
+    @apply rounded-none;
+}
+.btn-group button:last-child {
+    @apply rounded-l-none;
+}
+
+th {
+    text-align: left;
+}
+
 .-rotate-90 {
     --tw-rotate: -90deg;
     transform: rotate(var(--tw-rotate));

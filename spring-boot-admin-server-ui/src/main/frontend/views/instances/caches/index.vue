@@ -15,45 +15,30 @@
   -->
 
 <template>
-  <section class="section">
-    <div
-      v-if="error"
-      class="message is-danger"
-    >
-      <div class="message-body">
-        <strong>
-          <font-awesome-icon
-            class="has-text-danger"
-            icon="exclamation-triangle"
-          />
-          <span v-text="$t('instances.caches.fetch_failed')" />
-        </strong>
-        <p v-text="error.message" />
-      </div>
-    </div>
-    <div class="field-body">
-      <div class="field has-addons has-icons-left">
-        <p class="control is-expanded has-icons-left">
-          <input
-            class="input"
-            type="search"
-            v-model="filter"
-          >
-          <span class="icon is-small is-left">
-            <font-awesome-icon icon="filter" />
-          </span>
-        </p>
-        <p class="control">
-          <span class="button is-static">
-            <span v-text="filteredCaches.length" />
-            /
-            <span v-text="caches.length" />
-          </span>
-        </p>
-      </div>
-    </div>
-    <caches-list :instance="instance" :caches="filteredCaches" :is-loading="isLoading" :application="application" />
-  </section>
+  <sba-instance-section :error="error">
+    <template v-slot:before>
+      <sba-sticky-subnav>
+        <div class="mx-6">
+          <sba-input name="filter" v-model="filter" type="search" :placeholder="$t('term.filter')">
+            <template v-slot:prepend>
+              <font-awesome-icon icon="filter" />
+            </template>
+            <template v-slot:append>
+              <span class="button is-static">
+                <span v-text="filteredCaches.length" />
+                /
+                <span v-text="caches.length" />
+              </span>
+            </template>
+          </sba-input>
+        </div>
+      </sba-sticky-subnav>
+    </template>
+
+    <sba-panel>
+      <caches-list :instance="instance" :caches="filteredCaches" :is-loading="isLoading" :application="application" />
+    </sba-panel>
+  </sba-instance-section>
 </template>
 
 <script>
@@ -63,6 +48,7 @@
   import isEmpty from 'lodash/isEmpty';
   import {VIEW_GROUP} from '../../index';
   import Application from '@/services/application';
+  import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
 
   const flattenCaches = cacheData => {
     if (isEmpty(cacheData.cacheManagers)) {
@@ -76,7 +62,7 @@
   };
 
   export default {
-    components: {CachesList},
+    components: {SbaInstanceSection, CachesList},
     props: {
       instance: {
         type: Instance,

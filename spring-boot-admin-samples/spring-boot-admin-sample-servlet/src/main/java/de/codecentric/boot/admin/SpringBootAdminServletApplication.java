@@ -16,6 +16,11 @@
 
 package de.codecentric.boot.admin;
 
+import de.codecentric.boot.admin.server.config.EnableAdminServer;
+import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
+import de.codecentric.boot.admin.server.web.client.HttpHeadersProvider;
+import de.codecentric.boot.admin.server.web.client.InstanceExchangeFilterFunction;
+
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
@@ -25,6 +30,9 @@ import org.springframework.boot.actuate.trace.http.HttpTraceRepository;
 import org.springframework.boot.actuate.trace.http.InMemoryHttpTraceRepository;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.boot.context.metrics.buffering.BufferingApplicationStartup;
+import org.springframework.cache.CacheManager;
+import org.springframework.cache.annotation.EnableCaching;
+import org.springframework.cache.concurrent.ConcurrentMapCacheManager;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Import;
@@ -35,16 +43,12 @@ import org.springframework.jdbc.datasource.embedded.EmbeddedDatabase;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
 
-import de.codecentric.boot.admin.server.config.EnableAdminServer;
-import de.codecentric.boot.admin.server.domain.entities.InstanceRepository;
-import de.codecentric.boot.admin.server.web.client.HttpHeadersProvider;
-import de.codecentric.boot.admin.server.web.client.InstanceExchangeFilterFunction;
-
 @Configuration(proxyBeanMethods = false)
 @EnableAutoConfiguration
 @EnableAdminServer
 @Import({ SecurityPermitAllConfig.class, SecuritySecureConfig.class, NotifierConfig.class })
 @Lazy(false)
+@EnableCaching
 public class SpringBootAdminServletApplication {
 
 	private static final Logger log = LoggerFactory.getLogger(SpringBootAdminServletApplication.class);
@@ -53,6 +57,11 @@ public class SpringBootAdminServletApplication {
 		SpringApplication app = new SpringApplication(SpringBootAdminServletApplication.class);
 		app.setApplicationStartup(new BufferingApplicationStartup(1500));
 		app.run(args);
+	}
+
+	@Bean
+	public CacheManager cacheManager() {
+		return new ConcurrentMapCacheManager("books");
 	}
 
 	// tag::customization-instance-exchange-filter-function[]
@@ -100,7 +109,7 @@ public class SpringBootAdminServletApplication {
 	@Bean
 	public EmbeddedDatabase dataSource() {
 		return new EmbeddedDatabaseBuilder().setType(EmbeddedDatabaseType.HSQL)
-				.addScript("org/springframework/session/jdbc/schema-hsqldb.sql").build();
+			.addScript("org/springframework/session/jdbc/schema-hsqldb.sql").build();
 	}
 
 }

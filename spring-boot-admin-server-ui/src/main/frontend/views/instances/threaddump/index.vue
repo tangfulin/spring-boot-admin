@@ -19,7 +19,7 @@
     <template v-if="threads" v-slot:before>
       <sba-sticky-subnav>
         <div class="mx-6 text-right">
-          <sba-button @click="downloadThreaddump" size="sm">
+          <sba-button @click="downloadThreaddump">
             <font-awesome-icon icon="download" />&nbsp;
             <span v-text="$t('instances.threaddump.download')" />
           </sba-button>

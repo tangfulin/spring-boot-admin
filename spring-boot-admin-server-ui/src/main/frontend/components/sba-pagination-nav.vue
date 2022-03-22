@@ -16,15 +16,15 @@
 
 <template>
   <div>
-    <nav class="relative z-0 inline-flex rounded-md shadow-sm -space-x-px" aria-label="Pagination">
-      <sba-button flat href="#" @click="$emit('change', current-1)"
-                  class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-2 py-2 border text-sm font-medium rounded-l-md"
+    <nav class="relative z-0 btn-group rounded-md shadow-sm -space-x-px" aria-label="Pagination">
+      <sba-button href="#" @click="$emit('change', current-1)"
+                  class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-2 py-2 border text-sm font-medium"
       >
         <span class="sr-only" v-text="$t('term.go_to_previous_page')" />
         <font-awesome-icon class="h-5 w-5" :icon="['fas','angle-double-left']" />
       </sba-button>
 
-      <sba-button flat href="#" @click="() => changePage(page)" v-for="(page, idx) in pageRange" :key="'page_' + idx"
+      <sba-button href="#" @click="() => changePage(page)" v-for="(page, idx) in pageRange" :key="'page_' + idx"
                   class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-4 py-2 border text-sm font-medium"
                   :class="{'bg-indigo-50 border border-indigo-500 z-10': page === current, 'cursor-not-allowed': page === skipPageString}"
       >
@@ -32,9 +32,9 @@
         <span v-text="page" />
       </sba-button>
 
-      <sba-button flat href="#"
+      <sba-button href="#"
                   @click="$emit('change', current+1)"
-                  class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-2 py-2 border text-sm font-medium rounded-r-md"
+                  class="bg-white border-gray-300 text-gray-500 hover:bg-gray-50 relative inline-flex items-center px-2 py-2 border text-sm font-medium"
       >
         <span class="sr-only" v-text="$t('term.go_to_previous_page')" />
         <font-awesome-icon class="h-5 w-10" :icon="['fas','angle-double-right']" />
