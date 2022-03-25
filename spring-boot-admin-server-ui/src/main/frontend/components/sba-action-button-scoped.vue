@@ -15,11 +15,12 @@
   -->
 
 <template>
-  <div class="inline-flex rounded-md items-start">
+  <div class="inline-flex rounded-md items-start btn-group">
     <sba-toggle-scope-button v-if="instanceCount > 1"
                              v-model="currentScope"
                              class="rounded-r-none relative focus:z-10"
                              :instance-count="instanceCount"
+                             :show-info="showInfo"
     />
     <sba-confirm-button class="inline-flex focus:z-10"
                         :class="{'rounded-l-none' : instanceCount > 1 }"
@@ -73,6 +74,10 @@ export default {
         return this.$t('term.execution_successful')
       }
     },
+    showInfo: {
+      type: Boolean,
+      default: true
+    }
   },
   data() {
     return {

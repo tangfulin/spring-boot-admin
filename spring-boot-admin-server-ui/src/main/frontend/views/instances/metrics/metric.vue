@@ -41,14 +41,14 @@
 
       <template>
         <div class="-mx-4 -my-3">
-          <div v-for="(tags, idx) in tagSelections" :key="idx" class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6" :class="{'bg-gray-50': idx%2!==0}">
-            <div class="text-sm font-medium text-gray-500">
+          <div v-for="(tags, idx) in tagSelections" :key="idx" class="bg-white px-4 py-3 grid grid-cols-3 gap-4" :class="{'bg-gray-50': idx%2!==0}">
+            <div class="text-sm font-medium text-gray-500 col-span-2">
               <span class="whitespace-pre" v-text="getLabel(tags)" :title="getLabel(tags)" />
               <span class="text-yellow-300 pl-1" v-if="errors[idx]" :title="errors[idx]">
                 <font-awesome-icon icon="exclamation-triangle" />
               </span>
             </div>
-            <div class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
+            <div class="mt-1 text-sm text-gray-900">
               <div v-for="(statistic, statistic_index) in statistics"
                    :key="`value-${idx}-${statistic}`"
                    class="flex items-center"

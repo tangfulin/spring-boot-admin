@@ -18,19 +18,32 @@
   <sba-instance-section :error="error">
     <template v-slot:before>
       <sba-sticky-subnav>
-        <div class="mx-6">
-          <sba-input name="filter" v-model="filter" type="search" :placeholder="$t('term.filter')">
-            <template v-slot:prepend>
-              <font-awesome-icon icon="filter" />
-            </template>
-            <template v-slot:append>
-              <span class="button is-static">
-                <span v-text="filteredCaches.length" />
-                /
-                <span v-text="caches.length" />
+        <div class="mx-6 flex gap-2">
+          <sba-action-button-scoped :instance-count="2" :action-fn="clearCaches" :show-info="false">
+            <template v-slot="slotProps">
+              <span v-if="slotProps.refreshStatus === 'completed'" v-text="$t('term.execution_successful')" />
+              <span v-else-if="slotProps.refreshStatus === 'failed'" v-text="$t('term.execution_failed')" />
+              <span v-else>
+                <font-awesome-icon icon="trash" />&nbsp;
+                <span v-text="$t('term.clear')" />
               </span>
             </template>
-          </sba-input>
+          </sba-action-button-scoped>
+
+          <div class="flex-1">
+            <sba-input name="filter" v-model="filter" type="search" :placeholder="$t('term.filter')">
+              <template v-slot:prepend>
+                <font-awesome-icon icon="filter" />
+              </template>
+              <template v-slot:append>
+                <span class="button is-static">
+                  <span v-text="filteredCaches.length" />
+                  /
+                  <span v-text="caches.length" />
+                </span>
+              </template>
+            </sba-input>
+          </div>
         </div>
       </sba-sticky-subnav>
     </template>
@@ -86,6 +99,13 @@
       }
     },
     methods: {
+      clearCaches(scope) {
+        if (scope === 'instance') {
+          return this.instance.clearCaches();
+        } else {
+          return this.application.clearCaches();
+        }
+      },
       async fetchCaches() {
         this.error = null;
         this.isLoading = true;

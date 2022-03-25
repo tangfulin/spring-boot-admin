@@ -72,6 +72,7 @@ export default {
 .btn.is-light {
   @apply text-gray-900 bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-medium rounded-lg text-sm;
 }
+
 .btn.is-light.is-active {
   @apply bg-gray-300;
 }
@@ -82,5 +83,11 @@ export default {
 
 .btn.is-primary {
   @apply text-white bg-blue-600 hover:bg-blue-700 focus:ring-blue-300;
+}
+
+@supports (-moz-appearance:none) {
+  .backdrop-filter.bg-opacity-40 {
+    --tw-bg-opacity: 1 !important;
+  }
 }
 </style>
