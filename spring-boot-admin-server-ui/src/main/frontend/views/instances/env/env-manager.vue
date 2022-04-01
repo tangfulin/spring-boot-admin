@@ -21,21 +21,21 @@
     <datalist id="allPropertyNames">
       <option v-for="name in allPropertyNames" :key="name" v-text="name" />
     </datalist>
-    <div class="field is-horizontal" v-for="(prop, index) in managedProperties" :key="`managed-${index}`">
+    <div class="grid grid-cols-6 gap-6" v-for="(prop, index) in managedProperties" :key="`managed-${index}`">
       <div class="field-body">
         <div class="field">
           <div class="control">
-            <input class="input" type="text" placeholder="Property name" list="allPropertyNames"
-                   v-model="prop.name" @input="handlePropertyNameChange(prop, index)"
-            >
+            <sba-input class="input" type="text" placeholder="Property name" list="allPropertyNames" :name="prop.name"
+                       v-model="prop.name" @input="handlePropertyNameChange(prop, index)"
+            />
           </div>
           <p class="help is-danger" v-text="prop.validation" />
         </div>
         <div class="field">
           <div class="control has-icons-right" :class="{'is-loading' : prop.status === 'executing'}">
-            <input class="input" type="text" placeholder="Value" v-model="prop.input"
-                   @input="prop.status = null"
-            >
+            <sba-input class="input" type="text" placeholder="Value" v-model="prop.input" :name="prop.name"
+                       @input="prop.status = null"
+            />
             <span class="icon is-right has-text-success" v-if="prop.status === 'completed'">
               <font-awesome-icon icon="check" />
             </span>
@@ -77,6 +77,34 @@
         </div>
       </div>
     </div>
+
+    <form class="grid grid-cols-6 gap-6">
+      <div class="col-span-3">
+        <div>
+          <label for="metric" class="block text-sm font-medium text-gray-700" v-text="$t('instances.metrics.label')" />
+          <div class="mt-1 relative rounded-md shadow-sm">
+            <select v-model="selectedMetric" id="metric" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+              <option v-for="metric in availableMetrics" :key="metric" v-text="metric" />
+            </select>
+          </div>
+        </div>
+      </div>
+      <div class="col-span-3 space-y-3">
+        <template v-if="availableTags">
+          <div v-for="tag in availableTags" :key="tag.tag">
+            <label for="metric2" class="block text-sm font-medium text-gray-700">{{ tag.tag }}</label>
+            <div class="mt-1 relative rounded-md shadow-sm">
+              <select v-model="selectedTags[tag.tag]" id="metric2" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
+                <option :value="undefined">
+                  -
+                </option>
+                <option v-for="value in tag.values" :key="value" :value="value" v-text="value" />
+              </select>
+            </div>
+          </div>
+        </template>
+      </div>
+    </form>
   </sba-panel>
 </template>
 
@@ -85,9 +113,11 @@ import Instance from '@/services/instance';
 import {concatMap, filter, from, listen} from '@/utils/rxjs';
 import debounce from 'lodash/debounce';
 import uniq from 'lodash/uniq';
+import SbaInput from '@/components/sba-input';
 
 
 export default {
+  components: {SbaInput},
   props: {
     instance: {
       type: Instance,

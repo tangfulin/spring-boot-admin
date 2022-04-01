@@ -13,11 +13,11 @@ export default {
   name: 'SbaTag',
   props: {
     label: {
-      type: String,
+      type: [String, Number],
       default: null
     },
     value: {
-      type: String,
+      type: [String, Number],
       required: true
     }
   }

@@ -50,7 +50,7 @@ import {faStopCircle as farStopCircle} from '@fortawesome/free-regular-svg-icons
 import {faUserCircle} from '@fortawesome/free-solid-svg-icons/faUserCircle';
 import {faWrench} from '@fortawesome/free-solid-svg-icons/faWrench';
 import {FontAwesomeIcon} from '@fortawesome/vue-fontawesome';
-import {faAngleDoubleLeft} from '@fortawesome/free-solid-svg-icons';
+import {faAngleDoubleLeft, faCheckCircle} from '@fortawesome/free-solid-svg-icons';
 
 export default FontAwesomeIcon;
 
@@ -73,6 +73,7 @@ library.add(
   faHistory,
   faHome,
   faMapMarkerAlt,
+  faCheckCircle,
   faMinusCircle,
   faPencilAlt,
   faQuestionCircle,

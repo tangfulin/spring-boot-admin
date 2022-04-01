@@ -18,12 +18,21 @@
   <sba-instance-section :loading="isLoading" :error="error">
     <template v-slot:before>
       <sba-sticky-subnav>
-        <div v-if="env" class="mx-6">
-          <sba-input name="filter" v-model="filter" type="search" :placeholder="$t('term.filter')">
-            <template v-slot:prepend>
-              <font-awesome-icon icon="filter" />
-            </template>
-          </sba-input>
+        <div v-if="env" class="mx-6 flex">
+          <div class="mr-1" v-if="instance.hasEndpoint('refresh')">
+            <refresh :instance="instance"
+                     :instance-count="application.instances.length"
+                     :application="application"
+                     @reset="fetchEnv"
+            />
+          </div>
+          <div class="flex-1">
+            <sba-input name="filter" v-model="filter" type="search" :placeholder="$t('term.filter')">
+              <template v-slot:prepend>
+                <font-awesome-icon icon="filter" />
+              </template>
+            </sba-input>
+          </div>
         </div>
       </sba-sticky-subnav>
     </template>
@@ -34,12 +43,6 @@
           <sba-tag :key="profile" :label="$t('instances.env.active_profile')" :value="profile" />
         </span>
       </div>
-      <refresh v-if="instance.hasEndpoint('refresh')"
-               :instance="instance"
-               :instance-count="application.instances.length"
-               :application="application"
-               @reset="fetchEnv"
-      />
 
       <sba-env-manager v-if="env && hasEnvManagerSupport"
                        :instance="instance" :property-sources="env.propertySources"

@@ -39,6 +39,9 @@ module.exports = {
     extend: {
       columns: {
         '2': '14rem',
+      },
+      fontSize: {
+        '9xl': '7rem',
       }
     }
   },
@@ -47,5 +50,6 @@ module.exports = {
   },
   plugins: [
     require('@tailwindcss/forms'),
+    require('@tailwindcss/typography'),
   ],
 }

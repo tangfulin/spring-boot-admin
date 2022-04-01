@@ -1,17 +1,13 @@
 <template>
-  <sba-panel :header-sticks-below="['#navigation']"
-             :title="$t('instances.env.refresh')"
-  >
-    <sba-action-button-scoped :instance-count="instanceCount" :action-fn="refreshContext">
-      <template v-slot="slotProps">
-        <span v-if="slotProps.refreshStatus === 'completed'" v-text="$t('instances.env.context_refreshed')" />
-        <span v-else-if="slotProps.refreshStatus === 'failed'"
-              v-text="$t('instances.env.context_refresh_failed')"
-        />
-        <span v-else v-text="$t('instances.env.context_refresh')" />
-      </template>
-    </sba-action-button-scoped>
-  </sba-panel>
+  <sba-action-button-scoped :instance-count="instanceCount" :action-fn="refreshContext">
+    <template v-slot="slotProps">
+      <span v-if="slotProps.refreshStatus === 'completed'" v-text="$t('instances.env.context_refreshed')" />
+      <span v-else-if="slotProps.refreshStatus === 'failed'"
+            v-text="$t('instances.env.context_refresh_failed')"
+      />
+      <span v-else v-text="$t('instances.env.context_refresh')" />
+    </template>
+  </sba-action-button-scoped>
 </template>
 
 <script>

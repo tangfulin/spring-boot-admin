@@ -29,7 +29,7 @@
                   v-if="view.href"
                   :key="view.name"
                   :href="view.href"
-                  class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md "
+                  class="navbar-item"
                   target="_blank"
                   rel="noopener noreferrer"
                 >
@@ -39,7 +39,7 @@
                   v-else
                   :key="view.name"
                   :to="{name: view.name}"
-                  class="text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md "
+                  class="navbar-item"
                 >
                   <component :is="view.handle" :applications="applications" :error="error" />
                 </router-link>
@@ -325,5 +325,11 @@ export default {
 }
 .brand span {
   @apply font-semibold text-xl;
+}
+.navbar-item {
+  @apply text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md;
+}
+.navbar-item.is-active {
+  @apply bg-gray-600 text-gray-50;
 }
 </style>

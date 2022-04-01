@@ -59,6 +59,7 @@
   display: contents;
 }
 .application-summary__status {
+  @apply pr-2;
   width: 32px;
 }
 .application-summary__name, .application-summary__version {

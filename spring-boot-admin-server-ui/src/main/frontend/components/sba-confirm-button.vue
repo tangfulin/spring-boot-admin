@@ -38,12 +38,12 @@
         this.confirm = false;
       },
       click(event) {
-        this.confirm = !this.confirm;
         if (this.confirm) {
           this.$emit('click', event);
         } else {
           event.stopPropagation();
         }
+        this.confirm = !this.confirm;
       }
     }
   }

@@ -30,7 +30,7 @@
   import sbaTimeAgo from './sba-time-ago';
 
   const icons = {
-    'UP': 'check',
+    'UP': 'check-circle',
     'RESTRICTED': 'exclamation',
     'OUT_OF_SERVICE': 'ban',
     'DOWN': 'times-circle',
@@ -60,14 +60,10 @@
 
 <style>
 .application-status {
-  text-align: center;
-  line-height: 1rem;
-  display: inline-flex;
-  flex-direction: column;
+  @apply text-center inline-flex flex-col;
 }
 .application-status__icon {
-  color: gray;
-  margin: 0 auto;
+  @apply text-gray-500 mx-auto mb-1;
 }
 .application-status__icon--UP {
   color: #48c78e;

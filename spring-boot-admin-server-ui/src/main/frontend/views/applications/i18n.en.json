@@ -3,7 +3,7 @@
     "all_up": "all up",
     "applications": "Applications",
     "instances": "Instances",
-    "instances_down": "instances down",
+    "instances_down": "Some instances are down",
     "loading_applications": "Loading applications...",
     "no_applications_registered": "No applications registered.",
     "notifications_suppressed_for": "Notifications on <code>{name}</code> are suppressed for",
@@ -13,6 +13,8 @@
     "status": "Status",
     "label": "Applications",
     "up": "up",
+    "down": "down",
+    "offline": "offline",
     "shutdown": "Shutdown application <code>{name}</code>?",
     "restart": "Restart application <code>{name}</code>?",
     "restarted": "Successfully restarted application <code>{name}</code>"

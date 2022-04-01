@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <table class="table is-hoverable is-selectable is-fullwidth instances-list">
+  <table class="table-fixed w-full">
     <tbody>
       <tr v-for="instance in instances" :key="instance.id" @click.stop="showDetails(instance)">
         <td class="instance-list-item__status">

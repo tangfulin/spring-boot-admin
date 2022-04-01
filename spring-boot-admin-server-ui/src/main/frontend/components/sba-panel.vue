@@ -15,19 +15,20 @@
   -->
 
 <template>
-  <div class="bg-white shadow overflow-hidden sm:rounded-lg break-inside-avoid mb-6 backdrop-filter backdrop-blur-sm bg-opacity-80">
+  <div class="bg-white shadow overflow-hidden sm:rounded-lg break-inside-avoid mb-6 backdrop-filter backdrop-blur-sm bg-opacity-80 relative">
     <header
-      v-if="title"
+      v-if="showTitle"
       class="flex justify-between px-4 py-5 sm:px-6 items-center"
       :class="{'sticky': headerSticksBelow}"
     >
       <h3 class="text-lg leading-6 font-medium text-gray-900">
         <span v-text="title" />&nbsp;
         <span v-if="subtitle" v-text="subtitle" class="text-sm text-gray-500" />
+        <slot v-if="'title' in $slots" name="title" />
       </h3>
 
       <div>
-        <slot v-if="$slots['actions']" name="actions" />
+        <slot v-if="'actions' in $slots" name="actions" />
         <sba-icon-button v-if="closeable" :icon="['far', 'times-circle']" @click.stop="$emit('close', $event)" />
       </div>
     </header>
@@ -65,6 +66,11 @@
       headerSticksBelow: {
         type: Array,
         default: undefined
+      }
+    },
+    computed: {
+      showTitle() {
+        return this.title || 'title' in this.$slots || 'actions' in this.$slots;
       }
     }
   }
