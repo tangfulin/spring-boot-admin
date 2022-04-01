@@ -15,59 +15,58 @@
   -->
 
 <template>
-  <sba-instance-section :loading="isLoading" :error="error">
-    <template v-slot:before>
-      <sba-sticky-subnav>
-        <div v-if="env" class="mx-6 flex">
-          <div class="mr-1" v-if="instance.hasEndpoint('refresh')">
-            <refresh :instance="instance"
-                     :instance-count="application.instances.length"
-                     :application="application"
-                     @reset="fetchEnv"
-            />
-          </div>
-          <div class="flex-1">
-            <sba-input name="filter" v-model="filter" type="search" :placeholder="$t('term.filter')">
-              <template v-slot:prepend>
-                <font-awesome-icon icon="filter" />
-              </template>
-            </sba-input>
-          </div>
-        </div>
-      </sba-sticky-subnav>
-    </template>
+  <section :class="{ 'is-loading' : !hasLoaded }" class="section">
+    <sba-alert v-if="error" :error="error" :title="$t('instances.env.fetch_failed')" />
 
-    <template>
-      <div v-if="env && env.activeProfiles.length > 0" class="mb-6">
-        <span v-for="profile in env.activeProfiles" :key="profile">
-          <sba-tag :key="profile" :label="$t('instances.env.active_profile')" :value="profile" />
-        </span>
+    <div v-if="env && env.activeProfiles.length > 0" class="field is-grouped is-grouped-multiline">
+      <div v-for="profile in env.activeProfiles" :key="profile" class="control">
+        <div class="tags has-addons">
+          <span class="tag is-medium is-primary" v-text="$t('instances.env.active_profile')" />
+          <span class="tag is-medium" v-text="profile" />
+        </div>
       </div>
-
-      <sba-env-manager v-if="env && hasEnvManagerSupport"
-                       :instance="instance" :property-sources="env.propertySources"
-                       @refresh="fetchEnv" @update="fetchEnv"
-      />
-
-      <sba-panel v-for="propertySource in propertySources"
-                 :key="propertySource.name" :header-sticks-below="['#navigation']"
-                 :title="propertySource.name"
+    </div>
+    <refresh v-if="instance.hasEndpoint('refresh')"
+             :instance="instance"
+             :instance-count="application.instances.length"
+             :application="application"
+             @reset="fetchEnv"
+    />
+    <sba-env-manager v-if="env && hasEnvManagerSupport"
+                     :application="application"
+                     :instance="instance" :property-sources="env.propertySources"
+                     @refresh="fetchEnv" @update="fetchEnv"
+    />
+    <div v-if="env" class="field">
+      <p class="control is-expanded has-icons-left">
+        <input
+          v-model="filter"
+          class="input"
+          type="search"
+        >
+        <span class="icon is-small is-left">
+          <font-awesome-icon icon="filter" />
+        </span>
+      </p>
+    </div>
+    <sba-panel v-for="propertySource in propertySources"
+               :key="propertySource.name" :header-sticks-below="['#navigation']"
+               :title="propertySource.name"
+    >
+      <table v-if="propertySource.properties && Object.keys(propertySource.properties).length > 0"
+             class="table is-fullwidth"
       >
-        <div class="-mx-4 -my-3" v-if="propertySource.properties && Object.keys(propertySource.properties).length > 0">
-          <div class="bg-white px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-               v-for="(value, name) in propertySource.properties" :key="`${propertySource.name}-${name}`"
-          >
-            <dt class="text-sm font-medium text-gray-500">
-              <span v-text="name" /><br>
-              <small v-if="value.origin" v-text="value.origin" />
-            </dt>
-            <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2" v-text="getValue(name, value.value)" />
-          </div>
-        </div>
-        <p v-else class="is-muted" v-text="$t('instances.env.no_properties')" />
-      </sba-panel>
-    </template>
-  </sba-instance-section>
+        <tr v-for="(value, name) in propertySource.properties" :key="`${propertySource.name}-${name}`">
+          <td>
+            <span v-text="name" /><br>
+            <small v-if="value.origin" class="is-muted" v-text="value.origin" />
+          </td>
+          <td class="is-breakable" v-text="getValue(name, value.value)" />
+        </tr>
+      </table>
+      <p v-else class="is-muted" v-text="$t('instances.env.no_properties')" />
+    </sba-panel>
+  </section>
 </template>
 
 <script>
@@ -77,7 +76,6 @@ import {VIEW_GROUP} from '../../index';
 import sbaEnvManager from './env-manager';
 import refresh from './refresh';
 import Application from '@/services/application';
-import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
 
 const filterProperty = (needle) => (property, name) => {
   return name.toString().toLowerCase().includes(needle) || (property.value && property.value.toString().toLowerCase().includes(needle));
@@ -104,9 +102,9 @@ export default {
       required: true
     }
   },
-  components: {SbaInstanceSection, sbaEnvManager, refresh},
+  components: {sbaEnvManager, refresh},
   data: () => ({
-    isLoading: true,
+    hasLoaded: false,
     error: null,
     env: null,
     filter: null,
@@ -142,7 +140,7 @@ export default {
         console.warn('Fetching environment failed:', error);
         this.error = error;
       }
-      this.isLoading = false;
+      this.hasLoaded = true;
     },
     async determineEnvManagerSupport() {
       try {

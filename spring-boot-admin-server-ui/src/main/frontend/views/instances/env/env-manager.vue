@@ -21,21 +21,21 @@
     <datalist id="allPropertyNames">
       <option v-for="name in allPropertyNames" :key="name" v-text="name" />
     </datalist>
-    <div class="grid grid-cols-6 gap-6" v-for="(prop, index) in managedProperties" :key="`managed-${index}`">
+    <div class="field is-horizontal" v-for="(prop, index) in managedProperties" :key="`managed-${index}`">
       <div class="field-body">
         <div class="field">
           <div class="control">
-            <sba-input class="input" type="text" placeholder="Property name" list="allPropertyNames" :name="prop.name"
-                       v-model="prop.name" @input="handlePropertyNameChange(prop, index)"
-            />
+            <input class="input" type="text" placeholder="Property name" list="allPropertyNames"
+                   v-model="prop.name" @input="handlePropertyNameChange(prop, index)"
+            >
           </div>
           <p class="help is-danger" v-text="prop.validation" />
         </div>
         <div class="field">
           <div class="control has-icons-right" :class="{'is-loading' : prop.status === 'executing'}">
-            <sba-input class="input" type="text" placeholder="Value" v-model="prop.input" :name="prop.name"
-                       @input="prop.status = null"
-            />
+            <input class="input" type="text" placeholder="Value" v-model="prop.input"
+                   @input="prop.status = null"
+            >
             <span class="icon is-right has-text-success" v-if="prop.status === 'completed'">
               <font-awesome-icon icon="check" />
             </span>
@@ -63,6 +63,9 @@
               <span v-else v-text="$t('instances.env.context_reset')" />
             </button>
           </div>
+          <div class="control" v-if="application.instances.length > 1">
+            <sba-toggle-scope-button :instance-count="application.instances.length" v-model="scope" />
+          </div>
           <div class="control">
             <button class="button is-primary"
                     :class="{'is-loading' : updateStatus === 'executing', 'is-danger' : updateStatus === 'failed', 'is-success' : updateStatus === 'completed'}"
@@ -77,34 +80,6 @@
         </div>
       </div>
     </div>
-
-    <form class="grid grid-cols-6 gap-6">
-      <div class="col-span-3">
-        <div>
-          <label for="metric" class="block text-sm font-medium text-gray-700" v-text="$t('instances.metrics.label')" />
-          <div class="mt-1 relative rounded-md shadow-sm">
-            <select v-model="selectedMetric" id="metric" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-              <option v-for="metric in availableMetrics" :key="metric" v-text="metric" />
-            </select>
-          </div>
-        </div>
-      </div>
-      <div class="col-span-3 space-y-3">
-        <template v-if="availableTags">
-          <div v-for="tag in availableTags" :key="tag.tag">
-            <label for="metric2" class="block text-sm font-medium text-gray-700">{{ tag.tag }}</label>
-            <div class="mt-1 relative rounded-md shadow-sm">
-              <select v-model="selectedTags[tag.tag]" id="metric2" class="focus:ring-indigo-500 focus:border-indigo-500 block w-full sm:text-sm border-gray-300 rounded-md">
-                <option :value="undefined">
-                  -
-                </option>
-                <option v-for="value in tag.values" :key="value" :value="value" v-text="value" />
-              </select>
-            </div>
-          </div>
-        </template>
-      </div>
-    </form>
   </sba-panel>
 </template>
 
@@ -113,12 +88,16 @@ import Instance from '@/services/instance';
 import {concatMap, filter, from, listen} from '@/utils/rxjs';
 import debounce from 'lodash/debounce';
 import uniq from 'lodash/uniq';
-import SbaInput from '@/components/sba-input';
-
+import Application from '@/services/application';
+import SbaToggleScopeButton from '@/components/sba-toggle-scope-button';
 
 export default {
-  components: {SbaInput},
+  components: {SbaToggleScopeButton},
   props: {
+    application: {
+      type: Application,
+      required: true
+    },
     instance: {
       type: Instance,
       required: true
@@ -130,6 +109,7 @@ export default {
   },
   data: () => ({
     error: null,
+    scope: 'instance',
     resetStatus: null,
     updateStatus: null,
     managedProperties: [{
@@ -178,8 +158,18 @@ export default {
           filter(property => !!property.name && property.input !== property.value),
           listen(status => vm.updateStatus = status),
           concatMap(
-            property => from(vm.instance.setEnv(property.name, property.input))
-              .pipe(listen(status => property.status = status))
+            property => {
+              let target;
+
+              if (vm.scope === 'instance') {
+                target = vm.instance;
+              } else {
+                target = vm.application;
+              }
+
+              return from(target.setEnv(property.name, property.input))
+                .pipe(listen(status => property.status = status));
+            }
           )
         )
         .subscribe({
