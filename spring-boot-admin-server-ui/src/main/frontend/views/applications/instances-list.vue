@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <table class="table-fixed w-full">
+  <table class="table is-hoverable is-selectable is-fullwidth instances-list">
     <tbody>
       <tr v-for="instance in instances" :key="instance.id" @click.stop="showDetails(instance)">
         <td class="instance-list-item__status">
@@ -64,27 +64,33 @@
     }
   }
 </script>
+<style lang="scss">
+  @import "~@/assets/css/utilities";
 
-<style lang="css">
-.instances-list td {
-  vertical-align: middle;
-}
-.instance-list-item__status {
-  width: 32px;
-}
-.instance-list-item__actions {
-  text-align: right;
-  opacity: 0;
-  transition: all ease-out 86ms;
-  will-change: opacity;
-  margin-right: 32px;
-}
-*:hover > .instance-list-item__actions {
-  opacity: 1;
-}
-.instance-list-item__actions > * {
-  width: 16px;
-  height: 16px;
-}
+  .instances-list td {
+    vertical-align: middle;
+  }
 
+  .instance-list-item {
+    &__status {
+      width: $gap;
+    }
+
+    &__actions {
+      text-align: right;
+      opacity: 0;
+      transition: all $easing $speed;
+      will-change: opacity;
+      margin-right: $gap;
+
+      *:hover > & {
+        opacity: 1;
+      }
+
+      & > * {
+        width: calc(#{$gap} / 2);
+        height: calc(#{$gap} / 2);
+      }
+    }
+  }
 </style>
