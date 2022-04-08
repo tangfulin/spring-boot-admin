@@ -15,67 +15,66 @@
   -->
 
 <template>
-  <sba-instance-section :error="error" :loading="!hasLoaded">
-    <div class="flex">
-      <div class="flex-1">
-        <sba-panel :title="selectedDomain.domain"
-                   v-on-clickaway="() => mBean === selectedMBean && select(selectedDomain)"
+  <section :class="{ 'is-loading' : !hasLoaded }" class="section">
+    <sba-alert v-if="error" :error="error" :title="$t('instances.jolokia.fetch_failed')" />
+
+    <div class="columns">
+      <div v-if="selectedDomain" class="column is-four-fifths">
+        <h1 class="heading" v-text="$t('instances.jolokia.mbeans')" />
+        <div v-for="mBean in selectedDomain.mBeans" :id="mBean.descriptor.raw"
+             :key="mBean.descriptor.raw" v-on-clickaway="() => mBean === selectedMBean && select(selectedDomain)"
+             :class="{'is-active': mBean === selectedMBean}"
+             class="m-bean card"
         >
-          <div v-for="mBean in selectedDomain.mBeans"
-               :key="mBean.descriptor.raw"
-               :id="mBean.descriptor.raw"
+          <header :class="{'is-primary': mBean === selectedMBean, 'is-selectable' : mBean !== selectedMBean }"
+                  class="m-bean--header hero"
+                  @click="select(selectedDomain, mBean)"
           >
-            <header :class="{'is-primary': mBean === selectedMBean, 'is-selectable' : mBean !== selectedMBean }"
-                    class="m-bean--header hero"
-                    @click="select(selectedDomain, mBean)"
-            >
-              <div class="level is-clipped">
-                <div class="level-left">
-                  <div v-for="attribute in mBean.descriptor.attributes"
-                       :key="`mBean-desc-${attribute.name}`"
-                       class="level-item is-narrow"
-                  >
-                    <div :title="`${attribute.name} ${attribute.value}`" class="is-clipped">
-                      <p class="heading" v-text="attribute.name" />
-                      <p class="title is-size-6" v-text="attribute.value" />
-                    </div>
+            <div class="level is-clipped">
+              <div class="level-left">
+                <div v-for="attribute in mBean.descriptor.attributes"
+                     :key="`mBean-desc-${attribute.name}`"
+                     class="level-item is-narrow"
+                >
+                  <div :title="`${attribute.name} ${attribute.value}`" class="is-clipped">
+                    <p class="heading" v-text="attribute.name" />
+                    <p class="title is-size-6" v-text="attribute.value" />
                   </div>
                 </div>
               </div>
-              <sba-icon-button v-if="mBean === selectedMBean" :icon="['far', 'times-circle']"
-                               class="m-bean--header--close has-text-white"
-                               @click.stop="select(selectedDomain)"
-              />
-              <div v-if="mBean === selectedMBean" class="hero-foot tabs is-boxed">
-                <ul>
-                  <li v-if="mBean.attr" :class="{'is-active' : selected.view === 'attributes' }">
-                    <a v-text="$t('term.attributes')" @click.stop="select(selectedDomain, selectedMBean, 'attributes')" />
-                  </li>
-                  <li v-if="mBean.op" :class="{'is-active' : selected.view === 'operations' }">
-                    <a v-text="$t('term.operations')" @click.stop="select(selectedDomain, selectedMBean, 'operations')" />
-                  </li>
-                </ul>
-              </div>
-            </header>
-
-            <div v-if="mBean === selectedMBean" class="card-content">
-              <m-bean-attributes v-if="selected.view === 'attributes'" :domain="selectedDomain.domain"
-                                 :instance="instance" :m-bean="mBean"
-              />
-              <m-bean-operations v-if="selected.view === 'operations'" :domain="selectedDomain.domain"
-                                 :instance="instance" :m-bean="mBean"
-              />
             </div>
-          </div>
-        </sba-panel>
-      </div>
+            <sba-icon-button v-if="mBean === selectedMBean" :icon="['far', 'times-circle']"
+                             class="m-bean--header--close has-text-white"
+                             @click.stop="select(selectedDomain)"
+            />
+            <div v-if="mBean === selectedMBean" class="hero-foot tabs is-boxed">
+              <ul>
+                <li v-if="mBean.attr" :class="{'is-active' : selected.view === 'attributes' }">
+                  <a v-text="$t('term.attributes')" @click.stop="select(selectedDomain, selectedMBean, 'attributes')" />
+                </li>
+                <li v-if="mBean.op" :class="{'is-active' : selected.view === 'operations' }">
+                  <a v-text="$t('term.operations')" @click.stop="select(selectedDomain, selectedMBean, 'operations')" />
+                </li>
+              </ul>
+            </div>
+          </header>
 
-      <div class="w-80 truncate">
-        <nav>
+          <div v-if="mBean === selectedMBean" class="card-content">
+            <m-bean-attributes v-if="selected.view === 'attributes'" :domain="selectedDomain.domain"
+                               :application="application" :instance="instance" :m-bean="mBean"
+            />
+            <m-bean-operations v-if="selected.view === 'operations'" :domain="selectedDomain.domain"
+                               :application="application" :instance="instance" :m-bean="mBean"
+            />
+          </div>
+        </div>
+      </div>
+      <div class="column is-one-fifth">
+        <nav v-sticks-below="['#navigation']" class="menu">
           <p class="menu-label" v-text="$t('instances.jolokia.domains')" />
-          <ul class="list-disc">
-            <li v-for="domain in domains" :key="domain.domain">
-              <a :class="{'is-active' : domain === selectedDomain}"
+          <ul class="menu-list">
+            <li>
+              <a v-for="domain in domains" :key="domain.domain" :class="{'is-active' : domain === selectedDomain}"
                  class=""
                  @click="select(domain)" v-text="domain.domain"
               />
@@ -84,11 +83,12 @@
         </nav>
       </div>
     </div>
-  </sba-instance-section>
+  </section>
 </template>
 
 <script>
 import sticksBelow from '@/directives/sticks-below';
+import Application from '@/services/application';
 import Instance from '@/services/instance';
 import flatMap from 'lodash/flatMap';
 import fromPairs from 'lodash/fromPairs';
@@ -98,8 +98,6 @@ import {directive as onClickaway} from 'vue-clickaway2';
 import mBeanAttributes from './m-bean-attributes';
 import mBeanOperations from './m-bean-operations';
 import {VIEW_GROUP} from '../../index';
-import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
-import SbaPanel from '@/components/sba-panel';
 
 const getOperationName = (name, descriptor) => {
   const params = descriptor.args.map(arg => arg.type).join(',');
@@ -138,12 +136,16 @@ export class MBean {
 
 export default {
   props: {
+    application: {
+      type: Application,
+      required: true
+    },
     instance: {
       type: Instance,
       required: true
     }
   },
-  components: {SbaPanel, SbaInstanceSection, mBeanOperations, mBeanAttributes},
+  components: {mBeanOperations, mBeanAttributes},
   directives: {onClickaway, sticksBelow},
   data: () => ({
     hasLoaded: false,
@@ -182,7 +184,7 @@ export default {
         await this.$nextTick();
         const el = document.getElementById(newVal.descriptor.raw);
         if (el) {
-          const scrollingEl = document.querySelector('main');
+          const scrollingEl = document.scrollingElement;
           const navigation = document.querySelector('#navigation');
           const navbarOffset = (navigation ? navigation.getBoundingClientRect().bottom : 120) + 10;
           const top = scrollingEl.scrollTop + el.getBoundingClientRect().top - navbarOffset;
@@ -241,36 +243,46 @@ export default {
 }
 </script>
 
-<style lang="css">
-.m-bean {
-  transition: all ease-out 86ms;
-}
-.m-bean.is-active {
-  margin: 0.75rem -0.75rem;
-  max-width: unset;
-}
-.m-bean.is-active .m-bean--header {
-  padding-bottom: 0;
-}
-.m-bean:not(.is-active) .m-bean--header:hover {
-  background-color: #fafafa;
-}
-.m-bean--header .level .level-left {
-  width: 100%;
-}
-.m-bean--header .level .level-left .level-item {
-  min-width: 0;
-  flex-shrink: 1;
-}
-.m-bean--header .level .level-left .level-item p {
-  overflow: hidden;
-  white-space: nowrap;
-  text-overflow: ellipsis;
-}
-.m-bean--header--close {
-  position: absolute;
-  right: 0.75rem;
-  top: 0.75rem;
-}
+<style lang="scss">
+@import "~@/assets/css/utilities";
 
+.m-bean {
+  transition: all $easing $speed;
+
+  &.is-active {
+    margin: 0.75rem -0.75rem;
+    max-width: unset;
+  }
+
+  &.is-active .m-bean--header {
+    padding-bottom: 0;
+  }
+
+  &:not(.is-active) .m-bean--header:hover {
+    background-color: $white-bis;
+  }
+
+  &--header {
+    & .level .level-left {
+      width: 100%;
+
+      & .level-item {
+        min-width: 0;
+        flex-shrink: 1;
+
+        & p {
+          overflow: hidden;
+          white-space: nowrap;
+          text-overflow: ellipsis;
+        }
+      }
+    }
+
+    &--close {
+      position: absolute;
+      right: 0.75rem;
+      top: 0.75rem;
+    }
+  }
+}
 </style>
