@@ -1,23 +1,32 @@
 <template>
-  <sba-action-button-scoped :instance-count="instanceCount" :action-fn="refreshContext">
-    <template v-slot="slotProps">
-      <span v-if="slotProps.refreshStatus === 'completed'" v-text="$t('instances.env.context_refreshed')" />
-      <span v-else-if="slotProps.refreshStatus === 'failed'"
-            v-text="$t('instances.env.context_refresh_failed')"
+  <sba-action-button-scoped
+    :instance-count="instanceCount"
+    :action-fn="refreshContext"
+    :show-info="false"
+  >
+    <template #default="slotProps">
+      <span
+        v-if="slotProps.refreshStatus === 'completed'"
+        v-text="$t('instances.env.context_refreshed')"
       />
-      <span v-else v-text="$t('instances.env.context_refresh')" />
+      <span
+        v-else-if="slotProps.refreshStatus === 'failed'"
+        v-text="$t('instances.env.context_refresh_failed')"
+      />
+      <span
+        v-else
+        v-text="$t('instances.env.context_refresh')"
+      />
     </template>
   </sba-action-button-scoped>
 </template>
 
 <script>
 
-import Instance from '@/services/instance';
-import Application from '@/services/application';
-import SbaActionButtonScoped from '@/components/sba-action-button-scoped';
+import Instance from '@/services/instance.js';
+import Application from '@/services/application.js';
 
 export default {
-  components: {SbaActionButtonScoped},
   props: {
     instance: {
       type: Instance,

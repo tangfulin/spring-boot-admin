@@ -15,12 +15,20 @@
   -->
 
 <template>
-  <sba-instance-section :loading="!hasLoaded" :error="error">
-    <template v-slot:before>
+  <sba-instance-section
+    :loading="!hasLoaded"
+    :error="error"
+  >
+    <template #before>
       <sba-sticky-subnav>
         <div class="mx-6">
-          <sba-input name="filter" v-model="filter" type="search" :placeholder="$t('term.filter')">
-            <template v-slot:prepend>
+          <sba-input
+            v-model="filter"
+            name="filter"
+            type="search"
+            :placeholder="$t('term.filter')"
+          >
+            <template #prepend>
               <font-awesome-icon icon="filter" />
             </template>
           </sba-input>
@@ -28,18 +36,30 @@
       </sba-sticky-subnav>
     </template>
 
-    <sba-panel v-for="bean in configurationPropertiesBeans"
-               :key="bean.name"
-               :header-sticks-below="['#navigation']"
-               :title=" bean.name"
+    <sba-panel
+      v-for="bean in configurationPropertiesBeans"
+      :key="bean.name"
+      :header-sticks-below="['#navigation']"
+      :title=" bean.name"
     >
       <div class="-mx-4 -my-3">
-        <table v-if="Object.keys(bean.properties).length > 0"
-               class="table-auto w-full"
+        <table
+          v-if="Object.keys(bean.properties).length > 0"
+          class="table-auto w-full"
         >
-          <tr v-for="(value, name, idx) in bean.properties" :key="`${bean.name}-${name}`" :class="{'bg-gray-50': idx%2===0}">
-            <td class="w-1/2 px-4 py-3" v-text="name" />
-            <td class="px-4 py-3" v-text="value" />
+          <tr
+            v-for="(value, name, idx) in bean.properties"
+            :key="`${bean.name}-${name}`"
+            :class="{'bg-gray-50': idx%2===0}"
+          >
+            <td
+              class="w-1/2 px-4 py-3"
+              v-text="name"
+            />
+            <td
+              class="px-4 py-3"
+              v-text="value"
+            />
           </tr>
         </table>
       </div>
@@ -48,13 +68,10 @@
 </template>
 
 <script>
-import Instance from '@/services/instance';
-import isEmpty from 'lodash/isEmpty';
-import mapKeys from 'lodash/mapKeys';
-import pickBy from 'lodash/pickBy';
+import Instance from '@/services/instance.js';
+import {isEmpty, mapKeys, pickBy} from 'lodash-es';
 import {VIEW_GROUP} from '../../index';
-import SbaPanel from '@/components/sba-panel';
-import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section.vue';
 
 const filterProperty = (needle) => (value, name) => {
   return name.toString().toLowerCase().includes(needle) || (value && value.toString().toLowerCase().includes(needle));
@@ -116,7 +133,7 @@ const flattenConfigurationPropertiesBeans = (configprops) => {
 };
 
 export default {
-  components: {SbaInstanceSection, SbaPanel},
+  components: {SbaInstanceSection},
   props: {
     instance: {
       type: Instance,

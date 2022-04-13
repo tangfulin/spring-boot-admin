@@ -20,13 +20,18 @@
     <div class="h-full">
       <instance-sidebar
         v-if="instance"
+        :key="instanceId"
         :views="views"
         :instance="instance"
         :application="application"
       />
       <main class="h-full relative z-0 ml-60">
         <div class="">
-          <router-view v-if="instance" :instance="instance" :application="application" />
+          <router-view
+            v-if="instance"
+            :instance="instance"
+            :application="application"
+          />
         </div>
       </main>
     </div>
@@ -40,10 +45,6 @@
   export default {
     components: {InstanceSidebar},
     props: {
-      instanceId: {
-        type: String,
-        required: true
-      },
       views: {
         type: Array,
         default: () => []
@@ -59,6 +60,7 @@
     },
     data() {
       return {
+        instanceId: this.$route.params.instanceId,
         WaveBackground,
       }
     },
@@ -68,6 +70,14 @@
       },
       application() {
         return this.applications.findApplicationForInstance(this.instanceId);
+      }
+    },
+    watch: {
+      '$route': {
+        immediate: true,
+        handler() {
+          this.instanceId = this.$route.params.instanceId;
+        }
       }
     },
     install({viewRegistry}) {

@@ -15,74 +15,106 @@
   -->
 
 <template>
-  <sba-instance-section>
-    <template v-slot:before>
-      <details-nav :instance="instance" />
+  <sba-instance-section
+    :error="error"
+    :loading="!hasLoaded"
+  >
+    <template #before>
+      <details-nav
+        :instance="instance"
+        :application="application"
+      />
       <details-hero :instance="instance" />
-
-      <sba-alert v-if="error" :error="error" :title="$t('instances.details.fetch_failed')" />
     </template>
-    <template>
-      <div class="flex gap-6">
-        <div class="flex-1">
-          <details-info v-if="hasInfo" :instance="instance" />
-          <details-metadata v-if="hasMetadata" :instance="instance" />
-        </div>
-        <div class="flex-1">
-          <details-health :instance="instance" />
-        </div>
-      </div>
 
-      <div class="flex gap-6">
-        <div class="flex-1">
-          <details-process v-if="hasProcess" :instance="instance" class="break-inside-avoid" />
-          <details-gc v-if="hasGc" :instance="instance" />
-        </div>
-        <div class="flex-1">
-          <details-threads v-if="hasThreads" :instance="instance" />
-        </div>
+    <div class="flex gap-6">
+      <div class="flex-1">
+        <details-info
+          v-if="hasInfo"
+          :instance="instance"
+        />
+        <details-metadata
+          v-if="hasMetadata"
+          :instance="instance"
+        />
       </div>
+      <div class="flex-1">
+        <details-health :instance="instance" />
+      </div>
+    </div>
 
-      <div class="flex gap-6">
-        <div class="flex-1">
-          <details-memory v-if="hasMemory" :instance="instance" type="heap" />
-        </div>
-        <div class="flex-1">
-          <details-memory v-if="hasMemory" :instance="instance" type="nonheap" />
-        </div>
+    <div class="flex gap-6">
+      <div class="flex-1">
+        <details-process
+          v-if="hasProcess"
+          :instance="instance"
+          class="break-inside-avoid"
+        />
+        <details-gc
+          v-if="hasGc"
+          :instance="instance"
+        />
       </div>
+      <div class="flex-1">
+        <details-threads
+          v-if="hasThreads"
+          :instance="instance"
+        />
+      </div>
+    </div>
 
-      <div class="flex gap-6">
-        <div class="flex-1">
-          <details-datasources v-if="hasDatasources" :instance="instance" />
-        </div>
-        <div class="flex-1">
-          <details-caches v-if="hasCaches" :instance="instance" />
-        </div>
+    <div class="flex gap-6">
+      <div class="flex-1">
+        <details-memory
+          v-if="hasMemory"
+          :instance="instance"
+          type="heap"
+        />
       </div>
-    </template>
+      <div class="flex-1">
+        <details-memory
+          v-if="hasMemory"
+          :instance="instance"
+          type="nonheap"
+        />
+      </div>
+    </div>
+
+    <div class="flex gap-6">
+      <div class="flex-1">
+        <details-datasources
+          v-if="hasDatasources"
+          :instance="instance"
+        />
+      </div>
+      <div class="flex-1">
+        <details-caches
+          v-if="hasCaches"
+          :instance="instance"
+        />
+      </div>
+    </div>
   </sba-instance-section>
 </template>
 
 <script>
-
-import Instance from '@/services/instance';
-import detailsCaches from './details-caches';
-import detailsDatasources from './details-datasources';
-import detailsGc from './details-gc';
-import detailsHealth from './details-health';
-import detailsInfo from './details-info';
-import detailsMemory from './details-memory';
-import detailsMetadata from './details-metadata';
-import detailsProcess from './details-process';
-import detailsThreads from './details-threads';
+import Instance from '@/services/instance.js';
+import detailsCaches from './details-caches.vue';
+import detailsDatasources from './details-datasources.vue';
+import detailsGc from './details-gc.vue';
+import detailsHealth from './details-health.vue';
+import detailsInfo from './details-info.vue';
+import detailsMemory from './details-memory.vue';
+import detailsMetadata from './details-metadata.vue';
+import detailsProcess from './details-process.vue';
+import detailsThreads from './details-threads.vue';
+import DetailsHero from './details-hero.vue';
 import {VIEW_GROUP} from '../../index';
-import DetailsHero from './details-hero';
-import DetailsNav from '@/views/instances/details/details-nav';
-import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
+import DetailsNav from '@/views/instances/details/details-nav.vue';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section.vue';
+import Application from '@/services/application.js';
 
 export default {
-  /* eslint-disable vue/no-unused-components */
   components: {
     SbaInstanceSection,
     DetailsNav,
@@ -98,6 +130,10 @@ export default {
     detailsMetadata
   },
   props: {
+    application: {
+      type: Application,
+      default: () => {},
+    },
     instance: {
       type: Instance,
       required: true
@@ -134,6 +170,11 @@ export default {
       return this.instance.registration && this.instance.registration.metadata;
     }
   },
+  watch: {
+    instance() {
+      this.fetchMetricIndex()
+    }
+  },
   created() {
     this.fetchMetricIndex();
   },
@@ -143,6 +184,7 @@ export default {
     },
     async fetchMetricIndex() {
       if (this.instance.hasEndpoint('metrics')) {
+        this.hasLoaded = false;
         this.error = null;
         try {
           const res = await this.instance.fetchMetrics();

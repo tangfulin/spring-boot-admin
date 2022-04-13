@@ -14,23 +14,21 @@
  * limitations under the License.
  */
 
-import './assets/css/base.css';
-import axios from '@/utils/axios';
+import './index.css';
+import axios from './utils/axios.js';
 import moment from 'moment';
-import Vue from 'vue';
-import VueRouter from 'vue-router';
 import components from './components';
-import i18n from './i18n';
-import Notifications from './notifications';
-import sbaConfig from './sba-config'
-import sbaShell from './shell';
-import Store from './store';
+import Notifications from './notifications.js';
+import sbaConfig from './sba-config.js'
+import sbaShell from './shell/index.vue';
+import Store from './store.js';
 import ViewRegistry from './viewRegistry';
 import views from './views';
+import {createApp, h, markRaw, reactive} from 'vue';
+import i18n from './i18n';
+import router from './router.js';
 
 moment.locale(navigator.language.split('-')[0]);
-Vue.use(VueRouter);
-Vue.use(components);
 
 const applicationStore = new Store();
 const viewRegistry = new ViewRegistry();
@@ -41,63 +39,51 @@ const installables = [
   ...sbaConfig.extensions
 ];
 
-installables.forEach(view => view.install({
-  viewRegistry,
-  applicationStore,
-  vue: Vue,
-  vueI18n: i18n,
-  axios
-}));
+installables.forEach(installable => {
+  installable.install({
+    viewRegistry,
+    applicationStore,
+  })
+});
 
-const routesKnownToBackend = sbaConfig.uiSettings.routes.map(r => new RegExp(`^${r.replace('/**', '(/.*)?')}$`));
-const unknownRoutes = viewRegistry.routes.filter(vr => vr.path !== '/' && !routesKnownToBackend.some(br => br.test(vr.path)));
-if (unknownRoutes.length > 0) {
-  console.warn(`The routes ${JSON.stringify(unknownRoutes.map(r => r.path))} aren't known to the backend and may be not properly routed!`)
-}
-
-new Vue({
-  i18n,
-  router: new VueRouter({
-    mode: 'history',
-    linkActiveClass: 'is-active',
-    routes: viewRegistry.routes
-  }),
-  el: '#app',
-  render(h) {
-    return h(sbaShell, {
-      props: {
-        views: this.views,
-        applications: this.applications,
-        applicationsInitialized: this.applicationsInitialized,
-        error: this.error
-      }
+let app = createApp({
+  setup() {
+    let props = reactive({
+      views: markRaw(viewRegistry.views),
+      applications: applicationStore.applications,
+      applicationsInitialized: false,
+      error: null
     });
-  },
-  data: {
-    views: viewRegistry.views,
-    applications: applicationStore.applications,
-    applicationsInitialized: false,
-    error: null
-  },
-  methods: {
-    onError(error) {
-      console.warn('Connection to server failed:', error);
-      this.applicationsInitialized = true;
-      this.error = error;
-    },
-    onConnected() {
-      this.applicationsInitialized = true;
-      this.error = null;
-    }
+
+    applicationStore.addEventListener('connected', () => {
+      props.applicationsInitialized = true;
+      props.error = null;
+    });
+
+    applicationStore.addEventListener('changed', (applications) => {
+      props.applications = applications;
+      props.applicationsInitialized = true;
+      props.error = null;
+    });
+
+    return () => h(sbaShell, props);
   },
   created() {
-    applicationStore.addEventListener('connected', this.onConnected);
-    applicationStore.addEventListener('error', this.onError);
     applicationStore.start();
   },
-  beforeDestroy() {
+  beforeUnmount() {
     applicationStore.stop();
-    applicationStore.removeEventListener('connected', this.onConnected);
-    applicationStore.removeEventListener('error', this.onError)
   }
 });
+
+app.use(components);
+app.use(i18n);
+app.use(router(viewRegistry.routes));
+
+const vue = app.mount('#app');
+
+installables.forEach(view => view.configure ? view.configure({
+  vue,
+  i18n: vue.$i18n,
+  axios
+}) : void (0));

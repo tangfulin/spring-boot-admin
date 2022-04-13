@@ -16,30 +16,49 @@
 
 <template>
   <section class="wallboard section">
-    <p v-if="!applicationsInitialized" class="is-muted is-loading">
+    <p
+      v-if="!applicationsInitialized"
+      class="is-muted is-loading"
+    >
       Loading applications...
     </p>
-    <hex-mesh v-if="applicationsInitialized"
-              :items="applications"
-              :class-for-item="classForApplication"
-              @click="select"
+    <hex-mesh
+      v-if="applicationsInitialized"
+      :items="applications"
+      :class-for-item="classForApplication"
+      @click="select"
     >
-      <div class="hex__body application" slot="item" slot-scope="{item: application}" :key="application.name">
-        <div class="application__header application__time-ago is-muted">
-          <sba-time-ago :date="application.statusTimestamp" />
+      <template #item="{item: application}">
+        <div
+          :key="application.name"
+          class="hex__body application"
+        >
+          <div class="application__header application__time-ago is-muted">
+            <sba-time-ago :date="application.statusTimestamp" />
+          </div>
+          <div class="application__body">
+            <h1
+              class="application__name"
+              v-text="application.name"
+            />
+            <p
+              class="application__instances is-muted"
+              v-text="$tc('wallboard.instances_count', application.instances.length)"
+            />
+          </div>
+          <h2
+            class="application__footer application__version"
+            v-text="application.buildVersion"
+          />
         </div>
-        <div class="application__body">
-          <h1 class="application__name" v-text="application.name" />
-          <p class="application__instances is-muted" v-text="$tc('wallboard.instances_count', application.instances.length)" />
-        </div>
-        <h2 class="application__footer application__version" v-text="application.buildVersion" />
-      </div>
+      </template>
     </hex-mesh>
   </section>
 </template>
 
 <script>
-  import hexMesh from './hex-mesh';
+  import hexMesh from './hex-mesh.vue';
+  import {HealthStatus} from '../../HealthStatus.js';
 
   export default {
     components: {hexMesh},
@@ -62,19 +81,19 @@
         if (!application) {
           return null;
         }
-        if (application.status === 'UP') {
+        if (application.status === HealthStatus.UP) {
           return 'is-selectable is-primary';
         }
-        if (application.status === 'RESTRICTED') {
+        if (application.status === HealthStatus.RESTRICTED) {
           return 'is-selectable is-warning';
         }
-        if (application.status === 'DOWN') {
+        if (application.status === HealthStatus.DOWN) {
           return 'is-selectable is-danger';
         }
-        if (application.status === 'OUT_OF_SERVICE') {
+        if (application.status === HealthStatus.OUT_OF_SERVICE) {
           return 'is-selectable is-danger';
         }
-        if (application.status === 'OFFLINE') {
+        if (application.status === HealthStatus.OFFLINE) {
           return 'is-selectable is-light';
         }
         return 'is-selectable is-light';

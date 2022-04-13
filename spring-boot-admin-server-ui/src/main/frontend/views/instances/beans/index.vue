@@ -15,15 +15,23 @@
   -->
 
 <template>
-  <sba-instance-section :loading="isLoading" :error="error">
-    <template v-slot:before>
+  <sba-instance-section
+    :loading="isLoading"
+    :error="error"
+  >
+    <template #before>
       <sba-sticky-subnav>
         <div class="mx-6">
-          <sba-input name="filter" v-model="filter" type="search" :placeholder="$t('term.filter')">
-            <template v-slot:prepend>
+          <sba-input
+            v-model="filter"
+            name="filter"
+            type="search"
+            :placeholder="$t('term.filter')"
+          >
+            <template #prepend>
               <font-awesome-icon icon="filter" />
             </template>
-            <template v-slot:append>
+            <template #append>
               {{ filterResultString }}
             </template>
           </sba-input>
@@ -31,24 +39,31 @@
       </sba-sticky-subnav>
     </template>
 
-    <template>
-      <template v-for="context in filteredContexts">
-        <sba-panel :title="context.name" :header-sticks-below="['#navigation']" :key="context.name">
-          <beans-list :beans="context.beans" :key="`${context.name}-beans`" />
-        </sba-panel>
-      </template>
+    <template
+      v-for="context in filteredContexts"
+      :key="context.name"
+    >
+      <sba-panel
+        :title="context.name"
+        :header-sticks-below="['#navigation']"
+      >
+        <beans-list
+          :key="`${context.name}-beans`"
+          :beans="context.beans"
+        />
+      </sba-panel>
     </template>
   </sba-instance-section>
 </template>
 
 <script>
-import Instance from '@/services/instance';
+import Instance from '@/services/instance.js';
 import {compareBy} from '@/utils/collections';
 import shortenClassname from '@/utils/shortenClassname';
-import BeansList from '@/views/instances/beans/beans-list';
-import isEmpty from 'lodash/isEmpty';
+import BeansList from '@/views/instances/beans/beans-list.vue';
+import {isEmpty} from 'lodash-es';
 import {VIEW_GROUP} from '../../index';
-import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section.vue';
 
 class Bean {
   constructor(name, bean) {
@@ -111,6 +126,9 @@ export default {
       }));
     }
   },
+  created() {
+    this.fetchBeans();
+  },
   methods: {
     getFilterFn() {
       if (!this.filter) {
@@ -132,9 +150,6 @@ export default {
       }
       this.isLoading = false;
     }
-  },
-  created() {
-    this.fetchBeans();
   },
   install({viewRegistry}) {
     viewRegistry.addView({

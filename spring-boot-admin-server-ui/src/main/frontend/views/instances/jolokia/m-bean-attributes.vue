@@ -16,27 +16,41 @@
 
 <template>
   <div>
-    <div class="field is-grouped control" v-if="application.instances.length > 1">
-      <sba-toggle-scope-button :instance-count="application.instances.length" v-model="scope" />
+    <div
+      v-if="application.instances.length > 1"
+      class="field is-grouped control"
+    >
+      <sba-toggle-scope-button
+        v-model="scope"
+        :instance-count="application.instances.length"
+      />
     </div>
 
-    <sba-alert v-if="error" :error="error" :title="$t('instances.jolokia.mbean.fetch_failed')" />
+    <sba-alert
+      v-if="error"
+      :error="error"
+      :title="$t('term.fetch_failed')"
+    />
 
-    <m-bean-attribute v-for="(attribute, name) in mBean.attr" :key="`attr-${name}`"
-                      :descriptor="attribute" :name="name" :on-save-value="value => writeAttribute(name, value)"
-                      :value="attributeValues && attributeValues[name]"
+    <m-bean-attribute
+      v-for="(attribute, name) in mBean.attr"
+      :key="`attr-${name}`"
+      :descriptor="attribute"
+      :name="name"
+      :on-save-value="value => writeAttribute(name, value)"
+      :value="attributeValues && attributeValues[name]"
     />
   </div>
 </template>
 
 <script>
-import Application from '@/services/application';
-import Instance from '@/services/instance';
-import {MBean} from './index';
-import mBeanAttribute from './m-bean-attribute';
-import SbaToggleScopeButton from '@/components/sba-toggle-scope-button';
+import Application from '@/services/application.js';
+import Instance from '@/services/instance.js';
+import mBeanAttribute from './m-bean-attribute.vue';
+import {MBean} from './MBean.js';
 
 export default {
+  components: {mBeanAttribute},
   props: {
     domain: {
       type: String,
@@ -55,13 +69,15 @@ export default {
       required: true
     }
   },
-  components: {mBeanAttribute, SbaToggleScopeButton},
   data: () => ({
     attributeValues: null,
     error: null,
     scope: 'instance'
   }),
   computed: {},
+  created() {
+    this.readAttributes();
+  },
   methods: {
     async readAttributes() {
       try {
@@ -80,9 +96,6 @@ export default {
         await this.readAttributes();
       }
     }
-  },
-  created() {
-    this.readAttributes();
   },
 }
 </script>

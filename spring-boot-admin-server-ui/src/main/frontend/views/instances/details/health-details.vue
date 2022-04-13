@@ -16,8 +16,9 @@
 
 <template>
   <div>
-    <div class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
-         :class="{'bg-white': index%2===0, 'bg-gray-50': index%2!==0}"
+    <div
+      class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
+      :class="{'bg-white': index%2===0, 'bg-gray-50': index%2!==0}"
     >
       <dt class="text-sm font-medium text-gray-500">
         {{ name }}
@@ -25,33 +26,50 @@
       <dd class="mt-1 text-sm text-gray-900 sm:mt-0 sm:col-span-2">
         <sba-status-badge :status="health.status" />
 
-        <dl class="grid grid-cols-2 mt-2" v-if="details && details.length > 0">
-          <template v-for="detail in details">
-            <dt :key="detail.name + '-key'" class="font-medium" v-text="detail.name" />
-
-            <div :key="detail.name + '-val'">
-              <dd v-if="name === 'diskSpace'"
-                  v-text="typeof detail.value === 'number' ? prettyBytes(detail.value) : detail.value"
+        <dl
+          v-if="details && details.length > 0"
+          class="grid grid-cols-2 mt-2"
+        >
+          <template
+            v-for="detail in details"
+            :key="detail.name"
+          >
+            <dt
+              class="font-medium"
+              v-text="detail.name"
+            />
+            <dd
+              v-if="name === 'diskSpace'"
+              v-text="typeof detail.value === 'number' ? prettyBytes(detail.value) : detail.value"
+            />
+            <dd v-else-if="typeof detail.value === 'object'">
+              <pre
+                class="is-breakable"
+                v-text="toJson(detail.value)"
               />
-              <dd v-else-if="typeof detail.value === 'object'">
-                <pre class="is-breakable" v-text="toJson(detail.value)" />
-              </dd>
-              <dd v-else class="is-breakable" v-text="detail.value" />
-            </div>
+            </dd>
+            <dd
+              v-else
+              class="is-breakable"
+              v-text="detail.value"
+            />
           </template>
         </dl>
       </dd>
     </div>
 
-    <health-details v-for="(child, idx) in childHealth" :key="child.name" :index="idx+1" :name="child.name"
-                    :health="child.value"
+    <health-details
+      v-for="(child, idx) in childHealth"
+      :key="child.name"
+      :index="idx+1"
+      :name="child.name"
+      :health="child.value"
     />
   </div>
 </template>
 
 <script>
 import prettyBytes from 'pretty-bytes';
-import SbaStatusBadge from '@/components/sba-status-badge';
 
 const isChildHealth = (value) => {
   return value !== null && typeof value === 'object' && 'status' in value;
@@ -59,7 +77,6 @@ const isChildHealth = (value) => {
 
 export default {
   name: 'HealthDetails',
-  components: {SbaStatusBadge},
   props: {
     name: {
       type: String,
@@ -72,12 +89,6 @@ export default {
     index: {
       type: Number,
       default: 0
-    }
-  },
-  methods: {
-    prettyBytes,
-    toJson(obj) {
-      return JSON.stringify(obj, null, 2);
     }
   },
   computed: {
@@ -96,6 +107,12 @@ export default {
           .map(([name, value]) => ({name, value}));
       }
       return [];
+    }
+  },
+  methods: {
+    prettyBytes,
+    toJson(obj) {
+      return JSON.stringify(obj, null, 2);
     }
   },
 }

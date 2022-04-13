@@ -15,16 +15,31 @@
   -->
 
 <template>
-  <section :class="{ 'is-loading' : !hasLoaded }" class="section">
+  <section
+    :class="{ 'is-loading' : !hasLoaded }"
+    class="section"
+  >
     <template v-if="hasLoaded">
-      <sba-alert v-if="error" :error="error" :title="$t('instances.flyway.fetch_failed')" />
+      <sba-alert
+        v-if="error"
+        :error="error"
+        :title="$t('term.fetch_failed')"
+      />
 
-      <template v-for="(context, ctxName) in contexts">
-        <h3 :key="ctxName" class="title" v-text="ctxName" />
-        <sba-panel v-for="(report, name) in context.flywayBeans" :key="`${ctxName}-${name}`"
-                   :header-sticks-below="['#navigation']"
-                   :title="name"
-                   class="migration"
+      <template
+        v-for="(context, ctxName) in contexts"
+        :key="ctxName"
+      >
+        <h3
+          class="title"
+          v-text="ctxName"
+        />
+        <sba-panel
+          v-for="(report, name) in context.flywayBeans"
+          :key="`${ctxName}-${name}`"
+          :header-sticks-below="['#navigation']"
+          :title="name"
+          class="migration"
         >
           <table class="table is-fullwidth">
             <thead>
@@ -42,15 +57,26 @@
               </tr>
             </thead>
             <tbody>
-              <tr v-for="migration in report.migrations" :key="migration.checksum">
+              <tr
+                v-for="migration in report.migrations"
+                :key="migration.checksum"
+              >
                 <td v-text="migration.type" />
                 <td v-text="migration.checksum" />
                 <td v-text="migration.version" />
-                <td class="is-breakable" v-text="migration.description" />
-                <td class="is-breakable" v-text="migration.script" />
+                <td
+                  class="is-breakable"
+                  v-text="migration.description"
+                />
+                <td
+                  class="is-breakable"
+                  v-text="migration.script"
+                />
                 <td>
-                  <span :class="stateClass(migration.state)" class="tag"
-                        v-text="migration.state"
+                  <span
+                    :class="stateClass(migration.state)"
+                    class="tag"
+                    v-text="migration.state"
                   />
                 </td>
                 <td v-text="migration.installedBy" />
@@ -67,7 +93,7 @@
 </template>
 
 <script>
-import Instance from '@/services/instance';
+import Instance from '@/services/instance.js';
 import {VIEW_GROUP} from '../../index';
 
 export default {
