@@ -16,57 +16,103 @@
 
 <template>
   <div>
-    <sba-panel :title="metricName">
-      <template v-slot:actions>
-        <div class="inline-flex items-center" v-for="statistic in statistics" :key="`head-${statistic}`">
-          <span class="block font-medium text-gray-700 px-3" v-text="statistic" />
+    <sba-panel
+      :title="metricName"
+      :header-sticks-below="'#subnavigation'"
+    >
+      <template #actions>
+        <div
+          v-for="statistic in statistics"
+          :key="`head-${statistic}`"
+          class="inline-flex items-center"
+        >
+          <span
+            class="block font-medium text-gray-700 px-3"
+            v-text="statistic"
+          />
 
           <div class="relative rounded-md shadow-sm">
-            <select :value="statisticTypes[statistic]"
-                    class="focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm border-gray-300 rounded-md"
-                    @change="$emit('type-select', metricName, statistic, $event.target.value)"
+            <select
+              :value="statisticTypes[statistic]"
+              class="focus:ring-indigo-500 focus:border-indigo-500 block w-full text-sm border-gray-300 rounded-md"
+              @change="$emit('type-select', metricName, statistic, $event.target.value)"
             >
               <option :value="undefined">
                 -
               </option>
-              <option value="integer" v-text="$t('term.integer')" />
-              <option value="float" v-text="$t('term.float')" />
-              <option value="duration" v-text="$t('term.duration')" />
-              <option value="millis" v-text="$t('term.milliseconds')" />
-              <option value="bytes" v-text="$t('term.bytes')" />
+              <option
+                value="integer"
+                v-text="$t('term.integer')"
+              />
+              <option
+                value="float"
+                v-text="$t('term.float')"
+              />
+              <option
+                value="duration"
+                v-text="$t('term.duration')"
+              />
+              <option
+                value="millis"
+                v-text="$t('term.milliseconds')"
+              />
+              <option
+                value="bytes"
+                v-text="$t('term.bytes')"
+              />
             </select>
           </div>
         </div>
       </template>
 
-      <template>
-        <div class="-mx-4 -my-3">
-          <div v-for="(tags, idx) in tagSelections" :key="idx" class="bg-white px-4 py-3 grid grid-cols-3 gap-4" :class="{'bg-gray-50': idx%2!==0}">
-            <div class="text-sm font-medium text-gray-500 col-span-2">
-              <span class="whitespace-pre" v-text="getLabel(tags)" :title="getLabel(tags)" />
-              <span class="text-yellow-300 pl-1" v-if="errors[idx]" :title="errors[idx]">
-                <font-awesome-icon icon="exclamation-triangle" />
-              </span>
-            </div>
-            <div class="mt-1 text-sm text-gray-900">
-              <div v-for="(statistic, statistic_index) in statistics"
-                   :key="`value-${idx}-${statistic}`"
-                   class="flex items-center"
-              >
-                <span class="flex-1" v-text="getValue(measurements[idx], statistic)" />
-                <sba-icon-button v-if="statistic_index === 0" class="self-end" :icon="'trash'" @click.stop="handleRemove(idx)" />
-              </div>
+      <div class="-mx-4 -my-3">
+        <div
+          v-for="(tags, idx) in tagSelections"
+          :key="idx"
+          class="bg-white px-4 py-3 grid grid-cols-3 gap-4"
+          :class="{'bg-gray-50': idx%2!==0}"
+        >
+          <div class="text-sm font-medium text-gray-500 col-span-2">
+            <span
+              class="whitespace-pre"
+              :title="getLabel(tags)"
+              v-text="getLabel(tags)"
+            />
+            <span
+              v-if="errors[idx]"
+              class="text-yellow-300 pl-1"
+              :title="errors[idx]"
+            >
+              <font-awesome-icon icon="exclamation-triangle" />
+            </span>
+          </div>
+          <div class="mt-1 text-sm text-gray-900">
+            <div
+              v-for="(statistic, statistic_index) in statistics"
+              :key="`value-${idx}-${statistic}`"
+              class="flex items-center"
+            >
+              <span
+                class="flex-1"
+                v-text="getValue(measurements[idx], statistic)"
+              />
+              <sba-icon-button
+                v-if="statistic_index === 0"
+                class="self-end"
+                :icon="'trash'"
+                @click.stop="handleRemove(idx)"
+              />
             </div>
           </div>
         </div>
-      </template>
+      </div>
     </sba-panel>
   </div>
 </template>
 
 <script>
   import subscribing from '@/mixins/subscribing';
-  import Instance from '@/services/instance';
+  import Instance from '@/services/instance.js';
   import {concatMap, delay, from, retryWhen, timer} from '@/utils/rxjs';
   import moment from 'moment';
   import prettyBytes from 'pretty-bytes';
@@ -122,6 +168,7 @@
         default: 0
       }
     },
+    emits: ['type-select', 'remove'],
     data: () => ({
       description: '',
       baseUnit: undefined,
@@ -129,6 +176,13 @@
       statistics: [],
       errors: [],
     }),
+    watch: {
+      tagSelections(newVal, oldVal) {
+        newVal.map((v, i) => [v, i])
+          .filter(([v]) => !oldVal.includes(v))
+          .forEach(([v, i]) => this.fetchMetric(v, i));
+      }
+    },
     methods: {
       handleRemove(idx) {
         this.$emit('remove', this.metricName, idx);
@@ -191,13 +245,6 @@
             next: () => {
             }
           });
-      }
-    },
-    watch: {
-      tagSelections(newVal, oldVal) {
-        newVal.map((v, i) => [v, i])
-          .filter(([v]) => !oldVal.includes(v))
-          .forEach(([v, i]) => this.fetchMetric(v, i));
       }
     }
   }

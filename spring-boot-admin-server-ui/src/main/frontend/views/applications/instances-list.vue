@@ -15,82 +15,84 @@
   -->
 
 <template>
-  <table class="table is-hoverable is-selectable is-fullwidth instances-list">
-    <tbody>
-      <tr v-for="instance in instances" :key="instance.id" @click.stop="showDetails(instance)">
-        <td class="instance-list-item__status">
-          <sba-status :status="instance.statusInfo.status" :date="instance.statusTimestamp" />
-        </td>
-        <td class="is-narrow">
-          <a v-text="instance.registration.serviceUrl || instance.registration.healthUrl"
-             :href="instance.registration.serviceUrl || instance.registration.healthUrl"
-             @click.stop
-          /><br>
-          <span class="is-muted" v-text="instance.id" />
-        </td>
-        <td>
-          <sba-tags :tags="instance.tags" />
-        </td>
-        <td>
-          <span v-text="instance.buildVersion" />
-        </td>
-        <td class="instance-list-item__actions">
-          <slot name="actions" :instance="instance" />
-        </td>
-      </tr>
-    </tbody>
-  </table>
+  <div
+    v-for="instance in instances"
+    :key="instance.id"
+    class="flex items-center hover:bg-gray-100 p-2"
+    @click.stop="showDetails(instance)"
+  >
+    <sba-status
+      :status="instance.statusInfo.status"
+      :date="instance.statusTimestamp"
+      class="pr-3"
+    />
+    <div class="flex-1">
+      <a
+        :href="instance.registration.serviceUrl || instance.registration.healthUrl"
+        @click.stop
+        v-text="instance.registration.serviceUrl || instance.registration.healthUrl"
+      /><br>
+      <span
+        class="text-sm italic"
+        v-text="instance.id"
+      />
+    </div>
+    <sba-tags :tags="instance.tags" />
+    <div
+      class="hidden md:block w-1/4 text-center"
+      v-text="instance.buildVersion"
+    />
+    <div class="instance-list-item__actions items-right">
+      <slot
+        name="actions"
+        :instance="instance"
+      />
+    </div>
+  </div>
 </template>
 <script>
-  export default {
-    props: {
-      instances: {
-        type: Array,
-        default: () => [],
-      },
-      showNotificationSettings: {
-        type: Boolean,
-        default: false
-      },
-      hasActiveNotificationFilter: {
-        type: Function,
-        default: () => false
-      }
+export default {
+  props: {
+    instances: {
+      type: Array,
+      default: () => [],
     },
-    methods: {
-      showDetails(instance) {
-        this.$router.push({name: 'instances/details', params: {instanceId: instance.id}});
-      }
+    showNotificationSettings: {
+      type: Boolean,
+      default: false
+    },
+    hasActiveNotificationFilter: {
+      type: Function,
+      default: () => false
+    }
+  },
+  methods: {
+    showDetails(instance) {
+      this.$router.push({name: 'instances/details', params: {instanceId: instance.id}});
     }
   }
+}
 </script>
-<style lang="scss">
-  @import "~@/assets/css/utilities";
 
-  .instances-list td {
-    vertical-align: middle;
-  }
+<style lang="css">
+.instances-list td {
+  vertical-align: middle;
+}
 
-  .instance-list-item {
-    &__status {
-      width: $gap;
-    }
+.instance-list-item__actions {
+  text-align: right;
+  transition: all ease-out 86ms;
+  will-change: opacity;
+  opacity: 0;
+}
 
-    &__actions {
-      text-align: right;
-      opacity: 0;
-      transition: all $easing $speed;
-      will-change: opacity;
-      margin-right: $gap;
+*:hover > .instance-list-item__actions {
+  opacity: 1;
+}
 
-      *:hover > & {
-        opacity: 1;
-      }
+.instance-list-item__actions > * {
+  width: 16px;
+  height: 16px;
+}
 
-      & > * {
-        width: calc(#{$gap} / 2);
-        height: calc(#{$gap} / 2);
-      }
-    }
-  }
 </style>

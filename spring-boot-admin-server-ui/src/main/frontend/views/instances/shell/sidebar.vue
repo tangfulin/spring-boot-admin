@@ -16,7 +16,7 @@
 
 <template>
   <aside
-    class="fixed w-60 h-full flex flex-col shadow-md bg-white overflow-hidden backdrop-filter backdrop-blur-lg bg-opacity-40 z-30"
+    class="fixed w-60 h-full flex flex-col shadow-md bg-white overflow-hidden backdrop-filter backdrop-blur-lg bg-opacity-40 z-40"
   >
     <ul class="relative px-1 py-1 overflow-y-auto">
       <li class="relative mb-1">
@@ -26,7 +26,10 @@
           :class="`instance-summary--${instance.statusInfo.status}`"
         >
           <span class="overflow-hidden text-ellipsis">
-            <span class="font-bold" v-text="instance.registration.name" /><br>
+            <span
+              class="font-bold"
+              v-text="instance.registration.name"
+            /><br>
             <small><em v-text="instance.id" /></small>
           </span>
         </router-link>
@@ -36,8 +39,6 @@
         v-for="group in enabledGroupedViews"
         :key="group.name"
         class="relative"
-        @mouseenter="hasMultipleViews(group) && !isActiveGroup(group) && showFlyout($event)"
-        @mouseleave="hasMultipleViews(group) && !isActiveGroup(group) && hideFlyout($event)"
       >
         <router-link
           class="navbar-link navbar-link__group"
@@ -48,13 +49,20 @@
         >
           <span v-html="group.icon" />
           <span v-text="hasMultipleViews(group) ? getGroupTitle(group.id) : $t(group.views[0].label)" />
-          <svg aria-hidden="true" focusable="false" data-prefix="fas" class="w-3 h-3 ml-auto" v-if="hasMultipleViews(group)"
-               :class="{'-rotate-90': !isActiveGroup(group), '': isActiveGroup(group)}"
-               role="img"
-               xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"
+          <svg
+            v-if="hasMultipleViews(group)"
+            aria-hidden="true"
+            focusable="false"
+            data-prefix="fas"
+            class="w-3 h-3 ml-auto"
+            :class="{'-rotate-90': !isActiveGroup(group), '': isActiveGroup(group)}"
+            role="img"
+            xmlns="http://www.w3.org/2000/svg"
+            viewBox="0 0 448 512"
           >
-            <path fill="currentColor"
-                  d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
+            <path
+              fill="currentColor"
+              d="M207.029 381.476L12.686 187.132c-9.373-9.373-9.373-24.569 0-33.941l22.667-22.667c9.357-9.357 24.522-9.375 33.901-.04L224 284.505l154.745-154.021c9.379-9.335 24.544-9.317 33.901.04l22.667 22.667c9.373 9.373 9.373 24.569 0 33.941L240.971 381.476c-9.373 9.372-24.569 9.372-33.942 0z"
             />
           </svg>
         </router-link>
@@ -64,14 +72,15 @@
           class="relative accordion-collapse collapse"
         >
           <li
-            class="relative"
             v-for="view in group.views"
             :key="view.name"
+            class="relative"
           >
-            <router-link class="navbar-link navbar-link__group_item"
-                         :to="{ name: view.name, params: { 'instanceId' : instance.id } }"
-                         active-class="navbar-link__active"
-                         exact-active-class=""
+            <router-link
+              class="navbar-link navbar-link__group_item"
+              :to="{ name: view.name, params: { 'instanceId' : instance.id } }"
+              active-class="navbar-link__active"
+              exact-active-class=""
             >
               <component :is="view.handle" />
             </router-link>
@@ -83,11 +92,10 @@
 </template>
 
 <script>
-import sticksBelow from '@/directives/sticks-below';
-import Application from '@/services/application';
-import Instance from '@/services/instance';
-import {compareBy} from '@/utils/collections';
-import {VIEW_GROUP_ICON} from '@/views';
+import Application from '../../../services/application';
+import Instance from '../../../services/instance';
+import {VIEW_GROUP_ICON} from "../../index.js";
+import {compareBy} from "../../../utils/collections.js";
 
 export default {
   props: {
@@ -104,10 +112,6 @@ export default {
       default: null
     }
   },
-  directives: {sticksBelow},
-  data: () => ({
-    isStuck: false
-  }),
   computed: {
     enabledViews() {
       if (!this.instance) {
@@ -150,30 +154,6 @@ export default {
     hasMultipleViews(group) {
       return group.views.length > 1;
     },
-    onScroll() {
-      this.isStuck = this.$el.getBoundingClientRect().top <= 52;
-    },
-    showFlyout(event) {
-      const groupEl = event.target;
-      groupEl.classList.add('is-showing-flyout');
-      const boundingRect = groupEl.getBoundingClientRect();
-
-      const itemsEl = event.target.querySelector('.sidebar-group-items');
-      itemsEl.style.top = `${boundingRect.top}px`;
-      itemsEl.style.left = `${boundingRect.right + 1}px`;
-    },
-    hideFlyout(event) {
-      const groupEl = event.target;
-      groupEl.classList.remove('is-showing-flyout');
-      const itemsEl = event.target.querySelector('.sidebar-group-items');
-      itemsEl.style = undefined;
-    }
-  },
-  mounted() {
-    window.addEventListener('scroll', this.onScroll);
-  },
-  beforeDestroy() {
-    window.removeEventListener('scroll', this.onScroll);
   },
 }
 </script>
