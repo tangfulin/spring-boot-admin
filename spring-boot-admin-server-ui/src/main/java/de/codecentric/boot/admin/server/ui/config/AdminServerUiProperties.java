@@ -23,6 +23,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 import org.jetbrains.annotations.Nullable;
+
+import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.convert.DurationUnit;
 import org.springframework.http.CacheControl;
@@ -119,6 +121,8 @@ public class AdminServerUiProperties {
 
 	private PollTimer pollTimer = new PollTimer();
 
+	private BackgroundColors background = new BackgroundColors();
+
 	@lombok.Data
 	public static class PollTimer {
 
@@ -189,4 +193,10 @@ public class AdminServerUiProperties {
 
 	}
 
+	@Data
+	public static class BackgroundColors {
+		private String start = "#84eacb";
+
+		private String stop = "#3abae0";
+	}
 }

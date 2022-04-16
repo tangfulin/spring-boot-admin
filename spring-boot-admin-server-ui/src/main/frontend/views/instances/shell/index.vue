@@ -16,7 +16,10 @@
 
 <template>
   <div class="h-full">
-    <div class="bg-wave" v-html="WaveBackground" />
+    <sba-wave
+      :start-color="backgroundColors.start"
+      :stop-color="backgroundColors.stop"
+    />
     <div class="h-full">
       <instance-sidebar
         v-if="instance"
@@ -40,8 +43,9 @@
 </template>
 
 <script>
-  import InstanceSidebar from './sidebar';
-  import WaveBackground from '!raw-loader!../../../assets/img/wave.svg'
+  import InstanceSidebar from './sidebar.vue';
+  import {findApplicationForInstance, findInstance} from "../../../store.js";
+  import sbaConfig from "../../../sba-config.js";
 
   export default {
     components: {InstanceSidebar},
@@ -62,15 +66,18 @@
     data() {
       return {
         instanceId: this.$route.params.instanceId,
-        WaveBackground,
+        backgroundColors: {
+          start: '#84eacb',
+          stop: '#3abae0',
+        }
       }
     },
     computed: {
       instance() {
-        return this.applications.findInstance(this.instanceId);
+        return findInstance(this.applications, this.instanceId);
       },
       application() {
-        return this.applications.findApplicationForInstance(this.instanceId);
+        return findApplicationForInstance(this.applications, this.instanceId);
       }
     },
     watch: {
@@ -80,6 +87,9 @@
           this.instanceId = this.$route.params.instanceId;
         }
       }
+    },
+    created() {
+      this.backgroundColors = sbaConfig.uiSettings.background;
     },
     install({viewRegistry}) {
       viewRegistry.addView({
