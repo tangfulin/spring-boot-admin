@@ -15,10 +15,16 @@
   -->
 
 <template>
-  <sba-instance-section :loading="!hasLoaded" :error="errorFetch">
-    <template v-if="threads" v-slot:before>
+  <sba-instance-section
+    :loading="!hasLoaded"
+    :error="errorFetch"
+  >
+    <template
+      v-if="threads"
+      #before
+    >
       <sba-sticky-subnav>
-        <div class="mx-6 text-right">
+        <div class="text-right">
           <sba-button @click="downloadThreaddump">
             <font-awesome-icon icon="download" />&nbsp;
             <span v-text="$t('instances.threaddump.download')" />
@@ -27,36 +33,42 @@
       </sba-sticky-subnav>
     </template>
     <template>
-      <sba-alert v-if="errorDownload" :error="errorDownload" :title="$t('instances.threaddump.download_failed')" />
+      <sba-alert
+        v-if="errorDownload"
+        :error="errorDownload"
+        :title="$t('instances.threaddump.download_failed')"
+      />
 
       <sba-panel>
-        <threads-list v-if="threads" :thread-timelines="threads" />
+        <threads-list
+          v-if="threads"
+          :thread-timelines="threads"
+        />
       </sba-panel>
     </template>
   </sba-instance-section>
 </template>
 
 <script>
-import subscribing from '@/mixins/subscribing';
-import Instance from '@/services/instance';
-import {concatMap, delay, retryWhen, timer} from '@/utils/rxjs';
-import remove from 'lodash/remove';
-import moment from 'moment';
-import threadsList from './threads-list';
-import {VIEW_GROUP} from '../../index';
+import {remove} from 'lodash-es';
 import {take} from 'rxjs/operators';
-import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
-import SbaButton from '@/components/sba-button';
+import subscribing from '@/mixins/subscribing';
+import Instance from '@/services/instance.js';
+import {concatMap, delay, retryWhen, timer} from '@/utils/rxjs.js';
+import threadsList from './threads-list.vue';
+import moment from 'moment';
+import {VIEW_GROUP} from '../../index.js';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section.vue';
 
 export default {
+  components: {SbaInstanceSection, threadsList},
+  mixins: [subscribing],
   props: {
     instance: {
       type: Instance,
       required: true
     }
   },
-  mixins: [subscribing],
-  components: {SbaButton, SbaInstanceSection, threadsList},
   data: () => ({
     hasLoaded: false,
     errorFetch: null,
