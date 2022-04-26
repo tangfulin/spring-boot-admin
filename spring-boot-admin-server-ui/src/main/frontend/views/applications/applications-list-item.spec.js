@@ -34,66 +34,67 @@ describe('application-list-item.vue', () => {
 
     render(ApplicationListItem, { props: {application: new Application(application)}})
 
-    const shutdownButton = screen.queryByTitle('shutdown')
+    const shutdownButton = screen.queryByTitle('shutdown');
     expect(shutdownButton).toBeNull();
   })
 
   it('should call shutdown endpoint when modal is confirmed', async () => {
-    const {emitted} = render(ApplicationListItem, {props: {application: new Application(application)}})
+    const {emitted} = render(ApplicationListItem, {  props: {application: new Application(application)}})
 
     const element = screen.queryByTitle('shutdown');
-    userEvent.click(element);
+    await userEvent.click(element);
 
     await waitFor(() => {
       screen.findByRole('dialog');
     })
 
     const buttonOK = screen.queryByRole('button', {name: 'OK'});
-    userEvent.click(buttonOK);
+    await userEvent.click(buttonOK);
 
-    expect(emitted().shutdown).toBeDefined();
+    expect(emitted()).toBeDefined();
   })
 
   it('does not show restart button when restart endpoint is missing', () => {
     application.instances[0].endpoints = [];
 
-    render(ApplicationListItem, { props: {application: new Application(application)}})
+    render(ApplicationListItem, {  props: {application: new Application(application)}})
 
     const shutdownButton = screen.queryByTitle('restart')
     expect(shutdownButton).toBeNull();
   })
 
   it('should call restart endpoint when modal is confirmed', async () => {
-    const {emitted} = render(ApplicationListItem, {props: {application: new Application(application)}})
+    const {emitted} = render(ApplicationListItem, { props: {application: new Application(application)}})
 
     const element = screen.queryByTitle('restart');
-    userEvent.click(element);
+    await userEvent.click(element);
 
     await waitFor(() => {
       screen.findByRole('dialog');
     })
 
+    screen.logTestingPlaygroundURL()
     const buttonOK = screen.queryByRole('button', {name: 'OK'});
-    userEvent.click(buttonOK);
+    await userEvent.click(buttonOK);
 
     expect(emitted().restart).toBeDefined();
   })
 
   it('should show confirmation if application is restarted', async () => {
-    render(ApplicationListItem, {props: {application: new Application(application)}})
+    render(ApplicationListItem, {  props: {application: new Application(application)}})
 
     const element = screen.queryByTitle('restart');
-    userEvent.click(element);
+    await userEvent.click(element);
 
     await waitFor(() => {
       screen.findByRole('dialog');
     })
 
     const buttonOK = screen.queryByRole('button', {name: 'OK'});
-    userEvent.click(buttonOK);
+    await userEvent.click(buttonOK);
 
     await waitFor(() => {
-      let successDialog = screen.queryByText('Successfully restarted application');
+      let successDialog = screen.queryByText('applications.restarted');
       expect(successDialog).toBeVisible();
     })
   })
