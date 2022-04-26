@@ -15,11 +15,17 @@
   -->
 
 <template>
-  <section class="section">
-    <div class="field has-addons">
-      <div class="control">
-        <span class="select">
-          <select v-model="filter.type">
+  <sba-instance-section
+    :error="error"
+    :loading="isLoading"
+  >
+    <template #before>
+      <sba-sticky-subnav>
+        <div class="flex -space-x-px">
+          <select
+            v-model="filter.type"
+            class="relative focus:z-10 focus:ring-indigo-500 focus:border-indigo-500 block sm:text-sm border-gray-300 rounded-md rounded-r-none"
+          >
             <option
               value="username"
               v-text="$t('term.username')"
@@ -29,39 +35,37 @@
               v-text="$t('instances.sessions.session_id')"
             />
           </select>
-        </span>
-      </div>
-      <div class="control is-expanded">
-        <input
-          v-model="filter.value"
-          class="input"
-          type="text"
-          @paste="handlePaste"
-          @keyup.enter="fetchSessionsByUsername()"
-        >
-      </div>
-    </div>
+          <sba-input
+            v-model="filter.value"
+            input-class="!rounded-l-none"
+            type="search"
+            @paste="handlePaste"
+            @keyup.enter="fetchSessionsByUsername()"
+          />
+        </div>
+      </sba-sticky-subnav>
+    </template>
 
-    <sba-alert
-      v-if="error"
-      :error="error"
-      :title="$t('term.fetch_failed')"
-    />
-
-    <sba-sessions-list
-      :instance="instance"
-      :is-loading="isLoading"
-      :sessions="sessions"
-      @deleted="fetch"
-    />
-  </section>
+    <sba-panel>
+      <sba-sessions-list
+        :instance="instance"
+        :is-loading="isLoading"
+        :sessions="sessions"
+        @deleted="fetch"
+      />
+    </sba-panel>
+  </sba-instance-section>
 </template>
 
 <script>
 import {debounce, isEqual} from 'lodash-es';
 import Instance from '@/services/instance.js';
 import sbaSessionsList from './sessions-list.vue'
-import {VIEW_GROUP} from '../../index.js';
+import {VIEW_GROUP} from '../../ViewGroup.js';
+import moment from "moment";
+import SbaInstanceSection from "../shell/sba-instance-section.vue";
+import SbaStickySubnav from "../../../components/sba-sticky-subnav.vue";
+import SbaPanel from "../../../components/sba-panel.vue";
 
 const regexUuid = /[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}/;
 
@@ -74,7 +78,7 @@ class Session {
 }
 
 export default {
-  components: {sbaSessionsList},
+  components: {SbaPanel, SbaStickySubnav, SbaInstanceSection, sbaSessionsList},
   props: {
     instance: {
       type: Instance,
