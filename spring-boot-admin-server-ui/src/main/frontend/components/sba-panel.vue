@@ -101,7 +101,6 @@ export default {
   },
   emits: ['close'],
   data() {
-    console.log(this.$slots.title);
     return {
       headerTopValue: 0,
       onScrollFn: undefined,
