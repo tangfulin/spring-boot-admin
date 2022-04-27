@@ -4,8 +4,9 @@
   "description": "Spring Boot Admin UI",
   "scripts": {
     "build": "vite build --emptyOutDir",
-    "build:dev": "vite build --emptyOutDir --sourcemap --mode development",
-    "build:watch": "vite build --emptyOutDir --watch --sourcemap --mode development",
+    "build:dev": "vite build --sourcemap --mode development",
+    "build:watch": "vite build --watch --sourcemap --mode development",
+    "test": "jest",
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
@@ -60,10 +61,12 @@
     "@vitejs/plugin-vue": "2.3.0",
     "@vue/vue3-jest": "26.0.1",
     "autoprefixer": "10.4.4",
+    "babel-jest": "26.6.3",
     "babel-loader": "^8.2.4",
     "eslint": "^6.8.0",
     "eslint-plugin-storybook": "^0.5.8",
     "eslint-plugin-vue": "8.6.0",
+    "jest": "26.6.3",
     "jest-environment-jsdom": "^27.5.1",
     "jest-transform-stub": "^2.0.0",
     "msw": "^0.39.2",
@@ -82,9 +85,8 @@
     "not ie <= 8"
   ],
   "jest": {
-    "setupFiles": [
-      "<rootDir>/.jest/register-context.js"
-    ],
+    "verbose": true,
+    "collectCoverage": true,
     "setupFilesAfterEnv": [
       "<rootDir>/.jest/jest.setup.js"
     ],
@@ -95,7 +97,7 @@
       "vue"
     ],
     "transformIgnorePatterns": [
-      "node_modules/(?!(d3-.*|internmap)/)"
+      "node_modules/(?!(d3-.*|internmap|lodash-es|pretty-bytes)/)"
     ],
     "transform": {
       ".+\\.vue$": "@vue/vue3-jest",
@@ -115,6 +117,6 @@
     "npm": ">=8"
   },
   "msw": {
-    "workerDirectory": "public"
+    "workerDirectory": "src/main/frontend/assets"
   }
 }

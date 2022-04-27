@@ -1,7 +1,4 @@
-const {colors: defaultColors} = require('tailwindcss/defaultTheme')
-
 const colors = {
-  ...defaultColors,
   ...{
     'main': {
       '200': 'var(--main-color-lighter)',
@@ -39,11 +36,17 @@ const colors = {
   },
 }
 module.exports = {
-  purge: [],
   darkMode: 'class',
+  content: [
+    "./index.html",
+    "./src/**/*.{vue,js,ts,jsx,tsx}",
+  ],
   theme: {
-    colors,
+    maxWidth: {
+      'sm': '24rem'
+    },
     extend: {
+      colors,
       columns: {
         '2': '14rem',
       },

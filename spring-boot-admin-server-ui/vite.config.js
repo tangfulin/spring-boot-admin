@@ -11,7 +11,6 @@ const outDir = resolve(__dirname, './target/dist');
 
 export default ({mode}) => {
   process.env = {...process.env, ...loadEnv(mode, process.cwd())};
-
   return defineConfig({
     define: {
       '__PROJECT_VERSION__': JSON.stringify(`${process.env.PROJECT_VERSION || '0.0.0'}`)
@@ -38,7 +37,8 @@ export default ({mode}) => {
       outDir,
       rollupOptions: {
         input: {
-          sba: resolve(root, './index.html')
+          sba: resolve(root, './index.html'),
+          login: resolve(root, './login.html'),
         },
         external: ['sba-settings.js', 'variables.css']
       }
