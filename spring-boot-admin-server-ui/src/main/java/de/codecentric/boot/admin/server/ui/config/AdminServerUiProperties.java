@@ -16,8 +16,6 @@
 
 package de.codecentric.boot.admin.server.ui.config;
 
-import de.codecentric.boot.admin.server.ui.web.UiController;
-
 import java.time.Duration;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
@@ -31,14 +29,16 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.convert.DurationUnit;
 import org.springframework.http.CacheControl;
 
+import de.codecentric.boot.admin.server.ui.web.UiController;
+
 @lombok.Data
 @ConfigurationProperties("spring.boot.admin.ui")
 public class AdminServerUiProperties {
 
-	private static final String[] CLASSPATH_RESOURCE_LOCATIONS = {"classpath:/META-INF/spring-boot-admin-server-ui/"};
+	private static final String[] CLASSPATH_RESOURCE_LOCATIONS = { "classpath:/META-INF/spring-boot-admin-server-ui/" };
 
 	private static final String[] CLASSPATH_EXTENSION_RESOURCE_LOCATIONS = {
-		"classpath:/META-INF/spring-boot-admin-server-ui/extensions/"};
+			"classpath:/META-INF/spring-boot-admin-server-ui/extensions/" };
 
 	/**
 	 * Locations of SBA ui resources.
@@ -195,33 +195,42 @@ public class AdminServerUiProperties {
 
 	@Data
 	public static class UiTheme {
+
 		private Background background = new Background();
+
 		private Palette palette = new Palette();
+
 	}
 
 	@Data
 	public static class Background {
+
 		private String start = "#84eacb";
+
 		private String stop = "#3abae0";
+
 	}
 
 	/**
 	 * Color shades are based on Tailwind's color palettes:
 	 * https://tailwindcss.com/docs/customizing-colors
 	 *
-	 * name				shade number
-	 * mainColorLighter  50
-	 * mainColorLight 	300
-	 * mainColor 		500
-	 * mainColorDark 	700
-	 * mainColorDarker 	800
+	 * name shade number mainColorLighter 50 mainColorLight 300 mainColor 500
+	 * mainColorDark 700 mainColorDarker 800
 	 */
 	@Data
 	public static class Palette {
+
 		private String mainColorLighter = "#f0fdf4";
+
 		private String mainColorLight = "#86efac";
+
 		private String mainColor = "#22c55e";
+
 		private String mainColorDark = "#15803d";
+
 		private String mainColorDarker = "#166534";
+
 	}
+
 }

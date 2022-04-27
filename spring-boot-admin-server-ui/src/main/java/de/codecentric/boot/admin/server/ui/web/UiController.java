@@ -30,8 +30,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.util.UriComponents;
 import org.springframework.web.util.UriComponentsBuilder;
 
-import de.codecentric.boot.admin.server.ui.config.AdminServerUiProperties.UiTheme;
 import de.codecentric.boot.admin.server.ui.config.AdminServerUiProperties.PollTimer;
+import de.codecentric.boot.admin.server.ui.config.AdminServerUiProperties.UiTheme;
 import de.codecentric.boot.admin.server.ui.extensions.UiExtension;
 import de.codecentric.boot.admin.server.ui.extensions.UiExtensions;
 import de.codecentric.boot.admin.server.web.AdminController;

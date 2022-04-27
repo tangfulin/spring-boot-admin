@@ -97,8 +97,7 @@ public class AdminServerUiAutoConfiguration {
 				.routes(routes).rememberMeEnabled(this.adminUi.isRememberMeEnabled())
 				.availableLanguages(this.adminUi.getAvailableLanguages()).externalViews(this.adminUi.getExternalViews())
 				.pollTimer(this.adminUi.getPollTimer()).viewSettings(this.adminUi.getViewSettings())
-				.theme(this.adminUi.getTheme())
-				.build();
+				.theme(this.adminUi.getTheme()).build();
 
 		String publicUrl = (this.adminUi.getPublicUrl() != null) ? this.adminUi.getPublicUrl()
 				: this.adminServer.getContextPath();
