@@ -155,26 +155,19 @@
   width: 90%;
   margin-top: 0.5em;
 }
-.up {
-  @apply bg-green-200 text-green-700;
-}
+
 .up > polygon {
-  stroke: theme('colors.green.200');
-  fill:  theme('colors.green.200');
-}
-.down {
-  @apply bg-red-200 text-red-700 ;
-}
-.down > polygon {
-  stroke: theme('colors.red.200');
-  fill:  theme('colors.red.200');
+  stroke: theme('colors.green.400');
+  fill:  theme('colors.green.400');
 }
 
-.restricted {
-  @apply bg-yellow-200 text-yellow-700 ;
+.down > polygon {
+  stroke: theme('colors.red.400');
+  fill:  theme('colors.red.400');
 }
+
 .restricted > polygon {
-  stroke: theme('colors.yellow.200');
-  fill:  theme('colors.yellow.200');
+  stroke: theme('colors.yellow.400');
+  fill:  theme('colors.yellow.400');
 }
 </style>

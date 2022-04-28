@@ -183,18 +183,15 @@ export default {
 }
 
 .hex polygon {
-  fill: none;
-  stroke: #3e8ed0;
+  fill: theme('colors.gray.200');
+  stroke: theme('colors.gray.200');
   transition: all ease-out 250ms;
 }
 
-.hex.is-selectable:hover {
-  cursor: pointer;
-}
-
-.hex.is-selectable:hover polygon {
-  fill-opacity: 0.85;
+.hex:hover polygon {
+  fill-opacity: 0.25;
   stroke-opacity: 1;
+  stroke-width: 2;
 }
 
 .hex__body {
