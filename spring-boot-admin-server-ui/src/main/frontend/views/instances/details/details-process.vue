@@ -25,15 +25,18 @@
         :error="error"
         :title="$t('term.fetch_failed')"
       />
-      <sba-key-value-table
+      <div
         v-else
         class="-mx-4 -my-3"
-        :map="tableData"
       >
-        <template #uptime="value">
-          <process-uptime :value="value.value" />
-        </template>
-      </sba-key-value-table>
+        <sba-key-value-table
+          :map="tableData"
+        >
+          <template #uptime="value">
+            <process-uptime :value="value.value" />
+          </template>
+        </sba-key-value-table>
+      </div>
     </div>
   </sba-panel>
 </template>

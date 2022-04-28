@@ -23,11 +23,11 @@
         >
           <stop
             offset="0"
-            :stop-color="startColor"
+            :stop-color="start"
           />
           <stop
             offset="1"
-            :stop-color="stopColor"
+            :stop-color="stop"
           />
         </linearGradient>
         <linearGradient
@@ -41,11 +41,11 @@
         >
           <stop
             offset="0"
-            :stop-color="startColor"
+            :stop-color="start"
           />
           <stop
             offset="1"
-            :stop-color="stopColor"
+            :stop-color="stop"
           />
         </linearGradient>
         <linearGradient
@@ -59,11 +59,11 @@
         >
           <stop
             offset="0"
-            :stop-color="startColor"
+            :stop-color="start"
           />
           <stop
             offset="1"
-            :stop-color="stopColor"
+            :stop-color="stop"
           />
         </linearGradient>
       </defs>
@@ -108,6 +108,14 @@ export default {
     return {
       id: this._.uid
     }
+  },
+  computed: {
+    start() {
+      return this.startColor || "#84eacb";
+    },
+    stop() {
+      return this.stopColor || "#3abae0";
+    }
   }
 }
 </script>
@@ -116,5 +124,6 @@ export default {
 .bg-wave {
   @apply w-full h-40 fixed;
   z-index: -10;
+  pointer-events: none;
 }
 </style>

@@ -4,8 +4,8 @@
   "description": "Spring Boot Admin UI",
   "scripts": {
     "build": "vite build --emptyOutDir",
-    "build:dev": "vite build --sourcemap --mode development",
-    "build:watch": "vite build --watch --sourcemap --mode development",
+    "build:dev": "vite build --emptyOutDir --sourcemap --mode development",
+    "build:watch": "vite build --emptyOutDir --watch --sourcemap --mode development",
     "test": "jest",
     "preview": "vite preview",
     "storybook": "start-storybook -p 6006",
@@ -74,7 +74,7 @@
     "postcss": "8.4.12",
     "postcss-sass-color-functions": "^1.1.0",
     "rollup-plugin-visualizer": "^5.6.0",
-    "tailwindcss": "3.0.23",
+    "tailwindcss": "3.0.24",
     "vite": "2.9.0",
     "vite-plugin-static-copy": "^0.4.4",
     "vue-loader": "^16.8.3"

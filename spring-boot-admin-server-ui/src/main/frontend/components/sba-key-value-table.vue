@@ -1,5 +1,5 @@
 <template>
-  <div
+  <dl
     v-for="(value, key, index) in map"
     :key="key"
     class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
@@ -17,7 +17,7 @@
         <sba-formatted-obj :value="getValue(value)" />
       </slot>
     </dd>
-  </div>
+  </dl>
 </template>
 
 <script>

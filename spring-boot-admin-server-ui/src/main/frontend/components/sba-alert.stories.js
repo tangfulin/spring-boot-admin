@@ -34,6 +34,12 @@ AlertError.args = {
   severity: Severity.ERROR
 };
 
+export const AlertErrorWithoutTitle = Template.bind({});
+AlertErrorWithoutTitle.args = {
+  error: new Error('Error reading from endpoint /applications'),
+  severity: Severity.ERROR
+};
+
 export const AlertWarning = Template.bind({});
 AlertWarning.args = {
   ...AlertError.args,

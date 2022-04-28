@@ -13,12 +13,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "./tailwind.css";
 
 body {
     font-family: BlinkMacSystemFont, -apple-system, Segoe UI, Roboto, Oxygen, Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, Helvetica, Arial, sans-serif;
-    background-image: url("/assets/img/wave.svg");
-    background-repeat: no-repeat;
 }

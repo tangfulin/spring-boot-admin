@@ -52,13 +52,15 @@
       class="border-gray-200 px-4 py-3 bg-white"
       :class="{'rounded-t-lg': !hasTitle, 'rounded-b-lg overflow-hidden': !('footer' in $slots) }"
     >
-      <sba-loading-spinner
-        v-if="loading"
-        size="sm"
-        class=""
-        :loading="loading"
-      />
-      <slot v-if="!loading" />
+      <div :class="{'-mx-4 -my-3': seamless}">
+        <sba-loading-spinner
+          v-if="loading"
+          size="sm"
+          class=""
+          :loading="loading"
+        />
+        <slot v-if="!loading" />
+      </div>
     </div>
     <footer v-if="'footer' in $slots">
       <div class="px-4 py-3 border-t bg-gray-50">
@@ -95,6 +97,10 @@ export default {
       default: undefined
     },
     loading: {
+      type: Boolean,
+      default: false
+    },
+    seamless: {
       type: Boolean,
       default: false
     }

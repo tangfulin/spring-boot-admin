@@ -1,7 +1,7 @@
 import {merge} from 'lodash-es';
 import {createI18n} from 'vue-i18n';
 
-const context = import.meta.globEager("../**/i18n.*.json");
+const context = import.meta.globEager("../**/(*.)?i18n.*.json");
 const messages = Object.keys(context)
   .map(key => {
     const localeFromFile = /\.*i18n\.?([^/]*)\.json$/.exec(key);

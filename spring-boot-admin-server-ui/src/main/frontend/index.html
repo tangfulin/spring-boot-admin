@@ -42,7 +42,7 @@
     <script lang="javascript" src="sba-settings.js"></script>
 </head>
 <body>
-    <div id="app" ></div>
+    <div id="app"></div>
     <script type="module" lang="javascript" src="./index.js"></script>
     <th:block th:each="jsExtension : ${jsExtensions}">
         <script lang="javascript" th:src="'extensions/' + ${jsExtension.resourcePath}"></script>

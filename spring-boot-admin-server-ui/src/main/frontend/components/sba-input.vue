@@ -43,12 +43,14 @@
 
         <input
           :id="id"
+          :name="name"
           :value="modelValue"
           :type="type"
           :placeholder="placeholder"
           :min="min"
           :list="datalistId"
-          class="focus:z-10 p-2 relative flex-1 block w-full rounded-none sm:text-sm"
+          :autocomplete="autocomplete"
+          class="focus:z-10 p-2 relative flex-1 block w-full rounded-none sm:text-sm bg-opacity-40 backdrop-blur-sm"
           :class="classNames(inputFieldClassNames, inputClass)"
           @input="handleInput"
         >
@@ -89,6 +91,10 @@ import classNames from "classnames";
 
 export default {
   props: {
+    name: {
+      type: String,
+      required: true
+    },
     label: {
       type: String,
       default: null
@@ -96,10 +102,6 @@ export default {
     placeholder: {
       type: String,
       default: null
-    },
-    name: {
-      type: String,
-      default: ""
     },
     type: {
       type: String,
@@ -128,6 +130,10 @@ export default {
     hint: {
       type: String,
       default: undefined
+    },
+    autocomplete: {
+      type: String,
+      default: undefined
     }
   },
   emits: ['update:modelValue', 'input'],
@@ -147,7 +153,7 @@ export default {
 
       const classNames = [];
 
-      if (this.error) {
+      if (this.error !== undefined) {
         classNames.push('focus:ring-red-500 focus:border-red-500 border-red-400')
       } else {
         classNames.push('focus:ring-indigo-500 focus:border-indigo-500 border-gray-300')
@@ -161,7 +167,7 @@ export default {
       }
 
       return classNames;
-    }
+    },
   },
   methods: {
     classNames,

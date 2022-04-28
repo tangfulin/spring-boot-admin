@@ -16,7 +16,7 @@
 
 <template>
   <div>
-    <div
+    <dl
       class="px-4 py-3 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6"
       :class="{'bg-white': index%2===0, 'bg-gray-50': index%2!==0}"
     >
@@ -56,7 +56,7 @@
           </template>
         </dl>
       </dd>
-    </div>
+    </dl>
 
     <health-details
       v-for="(child, idx) in childHealth"

@@ -30,8 +30,9 @@
           class="mr-4"
         />
       </div>
-      <div>
+      <div class="grid grid-cols-1 place-content-center">
         <p
+          v-if="title"
           class="font-bold"
           v-text="title"
         />
@@ -46,6 +47,7 @@
 
 <script>
 import classNames from 'classnames';
+import FontAwesomeIcon from "./font-awesome-icon.js"
 
 export const Severity = {
   ERROR: 'ERROR',
@@ -56,10 +58,11 @@ export const Severity = {
 
 export default {
   name: 'SbaAlert',
+  components: {FontAwesomeIcon},
   props: {
     title: {
       type: String,
-      required: true
+      default: undefined
     },
     error: {
       type: [Error, String],
@@ -67,7 +70,7 @@ export default {
     },
     severity: {
       type: String,
-      default: 'ERROR'
+      default: Severity.ERROR
     }
   },
   data() {

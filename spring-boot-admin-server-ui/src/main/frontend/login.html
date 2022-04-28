@@ -25,78 +25,19 @@
     <meta name="theme-color" content="#42d3a5">
     <link rel="shortcut icon" th:href="${uiSettings.favicon}" type="image/png">
     <title th:text="${uiSettings.title}">Spring Boot Admin - Login</title>
+    <script th:inline="javascript">
+        var csrf = /*[[${_csrf}]]*/ {};
+        var uiSettings = /*[[${uiSettings}]]*/ {};
+        var param = /*[[${param}]]*/ {};
+    </script>
 </head>
-<body class="flex flex-col min-h-full">
+<body class="flex flex-col min-h-full h-full">
+<div class="absolute w-full h-full t-0 l-0 bg-white bg-opacity-40 backdrop-blur-sm z-0" >
+</div>
+<section class="relative z-10 flex items-center justify-center h-full" id="login">
+</section>
+
 <script type="module" lang="javascript" src="./login.js"></script>
 
-<div class="absolute w-full h-full t-0 l-0 bg-white bg-opacity-40 backdrop-blur-sm z-0"/>
-
-<section
-        class="relative z-10 flex-auto flex items-center justify-center text-sm text-center text-gray-600 py-16 px-4 sm:px-6 lg:px-8">
-    <div class="w-full max-w-sm">
-        <div class="flex">
-            <figure class="w-8 h-8">
-                <img th:attr="src=${uiSettings.loginIcon}" src="assets/img/icon-spring-boot-admin.svg">
-            </figure>
-            <h1 class="title has-text-primary" th:text="${uiSettings.title}">Spring Boot Admin</h1>
-        </div>
-
-
-        <div class="hero-body">
-            <div class="container has-text-centered">
-                <div class="column is-4 is-offset-4">
-                    <div class="box">
-
-                        <form method="post">
-                            <input type="hidden"
-                                   th:if="${_csrf}"
-                                   th:name="${_csrf.parameterName}"
-                                   th:value="${_csrf.token}"/>
-                            <div class="field">
-                                <p class="is-medium has-text-danger" th:unless="${param.error == null}"
-                                   data-i18n="login.invalid_username_or_password">
-                                    Invalid username or password
-                                </p>
-                                <p class="is-medium" th:unless="${param.logout == null}"
-                                   data-i18n="login.logout_successful">
-                                    Logout successful
-                                </p>
-                            </div>
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input is-medium" type="text" name="username" placeholder="Username"
-                                           data-i18n="placeholder:login.placeholder.username" autofocus
-                                           th:classappend="${param.error != null} ? is-danger">
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="control">
-                                    <input class="input is-medium" type="password" name="password"
-                                           placeholder="Password"
-                                           data-i18n="placeholder:login.placeholder.password"
-                                           th:classappend="${param.error != null} ? is-danger">
-                                </div>
-                            </div>
-                            <div class="field" th:if="${uiSettings.rememberMeEnabled}">
-                                <div class="control">
-                                    <label class="checkbox">
-                                        <input type="checkbox" name="remember-me">
-                                        <span data-i18n="login.remember_me"></span>
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="field">
-                                <div class="control">
-                                    <input type="submit" class="button is-block is-primary is-medium is-fullwidth"
-                                           value="Login" data-i18n="value:login.button_login">
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</section>
 </body>
 </html>

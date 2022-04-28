@@ -39,14 +39,15 @@ module.exports = {
   darkMode: 'class',
   content: [
     "./index.html",
+    "./login.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
   theme: {
-    maxWidth: {
-      'sm': '24rem'
-    },
     extend: {
       colors,
+      maxWidth: {
+        sm: '24rem',
+      },
       columns: {
         '2': '14rem',
       },
@@ -54,9 +55,6 @@ module.exports = {
         '9xl': '7rem',
       }
     }
-  },
-  variants: {
-    extend: {},
   },
   plugins: [
     require('@tailwindcss/forms'),

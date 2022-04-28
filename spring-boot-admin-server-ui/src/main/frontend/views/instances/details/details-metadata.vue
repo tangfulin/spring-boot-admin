@@ -15,13 +15,19 @@
   -->
 
 <template>
-  <sba-panel :title="$t('instances.details.metadata.title')">
-    <sba-key-value-table class="-mx-4 -my-3" v-if="!isEmptyMetadata" :map="metadata" />
+  <sba-panel
+    :title="$t('instances.details.metadata.title')"
+    :seamless="true"
+  >
+    <sba-key-value-table
+      v-if="!isEmptyMetadata"
+      :map="metadata"
+    />
   </sba-panel>
 </template>
 
 <script>
-import Instance from '@/services/instance';
+import Instance from '@/services/instance.js';
 
 export default {
   props: {

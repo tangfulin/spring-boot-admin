@@ -297,6 +297,12 @@ export default {
       ).sort(compareBy(v => v.order));
     },
   },
+  watch: {
+    '$route': function() {
+      this.showMenu = false;
+      this.showUserMenu = false;
+    }
+  },
   created() {
     this.brand = sbaConfig.uiSettings.brand;
     this.userName = sbaConfig.user ? sbaConfig.user.name : null;

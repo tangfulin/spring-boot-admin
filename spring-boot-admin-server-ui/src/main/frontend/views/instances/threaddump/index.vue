@@ -32,20 +32,17 @@
         </div>
       </sba-sticky-subnav>
     </template>
-    <template>
-      <sba-alert
-        v-if="errorDownload"
-        :error="errorDownload"
-        :title="$t('instances.threaddump.download_failed')"
+    <sba-alert
+      v-if="errorDownload"
+      :error="errorDownload"
+      :title="$t('instances.threaddump.download_failed')"
+    />
+    <sba-panel>
+      <threads-list
+        v-if="threads"
+        :thread-timelines="threads"
       />
-
-      <sba-panel>
-        <threads-list
-          v-if="threads"
-          :thread-timelines="threads"
-        />
-      </sba-panel>
-    </template>
+    </sba-panel>
   </sba-instance-section>
 </template>
 
@@ -73,14 +70,13 @@ export default {
     hasLoaded: false,
     errorFetch: null,
     errorDownload: null,
-    threads: null
+    threads: {}
   }),
   computed: {},
   methods: {
     updateTimelines(threads) {
       const vm = this;
       const now = moment().valueOf();
-      vm.threads = vm.threads || {};
       //initialize with all known live threads, which will be removed from the list if still alive
       const terminatedThreads = Object.entries(vm.threads)
         .filter(([, value]) => value.threadState !== 'TERMINATED')
@@ -89,7 +85,7 @@ export default {
       threads.forEach(
         thread => {
           if (!vm.threads[thread.threadId]) {
-            vm.$set(vm.threads, thread.threadId, {
+            vm.threads[thread.threadId] = {
               threadId: thread.threadId,
               threadState: thread.threadState,
               threadName: thread.threadName,
@@ -99,7 +95,7 @@ export default {
                 details: thread,
                 threadState: thread.threadState,
               }]
-            });
+            };
           } else {
             const entry = vm.threads[thread.threadId];
             if (entry.threadState !== thread.threadState) {
