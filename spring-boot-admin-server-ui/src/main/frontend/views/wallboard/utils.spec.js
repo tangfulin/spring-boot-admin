@@ -14,9 +14,9 @@
  * limitations under the License.
  */
 
-import * as hm from './hex-mesh';
+import * as hm from './utils.js';
 
-describe('calcLayout', () => {
+describe('utils.js', () => {
 
   it('should calculate optimum layout for 12 in 1594x879', () => {
     const result = hm.calcLayout(12, 1594, 879);

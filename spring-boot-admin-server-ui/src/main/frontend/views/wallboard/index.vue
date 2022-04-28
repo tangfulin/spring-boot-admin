@@ -82,21 +82,21 @@
           return null;
         }
         if (application.status === HealthStatus.UP) {
-          return 'is-selectable is-primary';
+          return 'up';
         }
         if (application.status === HealthStatus.RESTRICTED) {
-          return 'is-selectable is-warning';
+          return 'restricted';
         }
         if (application.status === HealthStatus.DOWN) {
-          return 'is-selectable is-danger';
+          return 'down';
         }
         if (application.status === HealthStatus.OUT_OF_SERVICE) {
-          return 'is-selectable is-danger';
+          return 'down';
         }
         if (application.status === HealthStatus.OFFLINE) {
-          return 'is-selectable is-light';
+          return '';
         }
-        return 'is-selectable is-light';
+        return '';
       },
       select(application) {
         if (application.instances.length === 1) {
@@ -154,5 +154,27 @@
 .wallboard .application__footer {
   width: 90%;
   margin-top: 0.5em;
+}
+.up {
+  @apply bg-green-200 text-green-700;
+}
+.up > polygon {
+  stroke: theme('colors.green.200');
+  fill:  theme('colors.green.200');
+}
+.down {
+  @apply bg-red-200 text-red-700 ;
+}
+.down > polygon {
+  stroke: theme('colors.red.200');
+  fill:  theme('colors.red.200');
+}
+
+.restricted {
+  @apply bg-yellow-200 text-yellow-700 ;
+}
+.restricted > polygon {
+  stroke: theme('colors.yellow.200');
+  fill:  theme('colors.yellow.200');
 }
 </style>
