@@ -29,7 +29,7 @@
 
 <script>
   import moment from 'moment';
-  import sbaTimeAgo from './sba-time-ago';
+  import sbaTimeAgo from './sba-time-ago.vue';
 
   const icons = {
     'UP': 'check-circle',

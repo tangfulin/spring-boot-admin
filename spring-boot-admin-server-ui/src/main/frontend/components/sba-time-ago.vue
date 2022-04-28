@@ -13,7 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
+<template>
+  {{ timeAgo }}
+</template>
 
+<script>
 import moment from 'moment';
 
 const minute = 60 * 1000;
@@ -45,7 +49,6 @@ function shortFormat(aMoment, withoutPreOrSuffix, now = moment()) {
   }
   return result;
 }
-
 export default {
   props: {
     date: {
@@ -67,12 +70,10 @@ export default {
       this.now = moment();
     }, 1000);
   },
-  render() {
-    return this._v(this.timeAgo);
-  },
-  beforeDestroy() {
+  beforeUnmount() {
     if (this.timer) {
       window.clearInterval(this.timer);
     }
   }
 }
+</script>
