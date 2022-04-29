@@ -34,7 +34,7 @@ SBA.use({
 
 // tag::customization-ui-endpoint[]
 SBA.use({
-  install({viewRegistry, vueI18n}) {
+  install({viewRegistry}) {
     viewRegistry.addView({
       name: 'instances/custom',
       parent: 'instances', // <1>
@@ -45,8 +45,10 @@ SBA.use({
       order: 1000,
       isEnabled: ({instance}) => instance.hasEndpoint('custom') // <3>
     });
-
-    vueI18n.mergeLocaleMessage('en', { // <4>
+  },
+  configure({i18n}) {
+    console.log(i18n);
+    i18n.mergeLocaleMessage('en', { // <4>
       sidebar: {
         custom : {
           title : "My Custom Extensions"

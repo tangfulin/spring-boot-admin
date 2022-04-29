@@ -79,31 +79,28 @@
         <sba-panel
           v-for="group in statusGroups"
           :key="group.status"
+          :seamless="true"
           class="application-group"
           :title="$tc('term.applications_tc', group.applications.length)"
         >
           <template #title>
             <sba-status-badge :status="group.statusKey" />
           </template>
-          <template #default>
-            <div class="-mx-4 -my-3">
-              <applications-list-item
-                v-for="application in group.applications"
-                :id="application.name"
-                :key="application.name"
-                v-on-clickaway="(event) => deselect(event, application.name)"
-                :application="application"
-                :has-notification-filters-support="hasNotificationFiltersSupport"
-                :is-expanded="selected === application.name || Boolean(filter)"
-                :notification-filters="notificationFilters"
-                @unregister="unregister"
-                @shutdown="shutdown"
-                @restart="restart"
-                @click.stop="select(application.name)"
-                @toggle-notification-filter-settings="toggleNotificationFilterSettings"
-              />
-            </div>
-          </template>
+
+          <applications-list-item
+            v-for="application in group.applications"
+            :key="application.name"
+            :application="application"
+            :has-notification-filters-support="hasNotificationFiltersSupport"
+            :is-expanded="selected === application.name || Boolean(filter)"
+            :notification-filters="notificationFilters"
+            @unregister="unregister"
+            @shutdown="shutdown"
+            @restart="restart"
+            @deselect="deselect"
+            @select="select"
+            @toggle-notification-filter-settings="toggleNotificationFilterSettings"
+          />
         </sba-panel>
 
         <notification-filter-settings
@@ -126,7 +123,6 @@ import NotificationFilter from '@/services/notification-filter';
 import {anyValueMatches} from '@/utils/collections';
 import {concatMap, mergeWith, Subject, timer} from '@/utils/rxjs';
 import {groupBy, sortBy, transform} from 'lodash-es';
-import {directive as onClickaway} from 'vue3-click-away';
 import ApplicationsListItem from './applications-list-item.vue';
 import ApplicationsStats from './applications-stats.vue';
 import handle from './handle.vue';
@@ -144,7 +140,7 @@ const instanceMatchesFilter = (term, instance) => {
 };
 
 export default {
-  directives: {onClickaway, Popper},
+  directives: {Popper},
   components: {
     ApplicationStatusHero,
     SbaStickySubnav,
@@ -210,23 +206,23 @@ export default {
     this.hasNotificationFiltersSupport = NotificationFilter.isSupported();
   },
   methods: {
+    select(name) {
+      this.$router.replace({name: 'applications', params: {selected: name}});
+    },
+    deselect(event, expectedSelected) {
+      if (event && event.target instanceof HTMLAnchorElement) {
+        return;
+      }
+      this.toggleNotificationFilterSettings(null);
+      if (this.selected === expectedSelected || !expectedSelected) {
+        this.$router.replace({name: 'applications'});
+      }
+    },
     handleFilterInput(event) {
       this.$router.replace({
         name: 'applications',
         query: event.target.value ? {q: event.target.value} : null
       });
-    },
-    select(name) {
-      this.$router.replace({name: 'applications', params: {selected: name}});
-    },
-    deselect(event, expectedSelected) {
-      this.toggleNotificationFilterSettings(null);
-      if (event && event.target instanceof HTMLAnchorElement) {
-        return;
-      }
-      if (this.selected === expectedSelected || !expectedSelected) {
-        this.$router.replace({name: 'applications'});
-      }
     },
     async scrollIntoView(id, behavior) {
       if (id) {

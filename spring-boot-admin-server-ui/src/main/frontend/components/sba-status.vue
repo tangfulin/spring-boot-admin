@@ -21,7 +21,10 @@
       class="application-status__icon"
       :class="`application-status__icon--${status}`"
     />
-    <small v-if="date">
+    <small
+      v-if="date"
+      class="hidden md:block"
+    >
       <sba-time-ago :date="date" />
     </small>
   </div>

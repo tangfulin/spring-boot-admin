@@ -15,16 +15,17 @@
   -->
 
 <template>
-  <span
-    v-for="(value, key) in tags"
-    :key="key"
-  >
-    <sba-tag
+  <div class="inline-flex gap-1">
+    <template
+      v-for="(value, key) in tags"
       :key="key"
-      :label="key"
-      :value="value"
-    />
-  </span>
+    >
+      <sba-tag
+        :label="key"
+        :value="value"
+      />
+    </template>
+  </div>
 </template>
 
 <script>

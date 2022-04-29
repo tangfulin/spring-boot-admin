@@ -2,11 +2,11 @@ import "../src/main/frontend/index.css";
 import "./storybook.css";
 
 import { app } from '@storybook/vue3';
-import components from "@/components";
-import i18n from "@/i18n";
+import i18n from "../src/main/frontend/i18n/index.js";
 import mappingsEndpoint from '@/mocks/instance/mappings';
 
 import { initialize, mswDecorator } from 'msw-storybook-addon';
+import components from "../src/main/frontend/components/index.js";
 
 initialize();
 
@@ -28,3 +28,7 @@ export const parameters = {
     }
   }
 }
+
+export const decorators = [
+  mswDecorator,
+]

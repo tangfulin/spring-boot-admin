@@ -5,7 +5,7 @@ import {HealthStatus} from "../../HealthStatus.js";
 
 export default {
   component: Wallboard,
-  title: 'Components/Wallboard',
+  title: 'Views/Wallboard',
 };
 
 const Template = (args) => ({

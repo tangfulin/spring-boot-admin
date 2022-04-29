@@ -31,7 +31,6 @@
     <th:block th:each="jsExtension : ${jsExtensions}">
         <link rel="preload" th:href="'extensions/' + ${jsExtension.resourcePath}" as="script">
     </th:block>
-
     <th:block th:each="cssExtension : ${cssExtensions}">
         <link th:href="'extensions/' + ${cssExtension.resourcePath}" rel="stylesheet">
     </th:block>
@@ -39,10 +38,11 @@
     <link rel="shortcut icon" th:href="${uiSettings.favicon}" type="image/png">
     <title th:text="${uiSettings.title}">Spring Boot Admin</title>
 
-    <script lang="javascript" src="sba-settings.js"></script>
 </head>
 <body>
     <div id="app"></div>
+
+    <script lang="javascript" src="sba-settings.js"></script>
     <script type="module" lang="javascript" src="./index.js"></script>
     <th:block th:each="jsExtension : ${jsExtensions}">
         <script lang="javascript" th:src="'extensions/' + ${jsExtension.resourcePath}"></script>

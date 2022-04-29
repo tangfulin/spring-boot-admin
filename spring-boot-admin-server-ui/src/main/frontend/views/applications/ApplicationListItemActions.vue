@@ -1,40 +1,49 @@
 <template>
-  <div
+  <sba-button-group
     class="application-list-item__header__actions"
-    @click.stop=""
   >
     <router-link
-      class="button icon-button"
-      title="journal"
+      v-slot="{ navigate }"
       :to="{ name: 'journal', query: { 'application' : application.name } }"
+      custom
     >
-      <font-awesome-icon icon="history" />
+      <sba-button
+        :title="$t('applications.actions.journal')"
+        @click.stop="navigate"
+      >
+        <font-awesome-icon icon="history" />
+      </sba-button>
     </router-link>
-    <sba-icon-button
+    <sba-button
       v-if="hasNotificationFiltersSupport"
       :id="`nf-settings-${application.name}`"
-      :icon="hasActiveNotificationFilter ? 'bell-slash' : 'bell'"
-      @click="$emit('filter-settings', application)"
-    />
-    <sba-icon-button
+      :title="$t('applications.actions.notification_filters')"
+      @click.stop="$emit('filter-settings', application)"
+    >
+      <font-awesome-icon :icon="hasActiveNotificationFilter ? 'bell-slash' : 'bell'" />
+    </sba-button>
+    <sba-button
       v-if="application.isUnregisterable"
-      icon="trash"
-      title="unregister"
-      @click="$emit('unregister', application)"
-    />
-    <sba-icon-button
+      :title="$t('applications.actions.unregister')"
+      @click.stop="$emit('unregister', application)"
+    >
+      <font-awesome-icon :icon="'trash'" />
+    </sba-button>
+    <sba-button
       v-if="application.hasShutdownEndpoint"
-      title="shutdown"
-      :icon="['far', 'stop-circle']"
-      @click="$emit('shutdown', application)"
-    />
-    <sba-icon-button
+      :title="$t('applications.actions.shutdown')"
+      @click.stop="$emit('shutdown', application)"
+    >
+      <font-awesome-icon :icon="['far', 'stop-circle']" />
+    </sba-button>
+    <sba-button
       v-if="application.hasRestartEndpoint"
-      title="restart"
-      icon="sync-alt"
+      :title="$t('applications.actions.restart')"
       @click="$emit('restart', application)"
-    />
-  </div>
+    >
+      <font-awesome-icon icon="sync-alt" />
+    </sba-button>
+  </sba-button-group>
 </template>
 <script>
 import Application from "../../services/application.js";
@@ -59,26 +68,15 @@ export default {
 }
 </script>
 <style scoped>
-.application-list-item__header > *:not(:first-child) {
-  margin-left: 12px;
-}
-
 .application-list-item__header__actions {
+  @apply hidden md:flex;
   justify-self: end;
   opacity: 0;
   transition: all ease-out 86ms;
   will-change: opacity;
-  margin-right: 16px;
-  display: flex;
 }
 
 *:hover > .application-list-item__header__actions, *.is-active .application-list-item__header__actions {
   opacity: 1;
 }
-
-.application-list-item__header__actions > * {
-  width: calc(32px / 2);
-  height: calc(32px / 2);
-}
-
 </style>

@@ -18,7 +18,10 @@ export default {
     },
     size: {
       type: String,
-      default: 'sm'
+      default: 'sm',
+      validate(value) {
+        return ["xs", "sm", "base"].includes(value);
+      }
     },
     disabled: {
       type: Boolean,
@@ -31,8 +34,9 @@ export default {
       return {
         'shadow-sm': !this.flat,
         // Sizes
-        'px-1 py-0': this.size === 'xs',
+        'px-2 py-2 text-xs': this.size === 'xs',
         'px-3 py-2': this.size === 'sm',
+        'px-4 py-3': this.size === 'base',
         'px-5 py-2.5': this.size === ''
         // Types
       };

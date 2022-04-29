@@ -1,5 +1,12 @@
 {
   "applications": {
+    "actions": {
+      "journal": "Journal",
+      "notification_filters": "Notification filters",
+      "unregister": "Unregister",
+      "shutdown": "Shutdown",
+      "restart": "Restart"
+    },
     "all_up": "all up",
     "applications": "Applications",
     "instances": "Instances",

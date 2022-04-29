@@ -15,17 +15,18 @@
   -->
 
 <template>
-  <div
+  <li
     v-for="instance in instances"
     :key="instance.id"
     class="flex items-center hover:bg-gray-100 p-2"
     @click.stop="showDetails(instance)"
   >
-    <sba-status
-      :status="instance.statusInfo.status"
-      :date="instance.statusTimestamp"
-      class="pr-3"
-    />
+    <div class="pr-3 md:w-16 text-center">
+      <sba-status
+        :status="instance.statusInfo.status"
+        :date="instance.statusTimestamp"
+      />
+    </div>
     <div class="flex-1">
       <a
         :href="instance.registration.serviceUrl || instance.registration.healthUrl"
@@ -37,7 +38,9 @@
         v-text="instance.id"
       />
     </div>
-    <sba-tags :tags="instance.tags" />
+    <div class="hidden lg:block">
+      <sba-tags :tags="instance.tags" />
+    </div>
     <div
       class="hidden md:block w-1/4 text-center"
       v-text="instance.buildVersion"
@@ -48,7 +51,7 @@
         :instance="instance"
       />
     </div>
-  </div>
+  </li>
 </template>
 <script>
 export default {
@@ -80,7 +83,6 @@ export default {
 }
 
 .instance-list-item__actions {
-  text-align: right;
   transition: all ease-out 86ms;
   will-change: opacity;
   opacity: 0;
@@ -88,11 +90,6 @@ export default {
 
 *:hover > .instance-list-item__actions {
   opacity: 1;
-}
-
-.instance-list-item__actions > * {
-  width: 16px;
-  height: 16px;
 }
 
 </style>

@@ -15,206 +15,233 @@
   -->
 
 <template>
-  <div>
-    <sba-modal v-model="isModalShutdownApplicationOpen">
-      <template #header>
-        <span>shutdown endpoint</span>
-      </template>
-      <template #body>
-        <span v-html="$t('applications.shutdown', {name: application.name})" />
-      </template>
-      <template #footer>
-        <button
-          class="button is-success"
-          @click="shutdownApplication(application)"
-        >
-          OK
-        </button>
-        <button
-          class="button"
-          @click="closeModal"
-        >
-          Cancel
-        </button>
-      </template>
-    </sba-modal>
+  <sba-modal v-model="isModalShutdownApplicationOpen">
+    <template #header>
+      <span>shutdown endpoint</span>
+    </template>
+    <template #body>
+      <span v-html="$t('applications.shutdown', {name: application.name})" />
+    </template>
+    <template #footer>
+      <button
+        class="button is-success"
+        @click="shutdownApplication(application)"
+      >
+        OK
+      </button>
+      <button
+        class="button"
+        @click="closeModal"
+      >
+        Cancel
+      </button>
+    </template>
+  </sba-modal>
 
-    <sba-modal v-model="isModalRestartApplicationOpen">
-      <template #header>
-        <span>restart endpoint</span>
-      </template>
-      <template #body>
-        <span v-html="$t('applications.restart', {name: application.name})" />
-      </template>
-      <template #footer>
-        <button
-          class="button is-success"
-          @click="restartApplication(application)"
-        >
-          OK
-        </button>
-        <button
-          class="button"
-          @click="closeModal"
-        >
-          Cancel
-        </button>
-      </template>
-    </sba-modal>
+  <sba-modal v-model="isModalRestartApplicationOpen">
+    <template #header>
+      <span>restart endpoint</span>
+    </template>
+    <template #body>
+      <span v-html="$t('applications.restart', {name: application.name})" />
+    </template>
+    <template #footer>
+      <button
+        class="button is-success"
+        @click="restartApplication(application)"
+      >
+        OK
+      </button>
+      <button
+        class="button"
+        @click="closeModal"
+      >
+        Cancel
+      </button>
+    </template>
+  </sba-modal>
 
-    <sba-modal v-model="isApplicationRestarted">
-      <template #header>
-        <span>restart endpoint</span>
-      </template>
-      <template #body>
-        <span v-html="$t('applications.restarted', {name: application.name})" />
-      </template>
-      <template #footer>
-        <button
-          class="button is-success"
-          @click="closeModal"
-        >
-          OK
-        </button>
-      </template>
-    </sba-modal>
+  <sba-modal v-model="isApplicationRestarted">
+    <template #header>
+      <span>restart endpoint</span>
+    </template>
+    <template #body>
+      <span v-html="$t('applications.restarted', {name: application.name})" />
+    </template>
+    <template #footer>
+      <button
+        class="button is-success"
+        @click="closeModal"
+      >
+        OK
+      </button>
+    </template>
+  </sba-modal>
 
-    <sba-modal v-model="isModalShutdownInstanceOpen">
-      <template #header>
-        <span>shutdown endpoint</span>
-      </template>
-      <template #body>
-        <span v-html="$t('instances.shutdown', {name: currentModalInstance.id})" />
-      </template>
-      <template #footer>
-        <button
-          class="button is-success"
-          @click="shutdownInstance"
-        >
-          OK
-        </button>
-        <button
-          class="button"
-          @click="closeModal"
-        >
-          Cancel
-        </button>
-      </template>
-    </sba-modal>
+  <sba-modal v-model="isModalShutdownInstanceOpen">
+    <template #header>
+      <span>shutdown endpoint</span>
+    </template>
+    <template #body>
+      <span v-html="$t('instances.shutdown', {name: currentModalInstance.id})" />
+    </template>
+    <template #footer>
+      <button
+        class="button is-success"
+        @click="shutdownInstance"
+      >
+        OK
+      </button>
+      <button
+        class="button"
+        @click="closeModal"
+      >
+        Cancel
+      </button>
+    </template>
+  </sba-modal>
 
-    <sba-modal v-model="isModalRestartInstanceOpen">
-      <template #header>
-        <span>restart endpoint</span>
-      </template>
-      <template #body>
-        <span v-html="$t('instances.restart', {name: currentModalInstance.id})" />
-      </template>
-      <template #footer>
-        <button
-          class="button is-success"
-          @click="restartInstance"
-        >
-          OK
-        </button>
-        <button
-          class="button"
-          @click="closeModal"
-        >
-          Cancel
-        </button>
-      </template>
-    </sba-modal>
+  <sba-modal v-model="isModalRestartInstanceOpen">
+    <template #header>
+      <span>restart endpoint</span>
+    </template>
+    <template #body>
+      <span v-html="$t('instances.restart', {name: currentModalInstance.id})" />
+    </template>
+    <template #footer>
+      <button
+        class="button is-success"
+        @click="restartInstance"
+      >
+        OK
+      </button>
+      <button
+        class="button"
+        @click="closeModal"
+      >
+        Cancel
+      </button>
+    </template>
+  </sba-modal>
 
-    <sba-modal v-model="isInstanceRestarted">
-      <template #header>
-        <span>restart endpoint</span>
-      </template>
-      <template #body>
-        <span v-html="$t('instances.restarted')" />
-      </template>
-      <template #footer>
-        <button
-          class="button is-success"
-          @click="closeModal"
-        >
-          OK
-        </button>
-      </template>
-    </sba-modal>
+  <sba-modal v-model="isInstanceRestarted">
+    <template #header>
+      <span>restart endpoint</span>
+    </template>
+    <template #body>
+      <span v-html="$t('instances.restarted')" />
+    </template>
+    <template #footer>
+      <button
+        class="button is-success"
+        @click="closeModal"
+      >
+        OK
+      </button>
+    </template>
+  </sba-modal>
 
-    <div
-      class="application-list-item card bg-white px-4 py-3"
-      :class="{'is-active': isExpanded}"
+  <div
+    :id="application.name"
+    v-on-clickaway="(event) => $emit('deselect', event, application.name)"
+    class="application-list-item"
+    :class="{'is-active': isExpanded}"
+    @click="$emit('select', application.name)"
+  >
+    <header
+      class="application-list-item__header"
+      :class="headerClass"
+      v-on="$attrs"
     >
-      <header
-        class="hero application-list-item__header"
-        :class="headerClass"
-        v-on="$attrs"
-      >
-        <application-summary
-          v-if="!isExpanded"
-          :application="application"
-        />
-        <h1
-          v-else
-          class="font-bold text-lg"
-          v-text="application.name"
-        />
-        <ApplicationListItemActions
-          :application="application"
-          :has-active-notification-filter="hasActiveNotificationFilter(application)"
-          :has-notification-filters-support="hasNotificationFiltersSupport"
-          @restart="confirmRestartApplication"
-          @shutdown="confirmShutdownApplication"
-          @unregister="$emit('unregister', application)"
-        />
-      </header>
-      <!-- EXPANDED -->
-      <div
-        v-if="isExpanded"
-        class="card-content pt-2"
-      >
-        <instances-list :instances="application.instances">
-          <template #actions="{instance}">
-            <sba-icon-button
+      <ApplicationsListItemSummary
+        v-if="!isExpanded"
+        :application="application"
+      />
+      <h1
+        v-else
+        class="font-bold text-lg"
+        v-text="application.name"
+      />
+      <ApplicationListItemActions
+        :application="application"
+        :has-active-notification-filter="hasActiveNotificationFilter(application)"
+        :has-notification-filters-support="hasNotificationFiltersSupport"
+        @restart="confirmRestartApplication"
+        @shutdown="confirmShutdownApplication"
+        @unregister="$emit('unregister', application)"
+      />
+    </header>
+    <!-- EXPANDED -->
+    <ul
+      v-if="isExpanded"
+      class="pt-2"
+    >
+      <instances-list :instances="application.instances">
+        <template #actions="{instance}">
+          <sba-button-group class="hidden md:flex">
+            <sba-button
               v-if="hasNotificationFiltersSupport"
               :id="`nf-settings-${instance.id}`"
-              :icon="hasActiveNotificationFilter(instance) ? 'bell-slash' : 'bell'"
+              size="xs"
               @click.stop="$emit('toggle-notification-filter-settings', instance)"
-            />
-            <sba-icon-button
+            >
+              <font-awesome-icon
+                :icon="hasActiveNotificationFilter(instance) ? 'bell-slash' : 'bell'"
+                class="h-3"
+              />
+            </sba-button>
+            <sba-button
               v-if="instance.isUnregisterable"
-              icon="trash"
               title="unregister"
+              size="xs"
               @click.stop="$emit('unregister', instance)"
-            />
-            <sba-icon-button
+            >
+              <font-awesome-icon
+                icon="trash"
+                class="h-3"
+              />
+            </sba-button>
+            <sba-button
               v-if="instance.hasEndpoint('shutdown')"
-              :icon="['far', 'stop-circle']"
               title="shutdown"
+              size="xs"
+
               @click.stop="confirmShutdownInstance(instance)"
-            />
-            <sba-icon-button
+            >
+              <font-awesome-icon
+                :icon="['far', 'stop-circle']"
+                class="h-3"
+              />
+            </sba-button>
+            <sba-button
               v-if="instance.hasEndpoint('restart')"
-              icon="sync-alt"
               title="restart"
+              size="xs"
               @click.stop="confirmRestartInstance(instance)"
-            />
-          </template>
-        </instances-list>
-      </div>
-    </div>
+            >
+              <font-awesome-icon
+                icon="sync-alt"
+                class="h-3"
+              />
+            </sba-button>
+          </sba-button-group>
+        </template>
+      </instances-list>
+    </ul>
   </div>
 </template>
+
 <script>
 import Application from '../../services/application';
-import ApplicationSummary from './applications-list-item-summary.vue';
 import InstancesList from './instances-list.vue';
 import {HealthStatus} from '../../HealthStatus.js';
 import ApplicationListItemActions from "./ApplicationListItemActions.vue";
+import ApplicationsListItemSummary from "./applications-list-item-summary.vue";
+import {directive as onClickaway} from 'vue3-click-away';
 
 export default {
-  components: {ApplicationListItemActions, ApplicationSummary, InstancesList},
+  components: {ApplicationsListItemSummary, ApplicationListItemActions, InstancesList},
+  directives: {onClickaway},
   props: {
     application: {
       type: Application,
@@ -233,7 +260,7 @@ export default {
       default: false
     },
   },
-  emits: ['unregister'],
+  emits: ['unregister', 'toggle-notification-filter-settings', 'shutdown', 'restart', 'deselected', 'deselect', 'select'],
   data() {
     return {
       isModalShutdownApplicationOpen: false,
@@ -317,29 +344,41 @@ export default {
 }
 </script>
 
-<style scoped>
+<style>
 .application-list-item {
   transition: all ease-out 250ms;
 }
+.application-list-item:not(.is-active) {
+  @apply cursor-pointer;
+}
 
 .application-list-item.is-active {
-  @apply my-1 -mx-1;
+  @apply border-t border-b bg-gray-50;
   max-width: unset;
 }
 
+.application-list-item.is-active:first-child {
+  @apply border-t-0;
+}
+
+.application-list-item.is-active:last-child {
+  @apply border-b-0;
+}
+
+.application-list-item.is-active li {
+  @apply pl-4 pr-4 cursor-pointer;
+}
+
+.application-list-item.is-active .application-list-item__header {
+  @apply pb-1;
+}
+
 .application-list-item__header {
-  display: flex;
-  flex-direction: row;
-  justify-content: flex-start;
-  align-items: center;
+  @apply px-4 py-3 flex justify-between items-center;
 }
 
 .application-list-item:not(.is-active):hover {
-  @apply bg-gray-100;
-}
-
-.application-list-item__header > *:not(:first-child) {
-  margin-left: 12px;
+  @apply bg-gray-100 cursor-pointer;
 }
 
 .application-list-item__header .title {
@@ -347,10 +386,4 @@ export default {
   flex-basis: 50%;
   margin: 0.75rem 0;
 }
-
-.application-list-item__header__actions > * {
-  width: calc(32px / 2);
-  height: calc(32px / 2);
-}
-
 </style>

@@ -17,8 +17,13 @@
 import ApplicationsListItem from "./applications-list-item.vue";
 import {applications} from "../../mocks/applications/data.js";
 import Application from "../../services/application.js";
+import SbaPanel from "../../components/sba-panel.vue";
+import withVueRouter from "storybook-vue3-router";
 
 const application = applications[0];
+const routes = [
+  {path: "/journal", name: "journal"}
+];
 
 export default {
   component: ApplicationsListItem,
@@ -26,38 +31,58 @@ export default {
 };
 
 const Template = (args) => ({
-  components: {ApplicationsListItem},
+  components: {ApplicationsListItem, SbaPanel},
   setup() {
     return {
       args
     };
   },
   template: `
-    <applications-list-item v-bind="args"/>`,
+    <sba-panel :seamless="true">
+      <applications-list-item v-bind="args"/>
+    </sba-panel>`,
 });
 
 export const OneInstance = Template.bind({});
+OneInstance.decorators = [
+  withVueRouter(routes)
+];
 OneInstance.args = {
   application: new Application(application)
 }
 
 export const OneInstanceExpanded = Template.bind({});
+OneInstance.decorators = [
+  withVueRouter(routes)
+
+];
 OneInstanceExpanded.args = {
   ...OneInstance.args,
   isExpanded: true,
 }
 
 export const MultipleInstances = Template.bind({});
+MultipleInstances.decorators = [
+  withVueRouter(routes)
+
+];
+const firstInstance = {...application.instances[0]};
+const secondInstance = {...application.instances[0]};
+secondInstance.statusTimestamp = Date.now();
 MultipleInstances.args = {
   application: new Application({
-    ...application, instances: [
-      application.instances[0],
-      application.instances[0]
+    ...application,
+    instances: [
+      firstInstance,
+      secondInstance
     ]
   })
 }
 
 export const MultipleInstancesExpanded = Template.bind({});
+MultipleInstancesExpanded.decorators = [
+  withVueRouter(routes)
+];
 MultipleInstancesExpanded.args = {
   ...MultipleInstances.args,
   isExpanded: true,

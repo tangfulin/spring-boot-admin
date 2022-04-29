@@ -74,6 +74,7 @@
     "postcss": "8.4.12",
     "postcss-sass-color-functions": "^1.1.0",
     "rollup-plugin-visualizer": "^5.6.0",
+    "storybook-vue3-router": "^2.2.1",
     "tailwindcss": "3.0.24",
     "vite": "2.9.0",
     "vite-plugin-static-copy": "^0.4.4",

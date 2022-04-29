@@ -16,11 +16,11 @@
 
 <template>
   <div class="application-summary">
-    <sba-status
-      :status="application.status"
-      :date="application.statusTimestamp"
-      class="pr-3"
-    />
+    <div class="pr-3 text-center">
+      <sba-status
+        :status="application.status"
+      />
+    </div>
     <div class="flex-1">
       <div
         class="font-semibold"
