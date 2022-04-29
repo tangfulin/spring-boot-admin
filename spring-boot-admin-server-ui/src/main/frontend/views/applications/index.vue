@@ -172,6 +172,7 @@ export default {
     hasNotificationFiltersSupport: false,
     showNotificationFilterSettingsObject: null,
     notificationFilters: [],
+    errors: [],
     backgroundColors: {}
   }),
   computed: {

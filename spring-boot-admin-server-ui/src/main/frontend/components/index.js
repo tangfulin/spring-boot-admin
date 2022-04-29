@@ -38,6 +38,7 @@ import SbaToggleScopeButton from "./sba-toggle-scope-button.vue";
 import FontAwesomeIcon from "./font-awesome-icon.js";
 import SbaWave from "./sba-wave.vue";
 import SbaSelect from "./sba-select.vue";
+import SbaModalConfirm from "./sba-modal-confirm.vue";
 
 export const components = {
   'sba-action-button-scoped': SbaActionButtonScoped,
@@ -53,6 +54,7 @@ export const components = {
   'sba-key-value-table': SbaKeyValueTable,
   'sba-loading-spinner': SbaLoadingSpinner,
   'sba-modal': SbaModal,
+  'sba-modal-confirm': SbaModalConfirm,
   'sba-pagination-nav': SbaPaginationNav,
   'sba-panel': SbaPanel,
   'sba-status-badge': SbaStatusBadge,

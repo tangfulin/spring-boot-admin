@@ -9,6 +9,7 @@
     "applications_tc": "{n} application | {n} applications",
     "attributes": "Attributes",
     "bytes": "Bytes",
+    "ok": "OK",
     "cancel": "Cancel",
     "clear": "Clear",
     "cleared": "Cleared",

@@ -1,5 +1,12 @@
 {
   "applications": {
+    "actions": {
+      "journal": "Journal",
+      "notification_filters": "Benachrichtigungsfilter",
+      "unregister": "Deregistrieren",
+      "shutdown": "Herunterfahren",
+      "restart": "Neu starten"
+    },
     "all_up": "Alle verfügbar",
     "applications": "Anwendungen",
     "instances": "Instanzen",
@@ -14,7 +21,8 @@
     "label": "Anwendungen",
     "shutdown": "Anwendung <code>{name}</code> herunterfahren?",
     "restart": "Anwendung <code>{name}</code> neu starten?",
-    "restarted": "Anwendung <code>{name}</code> erfolgreich neu gestartet"
+    "restarted": "Anwendung <code>{name}</code> erfolgreich neu gestartet",
+    "unregister": "Anwendung <code>{name}</code> deregistrieren?"
   },
   "instances": {
     "shutdown": "Instanz <code>{name}</code> herunterfahren?",

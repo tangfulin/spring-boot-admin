@@ -27,6 +27,10 @@ export default {
       type: Boolean,
       default: false
     },
+    primary: {
+      type: Boolean,
+      default: false
+    }
   },
   emits: ['click'],
   computed: {
@@ -37,8 +41,9 @@ export default {
         'px-2 py-2 text-xs': this.size === 'xs',
         'px-3 py-2': this.size === 'sm',
         'px-4 py-3': this.size === 'base',
-        'px-5 py-2.5': this.size === ''
+        'px-5 py-2.5': this.size === '',
         // Types
+        'is-primary': this.primary === true,
       };
     }
   }

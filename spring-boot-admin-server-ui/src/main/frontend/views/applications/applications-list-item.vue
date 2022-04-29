@@ -15,131 +15,71 @@
   -->
 
 <template>
-  <sba-modal v-model="isModalShutdownApplicationOpen">
-    <template #header>
-      <span>shutdown endpoint</span>
-    </template>
-    <template #body>
-      <span v-html="$t('applications.shutdown', {name: application.name})" />
-    </template>
-    <template #footer>
-      <button
-        class="button is-success"
-        @click="shutdownApplication(application)"
-      >
-        OK
-      </button>
-      <button
-        class="button"
-        @click="closeModal"
-      >
-        Cancel
-      </button>
-    </template>
-  </sba-modal>
+  <sba-modal-confirm
+    v-model:open="isModalShutdownApplicationOpen"
+    :title="$t('applications.actions.shutdown')"
+    @close="shutdownApplication($event)"
+  >
+    <span v-html="$t('applications.shutdown', {name: application.name})" />
+  </sba-modal-confirm>
 
-  <sba-modal v-model="isModalRestartApplicationOpen">
-    <template #header>
-      <span>restart endpoint</span>
-    </template>
-    <template #body>
-      <span v-html="$t('applications.restart', {name: application.name})" />
-    </template>
-    <template #footer>
-      <button
-        class="button is-success"
-        @click="restartApplication(application)"
-      >
-        OK
-      </button>
-      <button
-        class="button"
-        @click="closeModal"
-      >
-        Cancel
-      </button>
-    </template>
-  </sba-modal>
+  <sba-modal-confirm
+    v-model:open="isModalRestartApplicationOpen"
+    :title="$t('applications.actions.restart')"
+    @close="restartApplication($event)"
+  >
+    <span v-html="$t('applications.restart', {name: application.name})" />
+  </sba-modal-confirm>
 
-  <sba-modal v-model="isApplicationRestarted">
-    <template #header>
-      <span>restart endpoint</span>
-    </template>
-    <template #body>
-      <span v-html="$t('applications.restarted', {name: application.name})" />
-    </template>
-    <template #footer>
-      <button
-        class="button is-success"
-        @click="closeModal"
-      >
-        OK
-      </button>
-    </template>
-  </sba-modal>
+  <sba-modal-confirm
+    v-model:open="isModalShutdownInstanceOpen"
+    :title="$t('applications.actions.shutdown')"
+    @close="shutdownInstance($event)"
+  >
+    <span v-html="$t('instances.shutdown', {name: currentModalInstance.id})" />
+  </sba-modal-confirm>
 
-  <sba-modal v-model="isModalShutdownInstanceOpen">
-    <template #header>
-      <span>shutdown endpoint</span>
-    </template>
-    <template #body>
-      <span v-html="$t('instances.shutdown', {name: currentModalInstance.id})" />
-    </template>
-    <template #footer>
-      <button
-        class="button is-success"
-        @click="shutdownInstance"
-      >
-        OK
-      </button>
-      <button
-        class="button"
-        @click="closeModal"
-      >
-        Cancel
-      </button>
-    </template>
-  </sba-modal>
+  <sba-modal-confirm
+    v-model:open="isModalShutdownInstanceOpen"
+    :title="$t('applications.actions.shutdown')"
+    @close="restartInstance($event)"
+  >
+    <span v-html="$t('instances.restart', {name: currentModalInstance.id})" />
+  </sba-modal-confirm>
 
-  <sba-modal v-model="isModalRestartInstanceOpen">
-    <template #header>
-      <span>restart endpoint</span>
-    </template>
-    <template #body>
-      <span v-html="$t('instances.restart', {name: currentModalInstance.id})" />
-    </template>
-    <template #footer>
-      <button
-        class="button is-success"
-        @click="restartInstance"
-      >
-        OK
-      </button>
-      <button
-        class="button"
-        @click="closeModal"
-      >
-        Cancel
-      </button>
-    </template>
-  </sba-modal>
+  <sba-modal-confirm
+    v-model:open="isModalUnregisterApplicationOpen"
+    :title="$t('applications.actions.unregister')"
+    @close="unregisterApplication($event)"
+  >
+    <span v-html="$t('applications.unregister', {name: application.name})" />
+  </sba-modal-confirm>
 
-  <sba-modal v-model="isInstanceRestarted">
-    <template #header>
-      <span>restart endpoint</span>
-    </template>
-    <template #body>
-      <span v-html="$t('instances.restarted')" />
-    </template>
-    <template #footer>
-      <button
-        class="button is-success"
-        @click="closeModal"
-      >
-        OK
-      </button>
-    </template>
-  </sba-modal>
+  <sba-modal-confirm
+    v-model:open="isModalUnregisterInstanceOpen"
+    :title="$t('applications.actions.unregister')"
+    @close="unregisterInstance($event)"
+  >
+    <span v-html="$t('instances.unregister', {name: currentModalInstance.name})" />
+  </sba-modal-confirm>
+
+  <sba-modal-confirm
+    v-model:open="isApplicationRestarted"
+    :title="$t('applications.actions.restart')"
+    skip-cancel
+    @close="closeModals"
+  >
+    <span v-html="$t('applications.restarted', {name: application.name})" />
+  </sba-modal-confirm>
+
+  <sba-modal-confirm
+    v-model:open="isInstanceRestarted"
+    :title="$t('applications.actions.restart')"
+    skip-cancel
+    @close="closeModals"
+  >
+    <span v-html="$t('instances.restarted')" />
+  </sba-modal-confirm>
 
   <div
     :id="application.name"
@@ -168,7 +108,8 @@
         :has-notification-filters-support="hasNotificationFiltersSupport"
         @restart="confirmRestartApplication"
         @shutdown="confirmShutdownApplication"
-        @unregister="$emit('unregister', application)"
+        @filter-settings="$emit('toggle-notification-filter-settings', application)"
+        @unregister="isModalUnregisterApplicationOpen = true"
       />
     </header>
     <!-- EXPANDED -->
@@ -194,7 +135,7 @@
               v-if="instance.isUnregisterable"
               title="unregister"
               size="xs"
-              @click.stop="$emit('unregister', instance)"
+              @click.stop="confirmUnregisterInstance(instance)"
             >
               <font-awesome-icon
                 icon="trash"
@@ -265,8 +206,10 @@ export default {
     return {
       isModalShutdownApplicationOpen: false,
       isModalRestartApplicationOpen: false,
+      isModalUnregisterApplicationOpen: false,
       isModalShutdownInstanceOpen: false,
       isModalRestartInstanceOpen: false,
+      isModalUnregisterInstanceOpen: false,
       isApplicationRestarted: false,
       isInstanceRestarted: false,
       currentModalInstance: undefined
@@ -306,6 +249,10 @@ export default {
       this.isModalShutdownInstanceOpen = true;
       this.currentModalInstance = instance;
     },
+    confirmUnregisterInstance(instance) {
+      this.isModalUnregisterInstanceOpen = true;
+      this.currentModalInstance = instance;
+    },
     confirmRestartApplication() {
       this.isModalRestartApplicationOpen = true;
     },
@@ -313,7 +260,7 @@ export default {
       this.isModalRestartInstanceOpen = true;
       this.currentModalInstance = instance;
     },
-    closeModal() {
+    closeModals() {
       this.currentModalInstance = undefined;
       this.isModalShutdownApplicationOpen = false;
       this.isModalShutdownInstanceOpen = false;
@@ -321,25 +268,49 @@ export default {
       this.isModalRestartInstanceOpen = false;
       this.isApplicationRestarted = false;
       this.isInstanceRestarted = false;
+      this.isModalUnregisterApplicationOpen = false;
+      this.isModalUnregisterInstanceOpen = false;
     },
-    shutdownApplication(application) {
-      this.$emit('shutdown', application);
-      this.closeModal();
+    shutdownApplication($event) {
+      this.closeModals();
+      if ($event === true) {
+        this.$emit('shutdown', this.application);
+      }
     },
-    shutdownInstance() {
-      this.$emit('shutdown', this.currentModalInstance);
-      this.closeModal();
+    shutdownInstance($event) {
+      this.closeModals();
+      if ($event === true) {
+        this.$emit('shutdown', this.currentModalInstance);
+      }
     },
-    restartApplication(application) {
-      this.$emit('restart', application);
-      this.closeModal();
-      this.isApplicationRestarted = true;
+    unregisterApplication($event) {
+      this.closeModals();
+      if ($event === true) {
+        this.$emit('unregister', this.application)
+      }
     },
-    restartInstance() {
-      this.$emit('restart', this.currentModalInstance);
-      this.closeModal();
-      this.isInstanceRestarted = true;
-    }
+    restartApplication($event) {
+      this.closeModals();
+
+      if ($event === true) {
+        this.$emit('restart', this.application);
+        this.isApplicationRestarted = true;
+      }
+    },
+    restartInstance($event) {
+      this.closeModals();
+
+      if ($event === true) {
+        this.$emit('restart', this.currentModalInstance);
+        this.isInstanceRestarted = true;
+      }
+    },
+    unregisterInstance($event) {
+      this.closeModals();
+      if ($event === true) {
+        this.$emit('unregister', this.currentModalInstance)
+      }
+    },
   }
 }
 </script>
@@ -348,6 +319,7 @@ export default {
 .application-list-item {
   transition: all ease-out 250ms;
 }
+
 .application-list-item:not(.is-active) {
   @apply cursor-pointer;
 }
