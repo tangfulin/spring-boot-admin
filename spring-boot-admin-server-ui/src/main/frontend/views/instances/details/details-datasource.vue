@@ -74,10 +74,10 @@
 </template>
 
 <script>
-import sbaConfig from '@/sba-config';
+import sbaConfig from '../../../sba-config';
 import subscribing from '../../../mixins/subscribing.js';
-import Instance from '@/services/instance.js';
-import {concatMap, delay, retryWhen, timer} from '@/utils/rxjs';
+import Instance from '../../../services/instance';
+import {concatMap, delay, retryWhen, timer} from 'rxjs';
 import moment from 'moment';
 import datasourceChart from './datasource-chart.vue';
 import {take} from 'rxjs/operators';

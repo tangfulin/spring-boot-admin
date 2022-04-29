@@ -29,7 +29,26 @@ export default ({mode}) => {
         ]
       })
     ],
-    root,
+    server: {
+      base: '/',
+      proxy: {
+        '^/sba-settings.js': {
+          target: 'http://localhost:8080',
+          changeOrigin: true,
+        },
+        '^/(applications|instances)': {
+          target: 'http://localhost:8080',
+          changeOrigin: true,
+          bypass: req => {
+            const isEventStream = req.headers.accept === 'text/event-stream';
+            const isAjaxCall = req.headers['x-requested-with'] !== 'XMLHttpRequest';
+            if (isAjaxCall && !isEventStream) {
+              return "/index.html";
+            }
+          }
+        }
+      }
+    },
     css: {
       postcss
     },

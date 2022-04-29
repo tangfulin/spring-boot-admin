@@ -34,19 +34,31 @@ th {
 }
 
 .table {
-    @apply text-left text-gray-500 dark:text-gray-400;
+    @apply text-left text-gray-500 dark:text-gray-400 bg-white border-collapse;
 }
+
+.table thead {
+    @apply border-b bg-gray-100 rounded-md;
+}
+
+.table th, .table td {
+    @apply py-3 px-3;
+}
+
 .table.table-full {
     @apply w-full;
 }
+
 .table.table-sm {
     @apply text-sm;
 }
+
 .table thead {
     @apply text-gray-700 bg-gray-50 dark:bg-gray-700 dark:text-gray-400;
 }
-.table td, .table th {
-    @apply px-3 py-1;
+
+.table tr:not(:last-of-type) {
+    @apply border-b;
 }
 
 .-rotate-90 {

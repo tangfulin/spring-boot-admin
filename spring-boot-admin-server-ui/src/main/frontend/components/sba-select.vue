@@ -27,7 +27,6 @@
         class="flex rounded-md shadow-sm"
         :class="{'mt-1': hasLabel}"
       >
-        <!-- PREPEND -->
         <span
           v-if="$slots.prepend"
           class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
@@ -35,28 +34,25 @@
           <slot name="prepend" />
         </span>
 
-        <!-- INPUT -->
-        <datalist :id="datalistId">
-          <option
-            v-for="name in list"
-            :key="name"
-            v-text="name"
-          />
-        </datalist>
-        <input
+        <select
           :id="id"
           :name="name"
           :value="modelValue"
-          :type="type"
-          :placeholder="placeholder"
-          :min="min"
-          :list="datalistId"
           :autocomplete="autocomplete"
           class="focus:z-10 p-2 relative flex-1 block w-full rounded-none sm:text-sm bg-opacity-40 backdrop-blur-sm"
           :class="classNames(inputFieldClassNames, inputClass)"
           @input="handleInput"
         >
-        <!-- APPEND -->
+          <option
+            v-for="(option, idx) in options"
+            :key="idx"
+            v-bind="option"
+          >
+            {{ option.label }}
+          </option>
+        </select>
+
+
         <span
           v-if="$slots.append"
           class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
@@ -137,6 +133,10 @@ export default {
     autocomplete: {
       type: String,
       default: undefined
+    },
+    options: {
+      type: Array,
+      required: true
     }
   },
   emits: ['update:modelValue', 'input'],
@@ -146,9 +146,6 @@ export default {
     },
     id() {
       return (this.name || "").replace(/[^\w]/gi, '')
-    },
-    datalistId() {
-      return "listId-" + this._.uid;
     },
     inputFieldClassNames() {
       const hasAppend = this.hasSlot('append');
@@ -174,6 +171,7 @@ export default {
   },
   methods: {
     classNames,
+
     handleInput($event) {
       this.$emit('update:modelValue', $event.target.value)
       this.$emit('input', $event.target.value)

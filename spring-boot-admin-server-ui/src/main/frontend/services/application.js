@@ -46,6 +46,9 @@ class Application {
     this.name = name;
     this.axios = axios.create({
       baseURL: uri`applications/${this.name}/`,
+      headers: {
+        'X-SBA-REQUEST': true
+      }
     });
     this.axios.interceptors.response.use(response => response, redirectOn401()
     );
@@ -83,7 +86,7 @@ class Application {
 
   static async list() {
     return axios.get('applications', {
-      headers: {'Accept': 'application/json'},
+      headers: {'Accept': 'application/json', 'X-SBA-REQUEST': true},
       transformResponse: Application._transformResponse
     });
   }

@@ -7,7 +7,7 @@
     "build:dev": "vite build --emptyOutDir --sourcemap --mode development",
     "build:watch": "vite build --emptyOutDir --watch --sourcemap --mode development",
     "test": "jest",
-    "preview": "vite preview",
+    "dev": "vite -c ./vite.config.js ./src/main/frontend",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"
   },

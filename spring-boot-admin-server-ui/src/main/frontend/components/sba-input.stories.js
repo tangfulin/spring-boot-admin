@@ -19,7 +19,7 @@ import SbaInput from "./sba-input.vue";
 
 export default {
   component: SbaInput,
-  title: 'Components/Input',
+  title: 'Components/Form/Input',
 };
 
 const Template = (args) => {

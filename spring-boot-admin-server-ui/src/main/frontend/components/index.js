@@ -37,6 +37,7 @@ import SbaTimeAgo from "./sba-time-ago.vue";
 import SbaToggleScopeButton from "./sba-toggle-scope-button.vue";
 import FontAwesomeIcon from "./font-awesome-icon.js";
 import SbaWave from "./sba-wave.vue";
+import SbaSelect from "./sba-select.vue";
 
 export const components = {
   'sba-action-button-scoped': SbaActionButtonScoped,
@@ -48,6 +49,7 @@ export const components = {
   'sba-formatted-obj': SbaFormattedObj,
   'sba-icon-button': SbaIconButton,
   'sba-input': SbaInput,
+  'sba-select': SbaSelect,
   'sba-key-value-table': SbaKeyValueTable,
   'sba-loading-spinner': SbaLoadingSpinner,
   'sba-modal': SbaModal,
