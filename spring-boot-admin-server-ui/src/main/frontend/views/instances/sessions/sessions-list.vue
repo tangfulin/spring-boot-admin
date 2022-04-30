@@ -127,71 +127,71 @@
 </template>
 
 <script>
-  import Instance from '@/services/instance.js';
-  import {concatMap, from, listen, map, of, tap} from '@/utils/rxjs';
-  import prettyBytes from 'pretty-bytes';
+import Instance from '@/services/instance.js';
+import {concatMap, from, listen, map, of, tap} from '@/utils/rxjs';
+import prettyBytes from 'pretty-bytes';
 
-  export default {
-    props: {
-      sessions: {
-        type: Array,
-        default: () => []
-      },
-      instance: {
-        type: Instance,
-        required: true
-      },
-      isLoading: {
-        type: Boolean,
-        default: false
-      }
+export default {
+  props: {
+    sessions: {
+      type: Array,
+      default: () => []
     },
-    emits: ['deleted'],
-    data: () => ({
-      deletingAll: null,
-      deleting: {},
-    }),
-    methods: {
-      prettyBytes,
-      deleteAllSessions() {
-        const vm = this;
-        vm.subscription = from(vm.sessions)
-          .pipe(
-            map(session => session.id),
-            concatMap(vm._deleteSession),
-            listen(status => vm.deletingAll = status)
-          )
-          .subscribe({
-            complete: () => {
-              vm.$emit('deleted', '*');
+    instance: {
+      type: Instance,
+      required: true
+    },
+    isLoading: {
+      type: Boolean,
+      default: false
+    }
+  },
+  emits: ['deleted'],
+  data: () => ({
+    deletingAll: null,
+    deleting: {},
+  }),
+  methods: {
+    prettyBytes,
+    deleteAllSessions() {
+      const vm = this;
+      vm.subscription = from(vm.sessions)
+        .pipe(
+          map(session => session.id),
+          concatMap(vm._deleteSession),
+          listen(status => vm.deletingAll = status)
+        )
+        .subscribe({
+          complete: () => {
+            vm.$emit('deleted', '*');
+          }
+        });
+    },
+    deleteSession(sessionId) {
+      const vm = this;
+      vm._deleteSession(sessionId)
+        .pipe(listen(status => vm.deleting[sessionId] = status))
+        .subscribe({
+          complete: () => vm.$emit('deleted', sessionId),
+        });
+    },
+    _deleteSession(sessionId) {
+      const vm = this;
+      return of(sessionId)
+        .pipe(
+          concatMap(async sessionId => {
+            await vm.instance.deleteSession(sessionId);
+            return sessionId;
+          }),
+          tap({
+            error: error => {
+              console.warn(`Deleting session ${sessionId} failed:`, error);
             }
-          });
-      },
-      deleteSession(sessionId) {
-        const vm = this;
-        vm._deleteSession(sessionId)
-          .pipe(listen(status => vm.$set(vm.deleting, sessionId, status)))
-          .subscribe({
-            complete: () => vm.$emit('deleted', sessionId),
-          });
-      },
-      _deleteSession(sessionId) {
-        const vm = this;
-        return of(sessionId)
-          .pipe(
-            concatMap(async sessionId => {
-              await vm.instance.deleteSession(sessionId);
-              return sessionId;
-            }),
-            tap({
-              error: error => {
-                console.warn(`Deleting session ${sessionId} failed:`, error);
-              }
-            })
-          );
-      }
+          })
+        );
     }
   }
+}
 </script>
 <style lang="css">
 .sessions td, .sessions th {

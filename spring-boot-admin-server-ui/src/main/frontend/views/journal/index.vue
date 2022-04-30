@@ -97,7 +97,7 @@
           >
             <tr
               class="is-selectable"
-              @click="showPayload[event.key] ? $delete(showPayload, event.key) : $set(showPayload, event.key, true)"
+              @click="showPayload[event.key] ? delete showPayload[event.key] : showPayload[event.key] = true"
             >
               <td v-text="getName(event.instance)" />
               <td v-text="event.instance" />

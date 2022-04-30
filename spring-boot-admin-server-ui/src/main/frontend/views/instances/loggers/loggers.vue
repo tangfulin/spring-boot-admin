@@ -189,7 +189,7 @@ export default {
       const vm = this;
       from(vm.loggersService.configureLogger(logger.name, level))
         .pipe(
-          listen(status => vm.$set(vm.loggersStatus, logger.name, {level, status})),
+          listen(status => vm.loggersStatus[logger.name] = {level, status}),
           finalize(() => vm.fetchLoggers())
         )
         .subscribe({

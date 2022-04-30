@@ -24,7 +24,6 @@
       :error="error"
       class="border-l-4"
       :title="$t('term.fetch_failed')"
-      severity="WARN"
     />
     <div
       v-else

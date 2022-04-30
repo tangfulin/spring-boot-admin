@@ -50,7 +50,7 @@
               >
                 <tr
                   class="is-selectable"
-                  @click="showDetails[changeSet.checksum] ? $delete(showDetails, changeSet.checksum) : $set(showDetails, changeSet.checksum, true)"
+                  @click="showDetails[changeSet.checksum] ? delete showDetails[changeSet.checksum] : showDetails[changeSet.checksum] = true"
                 >
                   <td v-text="changeSet.id" />
                   <td>
