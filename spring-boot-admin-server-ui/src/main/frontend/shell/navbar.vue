@@ -32,7 +32,6 @@
 
           <div class="hidden lg:block">
             <div class="ml-10 flex items-baseline space-x-4">
-              <!-- LINKS -->
               <template v-for="view in enabledViews">
                 <a
                   v-if="view.href"
@@ -57,7 +56,6 @@
                   />
                 </router-link>
               </template>
-              <!-- LINKS -->
             </div>
           </div>
         </div>
@@ -95,7 +93,7 @@
 
               <div
                 v-if="showUserMenu"
-                class="origin-top-right absolute right-0 mt-26 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
+                class="origin-top-right absolute right-2 mt-26 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
                 role="menu"
                 aria-orientation="vertical"
                 aria-labelledby="user-menu-button"

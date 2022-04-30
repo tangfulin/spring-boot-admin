@@ -37,7 +37,7 @@
       <div
         v-if="showLanguages"
         v-on-clickaway="() => showLanguages = false"
-        class="absolute z-50 -ml-4 mt-3 transform px-2 w-screen max-w-md"
+        class="absolute right-0 z-50 -ml-4 mt-3 transform px-2 w-24 min-w-max"
       >
         <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
           <div class="relative grid gap-4 bg-white p-4">
@@ -81,9 +81,9 @@ export default {
   methods: {
     localeChanged(selectedLocale) {
       if (selectedLocale !== this.currentLocale) {
-        this.showLanguages = !this.showLanguages;
         this.$emit('localeChanged', selectedLocale)
       }
+      this.showLanguages = !this.showLanguages;
     },
     mapLocale(locale) {
       try {
