@@ -21,16 +21,16 @@ import components from './components';
 import Notifications from './notifications.js';
 import sbaConfig from './sba-config.js'
 import sbaShell from './shell/index.vue';
-import Store from './store.js';
 import ViewRegistry from './viewRegistry';
 import views from './views';
 import {createApp, h, markRaw, reactive} from 'vue';
 import i18n from './i18n';
 import router from './router.js';
+import {createApplicationStore, useApplicationStore} from "./composables/useApplicationStore.js";
 
 moment.locale(navigator.language.split('-')[0]);
 
-const applicationStore = new Store();
+const applicationStore = createApplicationStore();
 const viewRegistry = new ViewRegistry();
 
 const installables = [
@@ -46,35 +46,20 @@ installables.forEach(installable => {
   })
 });
 
-let app = createApp({
+const app = createApp({
   setup() {
+    const {applications, applicationsInitialized, error} = useApplicationStore();
+
     let props = reactive({
       views: markRaw(viewRegistry.views),
-      applications: applicationStore.applications,
-      applicationsInitialized: false,
-      error: null
-    });
-
-    applicationStore.addEventListener('connected', () => {
-      props.applicationsInitialized = true;
-      props.error = null;
-    });
-
-    applicationStore.addEventListener('changed', (applications) => {
-      props.applications = applications;
-      props.applicationsInitialized = true;
-      props.error = null;
+      applications,
+      applicationsInitialized,
+      error
     });
 
     return () => h(sbaShell, props);
-  },
-  created() {
-    applicationStore.start();
-  },
-  beforeUnmount() {
-    applicationStore.stop();
   }
-});
+})
 
 app.use(components);
 app.use(i18n);

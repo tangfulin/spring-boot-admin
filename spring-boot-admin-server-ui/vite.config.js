@@ -32,7 +32,7 @@ export default ({mode}) => {
     server: {
       base: '/',
       proxy: {
-        '^/sba-settings.js': {
+        '^(/sba-settings.js|/variables.css)': {
           target: 'http://localhost:8080',
           changeOrigin: true,
         },
@@ -41,8 +41,9 @@ export default ({mode}) => {
           changeOrigin: true,
           bypass: req => {
             const isEventStream = req.headers.accept === 'text/event-stream';
-            const isAjaxCall = req.headers['x-requested-with'] !== 'XMLHttpRequest';
-            if (isAjaxCall && !isEventStream) {
+            const isAjaxCall = req.headers['x-requested-with'] === 'XMLHttpRequest';
+            console.log(req.url, isAjaxCall, isEventStream);
+            if (!(isAjaxCall || isEventStream)) {
               return "/index.html";
             }
           }

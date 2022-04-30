@@ -42,62 +42,61 @@
 </template>
 
 <script>
-  import InstanceSidebar from './sidebar.vue';
-  import {findApplicationForInstance, findInstance} from "../../../store.js";
-  import sbaConfig from "../../../sba-config.js";
+import InstanceSidebar from './sidebar.vue';
+import {findApplicationForInstance, findInstance} from "../../../store.js";
+import sbaConfig from "../../../sba-config.js";
+import {useApplicationStore} from "../../../composables/useApplicationStore.js";
 
-  export default {
-    components: {InstanceSidebar},
-    props: {
-      views: {
-        type: Array,
-        default: () => []
-      },
-      applications: {
-        type: Array,
-        default: () => [],
-      },
-      error: {
-        type: Error,
-        default: null
-      }
+export default {
+  components: {InstanceSidebar},
+  props: {
+    views: {
+      type: Array,
+      default: () => []
     },
-    data() {
-      return {
-        instanceId: this.$route.params.instanceId,
-        backgroundColors: {}
-      }
-    },
-    computed: {
-      instance() {
-        return findInstance(this.applications, this.instanceId);
-      },
-      application() {
-        return findApplicationForInstance(this.applications, this.instanceId);
-      }
-    },
-    watch: {
-      '$route': {
-        immediate: true,
-        handler() {
-          this.instanceId = this.$route.params.instanceId;
-        }
-      }
-    },
-    created() {
-      this.backgroundColors = sbaConfig.uiSettings.theme.background;
-    },
-    install({viewRegistry}) {
-      viewRegistry.addView({
-        name: 'instances',
-        path: '/instances/:instanceId',
-        component: this,
-        props: true,
-        isEnabled() {
-          return false;
-        }
-      });
+  },
+  setup() {
+    const {applications} = useApplicationStore();
+    return {
+      applications
     }
+  },
+  data() {
+    return {
+      instanceId: this.$route.params.instanceId,
+      backgroundColors: {}
+    }
+  },
+  computed: {
+    instance() {
+      return findInstance(this.applications, this.instanceId);
+    },
+    application() {
+      return findApplicationForInstance(this.applications, this.instanceId);
+    }
+  },
+  watch: {
+    '$route': {
+      immediate: true,
+      handler() {
+        this.instanceId = this.$route.params.instanceId;
+      }
+    }
+  },
+  created() {
+    this.backgroundColors = sbaConfig.uiSettings.theme.background;
+  },
+  install({viewRegistry}) {
+    viewRegistry.addView({
+      name: 'instances',
+      path: '/instances/:instanceId',
+      component: this,
+      props: true,
+      isEnabled() {
+        return false;
+      }
+    });
   }
+}
 </script>
 

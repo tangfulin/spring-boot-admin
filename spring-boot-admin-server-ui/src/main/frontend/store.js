@@ -16,7 +16,7 @@
 import Application from '@/services/application';
 import {bufferTime, concat, concatMap, defer, delay, filter, map, retryWhen, tap} from '@/utils/rxjs';
 
-export default class {
+export default class ApplicationStore {
   constructor() {
     this._listeners = {};
     this._applications = new Map();
@@ -64,11 +64,13 @@ export default class {
   }
 
   start() {
+    // Do not resubscribe when already started
+    if (this.subscription !== undefined) {
+      return;
+    }
     const list = defer(() => Application.list())
       .pipe(
         tap(
-          undefined,
-          undefined,
           () => this._dispatchEvent('connected')
         ),
         concatMap(message => message.data)

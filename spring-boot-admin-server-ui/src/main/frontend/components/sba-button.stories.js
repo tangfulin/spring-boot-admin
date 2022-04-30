@@ -37,13 +37,19 @@ DefaultButton.args = {
 export const PrimaryButton = Template.bind({});
 PrimaryButton.args = {
   label: 'Primary button',
-  'type': 'primary'
+  'primary': 'primary'
 };
 
 export const DangerButton = Template.bind({});
 DangerButton.args = {
   label: 'Danger button',
-  'type': 'danger'
+  'class': 'is-danger'
+};
+
+export const SuccessButton = Template.bind({});
+SuccessButton.args = {
+  label: 'Danger button',
+  'class': 'is-success'
 };
 
 const SizeTemplate = () => {

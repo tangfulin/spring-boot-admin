@@ -17,7 +17,7 @@
 <template>
   <sba-button
     v-on-clickaway="abort"
-    :class="{ 'is-warning' : confirm }"
+    :class="{ 'is-success' : confirm }"
     @click="click"
   >
     <slot
