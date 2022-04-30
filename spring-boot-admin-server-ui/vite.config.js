@@ -36,7 +36,7 @@ export default ({mode}) => {
           target: 'http://localhost:8080',
           changeOrigin: true,
         },
-        '^/(applications|instances|notifications/)': {
+        '^/': {
           target: 'http://localhost:8080',
           changeOrigin: true,
           bypass: req => {

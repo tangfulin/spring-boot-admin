@@ -60,7 +60,7 @@
     :title="$t('applications.actions.unregister')"
     @close="unregisterInstance($event)"
   >
-    <span v-html="$t('instances.unregister', {name: currentModalInstance.name})" />
+    <span v-html="$t('instances.unregister', {name: currentModalInstance.id})" />
   </sba-modal-confirm>
 
   <sba-modal-confirm
@@ -272,44 +272,42 @@ export default {
       this.isModalUnregisterInstanceOpen = false;
     },
     shutdownApplication($event) {
-      this.closeModals();
       if ($event === true) {
         this.$emit('shutdown', this.application);
       }
+      this.closeModals();
     },
     shutdownInstance($event) {
-      this.closeModals();
       if ($event === true) {
         this.$emit('shutdown', this.currentModalInstance);
       }
+      this.closeModals();
     },
     unregisterApplication($event) {
-      this.closeModals();
       if ($event === true) {
         this.$emit('unregister', this.application)
       }
+      this.closeModals();
     },
     restartApplication($event) {
-      this.closeModals();
-
       if ($event === true) {
         this.$emit('restart', this.application);
         this.isApplicationRestarted = true;
       }
+      this.closeModals();
     },
     restartInstance($event) {
-      this.closeModals();
-
       if ($event === true) {
         this.$emit('restart', this.currentModalInstance);
         this.isInstanceRestarted = true;
       }
+      this.closeModals();
     },
     unregisterInstance($event) {
-      this.closeModals();
       if ($event === true) {
         this.$emit('unregister', this.currentModalInstance)
       }
+      this.closeModals();
     },
   }
 }
