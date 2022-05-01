@@ -52,7 +52,7 @@ export default defineConfig(({mode}) => {
     },
     resolve: {
       alias: {
-        '@/': root,
+        '@': root,
       },
       extensions: ['.vue', '.js'],
     },
