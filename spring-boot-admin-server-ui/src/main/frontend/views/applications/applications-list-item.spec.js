@@ -59,21 +59,20 @@ describe('application-list-item.vue', () => {
 
     render(ApplicationListItem, {  props: {application: new Application(application)}})
 
-    const shutdownButton = screen.queryByTitle('restart')
+    const shutdownButton = screen.queryByTitle('applications.actions.restart')
     expect(shutdownButton).toBeNull();
   })
 
   it('should call restart endpoint when modal is confirmed', async () => {
     const {emitted} = render(ApplicationListItem, { props: {application: new Application(application)}})
 
-    const element = screen.queryByTitle('restart');
+    const element = screen.queryByTitle('applications.actions.restart');
     await userEvent.click(element);
 
     await waitFor(() => {
       screen.findByRole('dialog');
     })
 
-    screen.logTestingPlaygroundURL()
     const buttonOK = screen.queryByRole('button', {name: 'OK'});
     await userEvent.click(buttonOK);
 
@@ -83,7 +82,7 @@ describe('application-list-item.vue', () => {
   it('should show confirmation if application is restarted', async () => {
     render(ApplicationListItem, {  props: {application: new Application(application)}})
 
-    const element = screen.queryByTitle('restart');
+    const element = screen.queryByTitle('applications.actions.restart');
     await userEvent.click(element);
 
     await waitFor(() => {

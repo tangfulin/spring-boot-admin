@@ -119,7 +119,7 @@
                             <goal>npm</goal>
                         </goals>
                         <configuration>
-                            <arguments>run test:unit</arguments>
+                            <arguments>run test</arguments>
                         </configuration>
                     </execution>
                 </executions>

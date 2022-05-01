@@ -15,8 +15,8 @@
  */
 
 /* global SBA */
-import custom from './custom';
-import customEndpoint from './custom-endpoint';
+import custom from './custom.vue';
+import customEndpoint from './custom-endpoint.vue';
 
 // tag::customization-ui-toplevel[]
 SBA.use({
@@ -47,7 +47,6 @@ SBA.use({
     });
   },
   configure({i18n}) {
-    console.log(i18n);
     i18n.mergeLocaleMessage('en', { // <4>
       sidebar: {
         custom : {
