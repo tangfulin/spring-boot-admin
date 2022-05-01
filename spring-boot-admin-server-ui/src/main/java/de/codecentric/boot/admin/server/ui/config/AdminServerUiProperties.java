@@ -200,6 +200,8 @@ public class AdminServerUiProperties {
 
 		private Palette palette = new Palette();
 
+		private String color = "#42d3a5";
+
 	}
 
 	@Data

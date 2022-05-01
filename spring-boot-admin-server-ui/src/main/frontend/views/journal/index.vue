@@ -34,55 +34,44 @@
         />
       </div>
       <div>
-        <div class="field-label is-normal">
-          <label
-            class="label"
-            v-text="$t('journal.per_page.per_page')"
-          />
-        </div>
-        <div class="field-body">
-          <div class="field is-narrow">
-            <div class="control">
-              <div class="select is-fullwidth">
-                <sba-select
-                  v-model="pageSize"
-                  :options="[
-                    {value: 10, label: 10},
-                    {value: 25, label: 25},
-                    {value: 50, label: 50},
-                    {value: 100, label: 100},
-                    {value: 200, label: 200},
-                    {value: 500, label: 500},
-                    {value: events.length, label: $t('journal.per_page.all')}
-                  ]"
-                  @change="setPageSize($event.target.value)"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
+        <label
+          class="label"
+          v-text="$t('journal.per_page.per_page')"
+        />
+        <sba-select
+          v-model="pageSize"
+          name="pageSize"
+          :options="[
+            {value: 10, label: 10},
+            {value: 25, label: 25},
+            {value: 50, label: 50},
+            {value: 100, label: 100},
+            {value: 200, label: 200},
+            {value: 500, label: 500},
+            {value: events.length, label: $t('journal.per_page.all')}
+          ]"
+          @change="setPageSize($event.target.value)"
+        />
       </div>
     </div>
 
     <sba-alert :error="error" />
+    {{ error }}
 
     <sba-panel :seamless="true">
       <table class="table table-full table-striped">
         <thead>
           <tr>
             <th v-text="$t('term.application')" />
-            <th v-text="$t('term.instances')" />
+            <th v-text="$t('term.instance')" />
             <th v-text="$t('term.time')" />
             <th v-text="$t('term.event')" />
           </tr>
         </thead>
-        <transition-group
-          tag="tbody"
-          name="fade-in"
-        >
+        <tbody />
+        <transition>
           <tr
             v-if="newEventsCount > 0"
-            key="new-events"
           >
             <td
               colspan="4"
@@ -91,20 +80,38 @@
               v-text="`${newEventsCount} new events`"
             />
           </tr>
+        </transition>
+        <transition-group
+          tag="tbody"
+          name="fade-in"
+        >
           <template
             v-for="event in listedEvents"
             :key="event.key"
           >
             <tr
-              class="is-selectable"
+              class="cursor-pointer"
               @click="showPayload[event.key] ? delete showPayload[event.key] : showPayload[event.key] = true"
             >
-              <td v-text="getName(event.instance)" />
-              <td v-text="event.instance" />
+              <td class="flex items-center">
+                <font-awesome-icon
+                  :icon="['fas', 'chevron-right']"
+                  class="mr-2 transition-all"
+                  :class="{'rotate-90': showPayload[event.key] === true}"
+                />
+                <span v-text="getName(event.instance)" />
+              </td>
+              <td>
+                <router-link
+                  :to="{name: 'instances/details', params: {instanceId: event.instance}}"
+                >
+                  {{ event.instance }}
+                </router-link>
+              </td>
               <td v-text="event.timestamp.format('L HH:mm:ss.SSS')" />
               <td>
                 <span v-text="event.type" /> <span
-                  v-if="event.type === 'STATUS_CHANGED'"
+                  v-if="event.type === Event.STATUS_CHANGED"
                   v-text="`(${event.payload.statusInfo.status})`"
                 />
               </td>
@@ -115,7 +122,7 @@
             >
               <td colspan="4">
                 <pre
-                  class="is-breakable"
+                  class="whitespace-pre-wrap text-sm"
                   v-text="toJson(event.payload)"
                 />
               </td>
@@ -142,7 +149,7 @@ import {isEqual, uniq} from 'lodash-es';
 import moment from 'moment';
 import SbaAlert from "../../components/sba-alert.vue";
 
-class Event {
+class InstanceEvent {
   constructor({instance, version, type, timestamp, ...payload}) {
     this.instance = instance;
     this.version = version;
@@ -155,11 +162,18 @@ class Event {
     return `${this.instance}-${this.version}`;
   }
 }
+InstanceEvent.STATUS_CHANGED = 'STATUS_CHANGED';
+InstanceEvent.REGISTERED = 'REGISTERED';
+InstanceEvent.DEREGISTERED = 'DEREGISTERED';
+InstanceEvent.REGISTRATION_UPDATED = 'REGISTRATION_UPDATED';
+InstanceEvent.INFO_CHANGED = 'INFO_CHANGED';
+InstanceEvent.ENDPOINTS_DETECTED = 'ENDPOINTS_DETECTED';
 
 export default {
   components: {SbaAlert},
   mixins: [subscribing],
   data: () => ({
+    Event,
     events: [],
     listOffset: 0,
     showPayload: {},
@@ -173,7 +187,7 @@ export default {
   }),
   computed: {
     instanceNames() {
-      return this.events.filter(event => event.type === 'REGISTERED').reduce((names, event) => {
+      return this.events.filter(event => event.type === InstanceEvent.REGISTERED).reduce((names, event) => {
         names[event.instance] = event.payload.registration.name;
         return names;
       }, {});
@@ -224,7 +238,7 @@ export default {
         }))
         .sort(compareBy(v => v.timestamp))
         .reverse()
-        .map(e => new Event(e));
+        .map(e => new InstanceEvent(e));
 
       this.events = Object.freeze(events);
       this.error = null;
@@ -266,7 +280,7 @@ export default {
       return Instance.getEventStream().subscribe({
         next: message => {
           this.error = null;
-          this.events = Object.freeze([new Event(message.data), ...this.events]);
+          this.events = Object.freeze([new InstanceEvent(message.data), ...this.events]);
           this.listOffset += 1;
         },
         error: error => {

@@ -3,6 +3,7 @@ spring:
     admin:
       ui:
         theme:
+          color: "#451B66"
           background:
             start: "#CB6CD8"
             stop: "#451B66"

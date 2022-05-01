@@ -19,9 +19,12 @@ import merge from 'lodash/merge';
 const DEFAULT_CONFIG = {
   uiSettings: {
     brand: '<img src="assets/img/icon-spring-boot-admin.svg"><span>Spring Boot Admin</span>',
-    background: {
-      start: '#84eacb',
-      stop: '#3abae0'
+    theme: {
+      background: {
+        start: '#84eacb',
+        stop: '#3abae0'
+      },
+      color: '#42d3a5'
     },
     rememberMeEnabled: true,
     externalViews: [],

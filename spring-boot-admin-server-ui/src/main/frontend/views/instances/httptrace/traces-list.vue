@@ -56,10 +56,7 @@
         />
       </tr>
     </thead>
-    <transition-group
-      tag="tbody"
-      name="fade-in"
-    >
+    <tbody>
       <tr
         v-if="newTracesCount > 0"
         key="new-traces"
@@ -71,6 +68,11 @@
           v-text="`${newTracesCount} new traces`"
         />
       </tr>
+    </tbody>
+    <transition-group
+      tag="tbody"
+      name="fade-in"
+    >
       <template
         v-for="trace in traces"
         :key="trace.key"
