@@ -20,9 +20,10 @@
       </div>
       <div class="relative border-t -ml-4 -mr-4 overflow-hidden">
         <sba-wave
+          v-if="background.enabled"
           class="bg-wave--login"
-          :start-color="startColor"
-          :stop-color="stopColor"
+          :start-color="background.start"
+          :stop-color="background.stop"
         />
         <div class="ml-4 mr-4 pt-2 z-10 relative">
           <sba-alert
@@ -94,8 +95,7 @@ export default {
   data() {
     return {
       Severity,
-      startColor: this.theme?.background?.start,
-      stopColor: this.theme?.background?.stop,
+      background: this.theme?.background,
     }
   },
   computed: {

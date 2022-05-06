@@ -1,5 +1,6 @@
 <template>
   <div
+    v-if="enabled"
     class="bg-wave"
     :class="waveClasses"
   >
@@ -94,6 +95,10 @@ export default {
     waveClasses: {
       type: [String, Array, Object],
       default: () => []
+    },
+    enabled: {
+      type: Boolean,
+      default: true,
     },
     startColor: {
       type: String,

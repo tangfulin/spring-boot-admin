@@ -15,61 +15,30 @@
   -->
 
 <template>
-  <div class="relative">
-    <button
-      @click="showLanguages = !showLanguages"
-      class="inline-flex justify-center w-full rounded-md text-gray-300 hover:bg-gray-700 hover:text-white px-3 py-2 rounded-md text-sm font-medium"
-    >
-      {{ selectedLanguage.label }}
-      <svg class="-mr-1 ml-2 h-5 w-5" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"
-           fill="currentColor" aria-hidden="true"
-      >
-        <path
-          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-        />
-      </svg>
-    </button>
-
-    <transition enter-active-class="transition ease-out duration-200" enter-from-class="opacity-0 translate-y-1"
-                enter-to-class="opacity-100 translate-y-0" leave-active-class="transition ease-in duration-150"
-                leave-from-class="opacity-100 translate-y-0" leave-to-class="opacity-0 translate-y-1"
-    >
-      <div
-        v-if="showLanguages"
-        v-on-clickaway="() => showLanguages = false"
-        class="absolute right-0 z-50 -ml-4 mt-3 transform px-2 w-24 min-w-max"
-      >
-        <div class="rounded-lg shadow-lg ring-1 ring-black ring-opacity-5 overflow-hidden">
-          <div class="relative grid gap-4 bg-white p-4">
-            <button class="-m-3 p-3 flex items-start rounded-lg hover:bg-gray-50"
-                    v-for="language in languages"
-                    :key="language.locale"
-                    @click="localeChanged(language.locale)"
-            >
-              {{ language.label }}
-            </button>
-          </div>
-        </div>
-      </div>
-    </transition>
-  </div>
+  <NavbarMenu
+    :label="selectedLanguage.label"
+    :menu-items="languages"
+    @click="localeChanged"
+  />
 </template>
 
 <script>
-
-import {directive as onClickaway} from 'vue-clickaway2';
+import {directive as onClickaway} from 'vue3-click-away';
+import NavbarMenu from "./navbar-menu.vue";
 
 export default {
+  components: {NavbarMenu},
+  directives: {onClickaway},
   props: {
     availableLocales: {type: Array, required: true},
     currentLocale: {type: String, required: true}
   },
+  emits: ['localeChanged'],
   data() {
     return {
       showLanguages: false
     }
   },
-  directives: {onClickaway},
   computed: {
     selectedLanguage() {
       return this.mapLocale(this.currentLocale);
@@ -79,7 +48,8 @@ export default {
     }
   },
   methods: {
-    localeChanged(selectedLocale) {
+    localeChanged($event) {
+      const selectedLocale = $event.locale;
       if (selectedLocale !== this.currentLocale) {
         this.$emit('localeChanged', selectedLocale)
       }
@@ -120,7 +90,3 @@ export default {
   }
 }
 </script>
-
-<style scoped>
-
-</style>

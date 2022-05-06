@@ -58,7 +58,7 @@ export default {
   },
   computed: {
     mainViews() {
-      return this.views.filter(view => !view.parent);
+      return this.views.filter(view => !['instances'].includes(view.parent));
     },
     activeMainViewName() {
       const currentView = this.$route.meta.view;

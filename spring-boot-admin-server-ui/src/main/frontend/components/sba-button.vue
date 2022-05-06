@@ -52,7 +52,7 @@ export default {
 
 <style scoped>
 .btn {
-  @apply focus:ring-2 rounded-l-lg rounded-r-lg font-medium text-sm text-center focus:outline-none text-black border-gray-300 border border-gray-300 bg-white focus:ring-indigo-500 focus:border-indigo-500;
+  @apply focus:ring-2 rounded-l rounded-r font-medium text-sm text-center focus:outline-none text-black border-gray-300 border border-gray-300 bg-white focus:ring-indigo-500 focus:border-indigo-500;
 }
 
 .btn:disabled {

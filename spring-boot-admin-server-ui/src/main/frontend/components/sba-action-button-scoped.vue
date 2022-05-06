@@ -15,7 +15,7 @@
   -->
 
 <template>
-  <div class="inline-flex rounded-md items-start -space-x-px">
+  <div class="inline-flex rounded items-start -space-x-px">
     <sba-toggle-scope-button
       v-if="instanceCount > 1"
       v-model="currentScope"
@@ -40,7 +40,6 @@
         />
         <div v-else-if="refreshStatus === 'executing'">
           <svg
-            role="status"
             class="inline w-4 h-4 text-gray-900 animate-spin"
             viewBox="0 0 100 101"
             fill="none"

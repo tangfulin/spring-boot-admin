@@ -24,13 +24,13 @@
         v-text="label"
       />
       <div
-        class="flex rounded-md shadow-sm"
+        class="flex rounded shadow-sm"
         :class="{'mt-1': hasLabel}"
       >
         <!-- PREPEND -->
         <span
           v-if="$slots.prepend"
-          class="inline-flex items-center px-3 rounded-l-md border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
+          class="inline-flex items-center px-3 rounded-l border border-r-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
         >
           <slot name="prepend" />
         </span>
@@ -59,7 +59,7 @@
         <!-- APPEND -->
         <span
           v-if="$slots.append"
-          class="inline-flex items-center px-3 rounded-r-md border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
+          class="inline-flex items-center px-3 rounded-r border border-l-0 border-gray-300 bg-gray-50 text-gray-500 text-sm"
         >
           <slot name="append" />
         </span>
@@ -163,10 +163,10 @@ export default {
       }
 
       if (!hasAppend) {
-        classNames.push('rounded-r-md')
+        classNames.push('rounded-r')
       }
       if (!hasPrepend) {
-        classNames.push('rounded-l-md')
+        classNames.push('rounded-l')
       }
 
       return classNames;

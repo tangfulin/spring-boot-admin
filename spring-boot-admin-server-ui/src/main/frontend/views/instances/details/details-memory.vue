@@ -77,10 +77,9 @@
 <script>
 import prettyBytes from 'pretty-bytes';
 import {take} from 'rxjs/operators';
-import sbaConfig from '@/sba-config'
 import subscribing from '../../../mixins/subscribing';
 import Instance from '../../../services/instance.js';
-import {concatMap, delay, retryWhen, timer} from '@/utils/rxjs';
+import {concatMap, delay, retryWhen, timer} from 'rxjs';
 import moment from 'moment';
 import memChart from './mem-chart.vue';
 
@@ -135,7 +134,7 @@ export default {
     },
     createSubscription() {
       const vm = this;
-      return timer(0, sbaConfig.uiSettings.pollTimer.memory)
+      return timer(0, 1000)
         .pipe(concatMap(this.fetchMetrics), retryWhen(
           err => {
             return err.pipe(

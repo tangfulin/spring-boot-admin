@@ -31,42 +31,23 @@
           </div>
 
           <div class="hidden lg:block">
-            <div class="ml-10 flex items-baseline space-x-4">
-              <template v-for="view in enabledViews">
-                <a
-                  v-if="view.href"
-                  :key="view.name"
-                  :href="view.href"
-                  class="navbar-item"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <component :is="view.handle" />
-                </a>
-                <router-link
-                  v-else
-                  :key="view.name"
-                  :to="{name: view.name}"
-                  class="navbar-item"
-                >
-                  <component
-                    :is="view.handle"
-                    :applications="applications"
-                    :error="error"
-                  />
-                </router-link>
-              </template>
+            <div class="ml-10 flex items-baseline">
+              <NavbarItems
+                :applications="applications"
+                :enabled-views="enabledViews"
+                :error="error"
+              />
             </div>
           </div>
         </div>
 
         <div class="hidden lg:block">
           <div class="ml-4 flex items-center md:ml-6">
-            <navbar-item-language-selector
+            <NavbarItemLanguageSelector
               v-if="availableLocales.length > 1"
               :current-locale="$i18n.locale"
               :available-locales="availableLocales"
-              @localeChanged="changeLocale"
+              @locale-changed="changeLocale"
             />
 
             <template v-if="userName">
@@ -256,6 +237,7 @@ import {compareBy} from "../utils/collections";
 import moment from 'moment';
 import NavbarItemLanguageSelector from './navbar-item-language-selector.vue';
 import {AVAILABLE_LANGUAGES} from '../i18n';
+import NavbarItems from "./NavbarItems.vue";
 
 const readCookie = (name) => {
   const match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
@@ -264,7 +246,7 @@ const readCookie = (name) => {
 
 export default {
   name: 'SbaNavbar',
-  components: {NavbarItemLanguageSelector},
+  components: {NavbarItems, NavbarItemLanguageSelector},
   props: {
     views: {
       type: Array,
@@ -296,7 +278,7 @@ export default {
     },
   },
   watch: {
-    '$route': function() {
+    '$route': function () {
       this.showMenu = false;
       this.showUserMenu = false;
     }

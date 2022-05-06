@@ -15,12 +15,12 @@
   -->
 
 <template>
-  <div class="shadow border rounded-lg break-inside-avoid mb-6">
+  <div class="shadow-sm border rounded break-inside-avoid mb-6">
     <header
       v-if="hasTitle"
       ref="header"
       v-sticks-below="headerSticksBelow"
-      class="rounded-t-lg flex justify-between px-4 py-5 sm:px-6 items-center border-b bg-white backdrop-filter backdrop-blur-sm bg-opacity-80 transition-all"
+      class="rounded-t flex justify-between px-4 pt-5 pb-2  sm:px-6 items-center bg-white transition-all"
     >
       <h3 class="text-lg leading-6 font-medium text-gray-900">
         <span v-text="title" />&nbsp;
@@ -50,7 +50,7 @@
     <div
       v-if="'default' in $slots"
       class="border-gray-200 px-4 py-3 bg-white"
-      :class="{'rounded-t-lg': !hasTitle, 'rounded-b-lg overflow-hidden': !('footer' in $slots) }"
+      :class="{'rounded-t': !hasTitle, 'rounded-b overflow-hidden': !('footer' in $slots) }"
     >
       <div :class="{'-mx-4 -my-3': seamless}">
         <sba-loading-spinner

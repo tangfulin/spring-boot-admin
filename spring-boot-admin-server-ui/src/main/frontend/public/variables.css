@@ -1,7 +1,12 @@
 :root {
-    --main-color-darker: /*[(${uiSettings.theme.palette.mainColorDarker})]*/ #166534;
-    --main-color-dark: /*[(${uiSettings.theme.palette.mainColorDark})]*/ #15803d;
-    --main-color: /*[(${uiSettings.theme.palette.mainColor})]*/ #22c55e;
-    --main-color-light: /*[(${uiSettings.theme.palette.mainColorLight})]*/ #86efac;
-    --main-color-lighter: /*[(${uiSettings.theme.palette.mainColorLighter})]*/ #f0fdf4;
+    --main-50: /*[(${uiSettings.theme.palette.getShade50()})]*/ #E8FBEF;
+    --main-100: /*[(${uiSettings.theme.palette.getShade200()})]*/ #D0F7DF;
+    --main-200: /*[(${uiSettings.theme.palette.getShade200()})]*/ #A1EFBD;
+    --main-300: /*[(${uiSettings.theme.palette.getShade200()})]*/ #71E69C;
+    --main-400: /*[(${uiSettings.theme.palette.getShade600()})]*/ #41DE7B;
+    --main-500: /*[(${uiSettings.theme.palette.getShade500()})]*/ #22C55E;
+    --main-600: /*[(${uiSettings.theme.palette.getShade600()})]*/ #1A9547;
+    --main-700: /*[(${uiSettings.theme.palette.getShade700()})]*/ #116530;
+    --main-800: /*[(${uiSettings.theme.palette.getShade700()})]*/ #09351A;
+    --main-900: /*[(${uiSettings.theme.palette.getShade700()})]*/ #010603;
 }

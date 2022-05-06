@@ -17,7 +17,7 @@
 <template>
   <div>
     <sba-button-group
-      class="relative z-0 btn-group rounded-md shadow-sm -space-x-px"
+      class="relative z-0 btn-group rounded shadow-sm -space-x-px"
       aria-label="Pagination"
     >
       <sba-button

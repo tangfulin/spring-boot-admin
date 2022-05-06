@@ -3,13 +3,18 @@ spring:
     admin:
       ui:
         theme:
-          color: "#451B66"
+          color: "#4A1420"
           background:
-            start: "#CB6CD8"
-            stop: "#451B66"
+            start: "#E5AC9C"
+            stop: "#9F2A2A"
           palette:
-            main-color-lighter: "#fdf2f8"
-            main-color-light: "#f9a8d4"
-            main-color: "#ec4899"
-            main-color-dark: "#be185d"
-            main-color-darker: "#9d174d"
+            50: "#F8EBE4"
+            100: "#F2D7CC"
+            200: "#E5AC9C"
+            300: "#D87B6C"
+            400: "#CB463B"
+            500: "#9F2A2A"
+            600: "#83232A"
+            700: "#661B26"
+            800: "#4A1420"
+            900: "#2E0C16"

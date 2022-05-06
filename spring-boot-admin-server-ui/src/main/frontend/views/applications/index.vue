@@ -16,12 +16,6 @@
 
 <template>
   <section>
-    <sba-wave
-      :start-color="backgroundColors.start"
-      :stop-color="backgroundColors.stop"
-      :wave-classes="['-mt-14']"
-    />
-
     <sba-sticky-subnav v-if="applications.length > 0">
       <div class="container mx-auto flex">
         <applications-stats :applications="applications" />
@@ -39,7 +33,6 @@
         </div>
       </div>
     </sba-sticky-subnav>
-
 
     <div class="container mx-auto py-6">
       <sba-alert
@@ -173,7 +166,8 @@ export default {
     showNotificationFilterSettingsObject: null,
     notificationFilters: [],
     errors: [],
-    backgroundColors: {}
+    backgroundColors: {},
+    palette: {}
   }),
   computed: {
     statusGroups() {
@@ -202,6 +196,7 @@ export default {
   },
   created() {
     this.backgroundColors = sbaConfig.uiSettings.theme.background;
+    this.palette = sbaConfig.uiSettings.theme.palette;
   },
   mounted() {
     this.hasNotificationFiltersSupport = NotificationFilter.isSupported();

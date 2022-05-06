@@ -17,8 +17,9 @@
 <template>
   <div class="h-full">
     <sba-wave
-      :start-color="backgroundColors.start"
-      :stop-color="backgroundColors.stop"
+      v-if="background.enabled"
+      :start-color="background.start"
+      :stop-color="background.stop"
     />
     <div class="h-full">
       <instance-sidebar
@@ -64,7 +65,7 @@ export default {
   data() {
     return {
       instanceId: this.$route.params.instanceId,
-      backgroundColors: {}
+      background: {}
     }
   },
   computed: {
@@ -84,7 +85,7 @@ export default {
     }
   },
   created() {
-    this.backgroundColors = sbaConfig.uiSettings.theme.background;
+    this.background = sbaConfig.uiSettings.theme.background;
   },
   install({viewRegistry}) {
     viewRegistry.addView({
