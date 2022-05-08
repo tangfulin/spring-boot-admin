@@ -5,7 +5,7 @@
   "scripts": {
     "build": "vite build --emptyOutDir",
     "build:watch": "vite build --emptyOutDir --watch --sourcemap --mode development",
-    "dev:watch": "vite",
+    "dev": "vite",
     "test": "jest",
     "storybook": "start-storybook -p 6006",
     "build-storybook": "build-storybook"

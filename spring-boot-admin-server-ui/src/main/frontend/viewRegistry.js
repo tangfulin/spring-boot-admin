@@ -16,7 +16,7 @@
 
 import sbaConfig from './sba-config.js'
 import {VIEW_GROUP} from './views/ViewGroup.js';
-import {h} from 'vue';
+import {h, markRaw, reactive} from 'vue';
 
 import {remove} from 'lodash-es';
 
@@ -31,7 +31,7 @@ const createI18nTextVNode = (label) => {
 
 export default class ViewRegistry {
   constructor() {
-    this._views = [];
+    this._views = reactive([]);
     this._redirects = [];
   }
 
@@ -73,6 +73,13 @@ export default class ViewRegistry {
       view.name = [view.parent, view.path].filter(p => !!p).join("/");
     }
 
+    if (view.handle) {
+      view.handle = markRaw(view.handle);
+    }
+    if (view.component) {
+      view.component = markRaw(view.component);
+    }
+
     if (!view.isEnabled) {
       view.isEnabled = () => {
         let viewSettings = sbaConfig.uiSettings.viewSettings.find(vs => vs.name === view.name);
@@ -96,7 +103,7 @@ export default class ViewRegistry {
         return ({
           path: p.path,
           name: p.name,
-          component: p.component,
+          component: markRaw(p.component),
           props: p.props,
           meta: {view: p},
           children

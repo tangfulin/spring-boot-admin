@@ -35,7 +35,6 @@
   >
     <component
       :is="view.handle"
-      :applications="applications"
       :error="error"
     />
     <font-awesome-icon
@@ -50,10 +49,6 @@
 export default {
   name: 'NavbarLink',
   props: {
-    applications: {
-      type: Array,
-      default: () => [],
-    },
     error: {
       type: Error,
       default: null

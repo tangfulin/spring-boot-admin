@@ -21,7 +21,7 @@
       <instance-sidebar
         v-if="instance"
         :key="instanceId"
-        :views="views"
+        :views="sidebarViews"
         :instance="instance"
         :application="application"
       />
@@ -42,18 +42,15 @@
 import InstanceSidebar from './sidebar.vue';
 import {findApplicationForInstance, findInstance} from "../../../store.js";
 import {useApplicationStore} from "../../../composables/useApplicationStore.js";
+import {useViewRegistry} from "../../../composables/ViewRegistry.js";
 
 export default {
   components: {InstanceSidebar},
-  props: {
-    views: {
-      type: Array,
-      default: () => []
-    },
-  },
   setup() {
     const {applications} = useApplicationStore();
+    const {views} = useViewRegistry();
     return {
+      views,
       applications
     }
   },
@@ -64,11 +61,18 @@ export default {
     }
   },
   computed: {
+    sidebarViews() {
+      return this.views.filter(v => v.parent === this.activeMainViewName);
+    },
     instance() {
       return findInstance(this.applications, this.instanceId);
     },
     application() {
       return findApplicationForInstance(this.applications, this.instanceId);
+    },
+    activeMainViewName() {
+      const currentView = this.$route.meta.view;
+      return currentView && (currentView.parent || currentView.name);
     }
   },
   watch: {

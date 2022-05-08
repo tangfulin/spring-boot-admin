@@ -37,6 +37,7 @@
           </select>
           <sba-input
             v-model="filter.value"
+            name="filter"
             input-class="!rounded-l-none"
             type="search"
             @paste="handlePaste"
@@ -46,7 +47,7 @@
       </sba-sticky-subnav>
     </template>
 
-    <sba-panel>
+    <sba-panel :seamless="true">
       <sba-sessions-list
         :instance="instance"
         :is-loading="isLoading"

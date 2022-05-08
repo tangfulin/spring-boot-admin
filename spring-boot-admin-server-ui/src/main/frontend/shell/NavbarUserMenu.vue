@@ -52,10 +52,6 @@ export default {
     csrfToken: {
       type: String,
       default: undefined
-    },
-    userName: {
-      type: String,
-      required: true
     }
   }
 }

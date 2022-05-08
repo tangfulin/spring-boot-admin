@@ -21,17 +21,18 @@ import components from './components';
 import Notifications from './notifications.js';
 import sbaConfig from './sba-config.js'
 import sbaShell from './shell/index.vue';
-import ViewRegistry from './viewRegistry';
 import views from './views';
-import {createApp, h, markRaw, reactive} from 'vue';
+import {createApp, h, reactive} from 'vue';
 import i18n from './i18n';
 import router from './router.js';
 import {createApplicationStore, useApplicationStore} from "./composables/useApplicationStore.js";
+import {createViewRegistry, useViewRegistry} from "./composables/ViewRegistry.js";
+import about from "./views/about/index.vue";
 
 moment.locale(navigator.language.split('-')[0]);
 
 const applicationStore = createApplicationStore();
-const viewRegistry = new ViewRegistry();
+const viewRegistry = createViewRegistry();
 
 const installables = [
   Notifications,
@@ -46,12 +47,12 @@ installables.forEach(installable => {
   })
 });
 
+
 const app = createApp({
   setup() {
     const {applications, applicationsInitialized, error} = useApplicationStore();
 
     let props = reactive({
-      views: markRaw(viewRegistry.views),
       applications,
       applicationsInitialized,
       error

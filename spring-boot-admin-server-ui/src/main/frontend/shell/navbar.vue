@@ -194,6 +194,7 @@ import NavbarItemLanguageSelector from './navbar-item-language-selector.vue';
 import {AVAILABLE_LANGUAGES} from '../i18n';
 import NavbarItems from "./NavbarItems.vue";
 import NavbarUserMenu from "./NavbarUserMenu.vue";
+import {useViewRegistry} from "../composables/ViewRegistry.js";
 
 const readCookie = (name) => {
   const match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
@@ -204,10 +205,6 @@ export default {
   name: 'SbaNavbar',
   components: {NavbarUserMenu, NavbarItems, NavbarItemLanguageSelector},
   props: {
-    views: {
-      type: Array,
-      default: () => []
-    },
     applications: {
       type: Array,
       default: () => [],
@@ -215,6 +212,13 @@ export default {
     error: {
       type: Error,
       default: null
+    }
+  },
+  setup() {
+    const {views} = useViewRegistry();
+
+    return {
+      views
     }
   },
   data: () => ({
@@ -227,10 +231,13 @@ export default {
   }),
   computed: {
     enabledViews() {
-      return this.views.filter(
+      return this.topLevelViews.filter(
         view => view.handle && (typeof view.isEnabled === 'undefined' || view.isEnabled())
       ).sort(compareBy(v => v.order));
     },
+    topLevelViews() {
+      return this.views.filter(view => !['instances'].includes(view.parent))
+    }
   },
   watch: {
     '$route': function () {

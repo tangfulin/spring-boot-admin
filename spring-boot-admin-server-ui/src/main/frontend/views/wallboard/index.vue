@@ -59,14 +59,11 @@
 <script>
   import hexMesh from './hex-mesh.vue';
   import {HealthStatus} from '../../HealthStatus.js';
+  import {useApplicationStore} from "../../composables/useApplicationStore.js";
 
   export default {
     components: {hexMesh},
     props: {
-      applications: {
-        type: Array,
-        default: () => []
-      },
       error: {
         type: Error,
         default: null
@@ -75,6 +72,10 @@
         type: Boolean,
         default: false
       }
+    },
+    setup() {
+      const {applications} = useApplicationStore();
+      return {applications}
     },
     methods: {
       classForApplication(application) {

@@ -4,6 +4,8 @@ info:
   build-url: "https://travis-ci.org/codecentric/spring-boot-admin"
 
 logging:
+  level:
+    ROOT: info
   file:
     name: "target/boot-admin-sample-servlet.log"
   pattern:

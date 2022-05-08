@@ -17,14 +17,12 @@
 <template>
   <div id="app">
     <sba-navbar
-      :views="mainViews"
       :applications="applications"
       :error="error"
       :applications-initialized="applicationsInitialized"
     />
     <div class="mt-14">
       <router-view
-        :views="childViews"
         :applications="applications"
         :error="error"
         :applications-initialized="applicationsInitialized"
@@ -35,18 +33,11 @@
 
 <script>
 import SbaNavbar from './navbar.vue';
+import {useApplicationStore} from "../composables/useApplicationStore.js";
 
 export default {
   components: {SbaNavbar},
   props: {
-    views: {
-      type: Array,
-      default: () => []
-    },
-    applications: {
-      type: Array,
-      default: () => [],
-    },
     error: {
       type: Error,
       default: null
@@ -56,17 +47,11 @@ export default {
       default: false
     }
   },
-  computed: {
-    mainViews() {
-      return this.views.filter(view => !['instances'].includes(view.parent));
-    },
-    activeMainViewName() {
-      const currentView = this.$route.meta.view;
-      return currentView && (currentView.parent || currentView.name);
-    },
-    childViews() {
-      return this.views.filter(view => view.parent === this.activeMainViewName);
-    }
-  }
+  setup() {
+    const {applications} = useApplicationStore();
+
+    return {applications}
+  },
+
 }
 </script>
