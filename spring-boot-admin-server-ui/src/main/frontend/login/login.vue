@@ -1,13 +1,16 @@
 <template>
-  <sba-panel class="w-5/6 md:1/2 max-w-lg">
-    <form method="post">
+  <form
+    method="post"
+    class="w-5/6 md:1/2 max-w-lg"
+  >
+    <sba-panel>
       <input
         v-if="csrf"
         type="hidden"
         :name="csrf.parameterName"
         :value="csrf.token"
       >
-      <div class="flex text-lg pb-2 items-center">
+      <div class="flex text-lg pb-3 items-center">
         <img
           v-if="icon"
           class="w-8 h-8 mr-2"
@@ -20,10 +23,7 @@
       </div>
       <div class="relative border-t -ml-4 -mr-4 overflow-hidden">
         <sba-wave
-          v-if="background.enabled"
           class="bg-wave--login"
-          :start-color="background.start"
-          :stop-color="background.stop"
         />
         <div class="ml-4 mr-4 pt-2 z-10 relative">
           <sba-alert
@@ -49,16 +49,18 @@
               :label="$t('login.placeholder.password')"
             />
           </div>
-          <hr class="-ml-4 -mr-4 pb-4">
-          <div class="text-right">
-            <sba-button>
-              {{ $t('login.button_login') }}
-            </sba-button>
-          </div>
         </div>
       </div>
-    </form>
-  </sba-panel>
+
+      <template #footer>
+        <div class="text-right">
+          <sba-button>
+            {{ $t('login.button_login') }}
+          </sba-button>
+        </div>
+      </template>
+    </sba-panel>
+  </form>
 </template>
 
 <script>
@@ -119,9 +121,11 @@ export default {
 .form-group {
   @apply grid grid-cols-1 gap-2;
 }
+
 .form-group.has-errors label {
   @apply text-red-500;
 }
+
 .form-group.has-errors input {
   @apply focus:ring-red-500 focus:border-red-500 border-red-400;
 }

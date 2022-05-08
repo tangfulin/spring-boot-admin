@@ -2,7 +2,7 @@
   <span class="inline-flex bg-white leading-none rounded p-1 shadow-sm text-sm border border-gray-300">
     <span
       v-if="label"
-      class="inline-flex bg-main-200 rounded text-gray-600 py-1 px-3 justify-center items-center"
+      class="inline-flex bg-sba-200 rounded text-sba-900 py-1 px-3 justify-center items-center transition-all"
       v-text="label"
     />
     <span

@@ -82,6 +82,11 @@ public class AdminServerUiAutoConfiguration {
 	}
 
 	@Bean
+	public CssColorUtils cssColorUtils() {
+		return new CssColorUtils();
+	}
+
+	@Bean
 	@ConditionalOnMissingBean
 	public UiController homeUiController(UiExtensions uiExtensions) throws IOException {
 		List<String> extensionRoutes = new UiRoutesScanner(this.applicationContext)

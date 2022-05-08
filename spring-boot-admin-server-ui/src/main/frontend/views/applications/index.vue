@@ -15,6 +15,7 @@
   -->
 
 <template>
+  <sba-wave />
   <section>
     <sba-sticky-subnav v-if="applications.length > 0">
       <div class="container mx-auto flex">
@@ -122,7 +123,7 @@ import handle from './handle.vue';
 import NotificationFilterSettings from './notification-filter-settings.vue';
 import ApplicationStatusHero from '@/views/applications/application-status-hero.vue';
 import SbaStickySubnav from "../../components/sba-sticky-subnav.vue";
-import sbaConfig from "../../sba-config.js";
+import SbaWave from "../../components/sba-wave.vue";
 
 const instanceMatchesFilter = (term, instance) => {
   const predicate = value => String(value).toLowerCase().includes(term);
@@ -135,6 +136,7 @@ const instanceMatchesFilter = (term, instance) => {
 export default {
   directives: {Popper},
   components: {
+    SbaWave,
     ApplicationStatusHero,
     SbaStickySubnav,
     ApplicationsStats,
@@ -166,7 +168,6 @@ export default {
     showNotificationFilterSettingsObject: null,
     notificationFilters: [],
     errors: [],
-    backgroundColors: {},
     palette: {}
   }),
   computed: {
@@ -193,10 +194,6 @@ export default {
         this.scrollIntoView(newVal);
       }
     }
-  },
-  created() {
-    this.backgroundColors = sbaConfig.uiSettings.theme.background;
-    this.palette = sbaConfig.uiSettings.theme.palette;
   },
   mounted() {
     this.hasNotificationFiltersSupport = NotificationFilter.isSupported();

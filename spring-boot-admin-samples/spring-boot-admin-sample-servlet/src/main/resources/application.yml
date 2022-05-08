@@ -26,9 +26,6 @@ management:
 spring:
   application:
     name: spring-boot-admin-sample-servlet
-  profiles:
-    active:
-      - secure
   boot:
     admin:
       client:

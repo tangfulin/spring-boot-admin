@@ -4,9 +4,6 @@ spring:
       ui:
         theme:
           color: "#4A1420"
-          background:
-            start: "#E5AC9C"
-            stop: "#9F2A2A"
           palette:
             50: "#F8EBE4"
             100: "#F2D7CC"

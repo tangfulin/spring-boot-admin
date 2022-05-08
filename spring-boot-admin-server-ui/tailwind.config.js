@@ -1,50 +1,59 @@
-const colors = {
-  ...{
-    'main': {
-      '200': 'var(--main-color-lighter)',
-      '300': 'var(--main-color-light)',
-      '500': 'var(--main-color)',
-      '700': 'var(--main-color-dark)',
-      '800': 'var(--main-color-darker)'
-    },
-    'orange': {
-      DEFAULT: '#ED8936',
-      '50': '#FCECDF',
-      '100': '#FAE1CC',
-      '200': '#F7CBA6',
-      '300': '#F4B581',
-      '400': '#F09F5B',
-      '500': '#ED8936',
-      '600': '#D86C13',
-      '700': '#A4520F',
-      '800': '#71390A',
-      '900': '#3D1F05'
-    },
-    'teal': {
-      DEFAULT: '#38B2AC',
-      '50': '#B9E9E7',
-      '100': '#A9E4E1',
-      '200': '#8ADAD6',
-      '300': '#6BD0CB',
-      '400': '#4CC7C1',
-      '500': '#38B2AC',
-      '600': '#2B8783',
-      '700': '#1D5D5A',
-      '800': '#103230',
-      '900': '#020707'
-    },
-  },
-}
 module.exports = {
+  mode: 'jit',
   darkMode: 'class',
   content: [
     "./index.html",
     "./login.html",
     "./src/**/*.{vue,js,ts,jsx,tsx}",
   ],
+  safelist: [
+    {
+      pattern: /.*-sba-.*/,
+    }
+  ],
   theme: {
     extend: {
-      colors,
+      colors: {
+        'sba': {
+          DEFAULT: 'var(--main-500)',
+          50: withOpacity('--main-50'),
+          100: withOpacity('--main-100'),
+          200: withOpacity('--main-200'),
+          300: withOpacity('--main-300'),
+          400: withOpacity('--main-400'),
+          500: withOpacity('--main-500'),
+          600: withOpacity('--main-600'),
+          700: withOpacity('--main-700'),
+          800: withOpacity('--main-800'),
+          900: withOpacity('--main-900')
+        },
+        'orange': {
+          DEFAULT: '#ED8936',
+          '50': '#FCECDF',
+          '100': '#FAE1CC',
+          '200': '#F7CBA6',
+          '300': '#F4B581',
+          '400': '#F09F5B',
+          '500': '#ED8936',
+          '600': '#D86C13',
+          '700': '#A4520F',
+          '800': '#71390A',
+          '900': '#3D1F05'
+        },
+        'teal': {
+          DEFAULT: '#38B2AC',
+          '50': '#B9E9E7',
+          '100': '#A9E4E1',
+          '200': '#8ADAD6',
+          '300': '#6BD0CB',
+          '400': '#4CC7C1',
+          '500': '#38B2AC',
+          '600': '#2B8783',
+          '700': '#1D5D5A',
+          '800': '#103230',
+          '900': '#020707'
+        },
+      },
       maxWidth: {
         sm: '24rem',
       },
@@ -60,4 +69,13 @@ module.exports = {
     require('@tailwindcss/forms'),
     require('@tailwindcss/typography'),
   ],
+}
+
+function withOpacity(variableName) {
+  return ({opacityValue}) => {
+    if (opacityValue !== undefined) {
+      return `rgba(var(${variableName}), ${opacityValue})`
+    }
+    return `rgb(var(${variableName}))`
+  }
 }

@@ -21,8 +21,8 @@
   >
     <div class="mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-14">
-        <div class="flex items-center">
-          <div class="flex items-center flex-shrink-0 text-white mr-6">
+        <div class="flex">
+          <div class="flex flex-shrink-0 text-white mr-6">
             <router-link
               class="brand"
               to="/"
@@ -31,7 +31,7 @@
           </div>
 
           <div class="hidden lg:block">
-            <div class="ml-10 flex items-baseline">
+            <div class="flex items-baseline gap-4">
               <NavbarItems
                 :applications="applications"
                 :enabled-views="enabledViews"
@@ -42,7 +42,7 @@
         </div>
 
         <div class="hidden lg:block">
-          <div class="ml-4 flex items-center md:ml-6">
+          <div class="ml-4 flex items-center md:ml-6 gap-4">
             <NavbarItemLanguageSelector
               v-if="availableLocales.length > 1"
               :current-locale="$i18n.locale"
@@ -50,57 +50,12 @@
               @locale-changed="changeLocale"
             />
 
-            <template v-if="userName">
-              <div class="ml-3 relative">
-                <div>
-                  <button
-                    id="user-menu-button"
-                    type="button"
-                    class="h-8 w-8 max-w-xs bg-gray-800 rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-offset-gray-800 focus:ring-white"
-                    :aria-expanded="showUserMenu"
-                    aria-haspopup="true"
-                    @click.stop="showUserMenu = !showUserMenu"
-                  >
-                    <span class="sr-only">Open user menu</span>
-                    <font-awesome-icon
-                      color="white"
-                      class="rounded-full"
-                      icon="user-circle"
-                      size="2x"
-                    />
-                  </button>
-                </div>
-              </div>
-
-              <div
-                v-if="showUserMenu"
-                class="origin-top-right absolute right-2 mt-26 w-48 rounded-md shadow-lg py-1 bg-white ring-1 ring-black ring-opacity-5 focus:outline-none"
-                role="menu"
-                aria-orientation="vertical"
-                aria-labelledby="user-menu-button"
-                tabindex="-1"
-              >
-                <a class="block px-4 py-2 text-sm text-gray-700">
-                  <form
-                    action="logout"
-                    method="post"
-                  >
-                    <input
-                      v-if="csrfToken"
-                      type="hidden"
-                      :name="csrfParameterName"
-                      :value="csrfToken"
-                    >
-                    <button
-                      type="submit"
-                      value="logout"
-                    >
-                      <font-awesome-icon icon="sign-out-alt" />&nbsp;<span v-text="$t('navbar.logout')" />
-                    </button>
-                  </form>
-                </a>
-              </div>
-            </template>
+            <NavbarUserMenu
+              v-show="userName"
+              :csrf-parameter-name="csrfParameterName"
+              :csrf-token="csrfToken"
+              :user-name="userName"
+            />
           </div>
         </div>
 
@@ -238,6 +193,7 @@ import moment from 'moment';
 import NavbarItemLanguageSelector from './navbar-item-language-selector.vue';
 import {AVAILABLE_LANGUAGES} from '../i18n';
 import NavbarItems from "./NavbarItems.vue";
+import NavbarUserMenu from "./NavbarUserMenu.vue";
 
 const readCookie = (name) => {
   const match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
@@ -246,7 +202,7 @@ const readCookie = (name) => {
 
 export default {
   name: 'SbaNavbar',
-  components: {NavbarItems, NavbarItemLanguageSelector},
+  components: {NavbarUserMenu, NavbarItems, NavbarItemLanguageSelector},
   props: {
     views: {
       type: Array,
@@ -263,7 +219,6 @@ export default {
   },
   data: () => ({
     showMenu: false,
-    showUserMenu: false,
     brand: '<img src="assets/img/icon-spring-boot-admin.svg"><span>Spring Boot Admin</span>',
     userName: 'Stephan Köninger',
     csrfToken: null,
@@ -306,10 +261,6 @@ export default {
 </script>
 
 <style>
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
 .brand {
   @apply inline-flex items-center;
 }

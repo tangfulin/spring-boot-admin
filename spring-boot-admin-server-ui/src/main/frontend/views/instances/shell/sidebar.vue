@@ -16,7 +16,7 @@
 
 <template>
   <aside
-    class="h-full flex flex-col bg-white border-r backdrop-filter backdrop-blur-lg bg-opacity-70 z-40 w-10 md:w-60 transition-all left-0 pb-14 fixed"
+    class="h-full flex flex-col bg-white border-r backdrop-filter backdrop-blur-lg bg-opacity-80 z-40 w-10 md:w-60 transition-all left-0 pb-14 fixed"
     :class="{'w-60': sidebarOpen}"
   >
     <ul class="relative px-1 py-1 overflow-y-auto">
@@ -195,17 +195,14 @@ export default {
 
 <style scoped>
 .instance-info-block {
-  @apply flex items-center text-sm py-4 px-6 text-left overflow-hidden text-ellipsis rounded transition duration-300 ease-in-out cursor-pointer;
-  color: var(--main-600);
-  background-color: var(--main-50);
+  @apply bg-sba-50 text-sba-900 flex items-center text-sm py-4 px-6 text-left overflow-hidden text-ellipsis rounded transition duration-300 ease-in-out cursor-pointer;
 }
 .navbar-link {
   @apply cursor-pointer duration-300 ease-in-out flex  items-center overflow-hidden py-4 rounded text-sm transition whitespace-nowrap;
   @apply text-gray-700;
 }
 .navbar-link:hover, .navbar-link__active {
-  color: var(--main-600);
-  background-color: var(--main-50);
+  @apply bg-sba-50 text-sba-900;
 }
 
 .navbar-link__group_item {

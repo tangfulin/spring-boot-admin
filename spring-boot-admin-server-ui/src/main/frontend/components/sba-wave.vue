@@ -2,7 +2,6 @@
   <div
     v-if="enabled"
     class="bg-wave"
-    :class="waveClasses"
   >
     <svg
       xmlns="http://www.w3.org/2000/svg"
@@ -24,11 +23,11 @@
         >
           <stop
             offset="0"
-            :stop-color="start"
+            class="bg-color-start"
           />
           <stop
             offset="1"
-            :stop-color="stop"
+            class="bg-color-stop"
           />
         </linearGradient>
         <linearGradient
@@ -42,11 +41,11 @@
         >
           <stop
             offset="0"
-            :stop-color="start"
+            class="bg-color-start"
           />
           <stop
             offset="1"
-            :stop-color="stop"
+            class="bg-color-stop"
           />
         </linearGradient>
         <linearGradient
@@ -60,11 +59,11 @@
         >
           <stop
             offset="0"
-            :stop-color="start"
+            class="bg-color-start"
           />
           <stop
             offset="1"
-            :stop-color="stop"
+            class="bg-color-stop"
           />
         </linearGradient>
       </defs>
@@ -92,36 +91,16 @@
 export default {
   name: 'SbaWave',
   props: {
-    waveClasses: {
-      type: [String, Array, Object],
-      default: () => []
-    },
     enabled: {
       type: Boolean,
       default: true,
     },
-    startColor: {
-      type: String,
-      default: "#84eacb"
-    },
-    stopColor: {
-      type: String,
-      default: "#3abae0"
-    }
   },
   data() {
     return {
       id: this._.uid
     }
   },
-  computed: {
-    start() {
-      return this.startColor || "#84eacb";
-    },
-    stop() {
-      return this.stopColor || "#3abae0";
-    }
-  }
 }
 </script>
 

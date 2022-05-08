@@ -16,11 +16,7 @@
 
 <template>
   <div class="h-full">
-    <sba-wave
-      v-if="background.enabled"
-      :start-color="background.start"
-      :stop-color="background.stop"
-    />
+    <sba-wave />
     <div class="h-full">
       <instance-sidebar
         v-if="instance"
@@ -45,7 +41,6 @@
 <script>
 import InstanceSidebar from './sidebar.vue';
 import {findApplicationForInstance, findInstance} from "../../../store.js";
-import sbaConfig from "../../../sba-config.js";
 import {useApplicationStore} from "../../../composables/useApplicationStore.js";
 
 export default {
@@ -83,9 +78,6 @@ export default {
         this.instanceId = this.$route.params.instanceId;
       }
     }
-  },
-  created() {
-    this.background = sbaConfig.uiSettings.theme.background;
   },
   install({viewRegistry}) {
     viewRegistry.addView({

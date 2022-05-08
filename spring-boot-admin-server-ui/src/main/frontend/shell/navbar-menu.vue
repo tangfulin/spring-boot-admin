@@ -17,30 +17,22 @@
 <template>
   <Menu
     as="div"
-    class="relative"
+    class="relative items-stretch"
   >
     <MenuButton
+      v-if="menuItems.length > 0"
       :as="buttonType"
-      class="inline-flex items-center rounded-md text-gray-300 hover:bg-gray-700 hover:text-white rounded-md text-sm font-medium px-2"
+      class="inline-flex items-center rounded-md text-gray-300 text-sm font-medium "
       :class="{'py-2': !$slots.default, '': menuItems.length <= 0}"
       :open="open"
     >
-      <slot>
-        {{ label }}
-      </slot>
-      <svg
-        v-if="menuItems.length > 0"
-        class="h-5 w-5 cursor-pointer"
-        xmlns="http://www.w3.org/2000/svg"
-        viewBox="0 0 20 20"
-        fill="currentColor"
-        aria-hidden="true"
-      >
-        <path
-          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-        />
-      </svg>
+      <slot :has-subitems="menuItems.length >= 0" />
     </MenuButton>
+
+    <slot
+      v-else
+      :has-subitems="menuItems.length >= 0"
+    />
 
     <transition
       v-if="menuItems.length > 0"
@@ -79,7 +71,6 @@ import {Menu, MenuButton, MenuItem, MenuItems} from '@headlessui/vue'
 export default {
   components: {Menu, MenuButton, MenuItem, MenuItems},
   props: {
-    label: {type: String, default: ""},
     buttonType: {type: String, default: "button"},
     menuItems: {type: Array, default: () => []}
   },

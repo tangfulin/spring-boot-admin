@@ -75,7 +75,6 @@
     "msw": "^0.39.2",
     "msw-storybook-addon": "^1.6.3",
     "postcss": "8.4.12",
-    "postcss-sass-color-functions": "^1.1.0",
     "rollup-plugin-visualizer": "^5.6.0",
     "storybook-vue3-router": "^2.2.1",
     "tailwindcss": "3.0.24",

@@ -7,8 +7,9 @@
       button-type="div"
       :menu-items="subMenuItems(view)"
     >
-      <template #default>
+      <template #default="slotProps">
         <NavbarLink
+          :has-subitems="slotProps.slotProps"
           :applications="applications"
           :error="error"
           :view="view"
@@ -25,7 +26,6 @@
             :applications="applications"
             :error="error"
             :view="menuItem"
-            class="hover:bg-gray-100"
           />
         </MenuItem>
       </template>

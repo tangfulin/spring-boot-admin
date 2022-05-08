@@ -19,15 +19,21 @@
     :label="selectedLanguage.label"
     :menu-items="languages"
     @click="localeChanged"
-  />
+  >
+    <NavbarLink
+      :has-subitems="true"
+      :view="{label: selectedLanguage.label}"
+    />
+  </NavbarMenu>
 </template>
 
 <script>
 import {directive as onClickaway} from 'vue3-click-away';
 import NavbarMenu from "./navbar-menu.vue";
+import NavbarLink from "./NavbarLink.vue";
 
 export default {
-  components: {NavbarMenu},
+  components: {NavbarLink, NavbarMenu},
   directives: {onClickaway},
   props: {
     availableLocales: {type: Array, required: true},

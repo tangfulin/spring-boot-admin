@@ -197,22 +197,9 @@ public class AdminServerUiProperties {
 	@Data
 	public static class UiTheme {
 
-		private Background background = new Background();
-
 		private Palette palette = new Palette();
 
-		private String color = "#42d3a5";
-
-	}
-
-	@Data
-	public static class Background {
-
-		private Boolean enabled = true;
-
-		private String start = "#84eacb";
-
-		private String stop = "#3abae0";
+		private String color = "#14615A";
 
 	}
 
@@ -226,25 +213,25 @@ public class AdminServerUiProperties {
 	@Getter
 	public static class Palette {
 
-		private String shade50 = "#E8FBEF";
+		private String shade50 = "#EEFCFA";
 
-		private String shade100 = "#D0F7DF";
+		private String shade100 = "#D9F7F4";
 
-		private String shade200 = "#A1EFBD";
+		private String shade200 = "#B7F0EA";
 
-		private String shade300 = "#71E69C";
+		private String shade300 = "#91E8E0";
 
-		private String shade400 = "#41DE7B";
+		private String shade400 = "#6BE0D5";
 
-		private String shade500 = "#22C55E";
+		private String shade500 = "#47D9CB";
 
-		private String shade600 = "#1A9547";
+		private String shade600 = "#27BEAF";
 
-		private String shade700 = "#116530";
+		private String shade700 = "#1E9084";
 
-		private String shade800 = "#09351A";
+		private String shade800 = "#14615A";
 
-		private String shade900 = "#010603";
+		private String shade900 = "#0A2F2B";
 
 		public void set50(String shade50) {
 			this.shade50 = shade50;

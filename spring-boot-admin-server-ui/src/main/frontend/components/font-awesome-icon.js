@@ -57,6 +57,7 @@ import {faCheckCircle} from "@fortawesome/free-solid-svg-icons/faCheckCircle.js"
 import {faFrownOpen} from "@fortawesome/free-solid-svg-icons/faFrownOpen.js";
 import {faBars} from "@fortawesome/free-solid-svg-icons/faBars.js";
 import {faChevronRight} from "@fortawesome/free-solid-svg-icons/faChevronRight.js";
+import {faChevronDown} from "@fortawesome/free-solid-svg-icons/faChevronDown.js";
 
 export default FontAwesomeIcon;
 
@@ -86,6 +87,7 @@ library.add(
   faCheckCircle,
   faMinusCircle,
   faChevronRight,
+  faChevronDown,
   faPencilAlt,
   faQuestionCircle,
   faSearch,
