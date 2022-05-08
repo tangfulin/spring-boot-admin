@@ -31,6 +31,39 @@
         default: () => []
       }
     },
+    watch: {
+      data: {
+        handler: 'drawChart',
+        deep: true,
+      }
+    },
+    mounted() {
+      const margin = {
+        top: 5,
+        right: 5,
+        bottom: 30,
+        left: 50,
+      };
+
+      this.width = this.$el.getBoundingClientRect().width - margin.left - margin.right;
+      this.height = this.$el.getBoundingClientRect().height - margin.top - margin.bottom;
+
+      this.chartLayer = d3.select(this.$el.querySelector('.threads-chart__svg'))
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+      this.xAxis = this.chartLayer.append('g')
+        .attr('class', 'threads-chart__axis-x')
+        .attr('transform', `translate(0,${this.height})`);
+
+      this.yAxis = this.chartLayer.append('g')
+        .attr('class', 'threads-chart__axis-y')
+        .attr('stroke', null);
+
+      this.areas = this.chartLayer.append('g');
+
+      this.drawChart(this.data);
+    },
     methods: {
       drawChart(_data) {
         const vm = this;
@@ -80,36 +113,6 @@
           .ticks(5)
         );
       },
-    },
-    mounted() {
-      const margin = {
-        top: 5,
-        right: 5,
-        bottom: 30,
-        left: 50,
-      };
-
-      this.width = this.$el.getBoundingClientRect().width - margin.left - margin.right;
-      this.height = this.$el.getBoundingClientRect().height - margin.top - margin.bottom;
-
-      this.chartLayer = d3.select(this.$el.querySelector('.threads-chart__svg'))
-        .append('g')
-        .attr('transform', `translate(${margin.left},${margin.top})`);
-
-      this.xAxis = this.chartLayer.append('g')
-        .attr('class', 'threads-chart__axis-x')
-        .attr('transform', `translate(0,${this.height})`);
-
-      this.yAxis = this.chartLayer.append('g')
-        .attr('class', 'threads-chart__axis-y')
-        .attr('stroke', null);
-
-      this.areas = this.chartLayer.append('g');
-
-      this.drawChart(this.data);
-    },
-    watch: {
-      data: 'drawChart'
     }
   }
 </script>

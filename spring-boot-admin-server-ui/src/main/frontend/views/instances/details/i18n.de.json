@@ -33,7 +33,8 @@
         "metaspace": "Metaspace",
         "size": "Größe",
         "title": "Speicher",
-        "used": "In Verwendung"
+        "used": "In Verwendung",
+        "committed": "Festgelegt"
       },
       "metadata": {
         "no_data_provided": "Keine Metadaten vorhanden",

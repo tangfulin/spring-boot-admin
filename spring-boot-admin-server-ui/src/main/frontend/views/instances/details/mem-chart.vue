@@ -29,6 +29,8 @@ import Chart from "chart.js/auto";
 import 'chartjs-adapter-moment';
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
+import {useI18n} from "vue-i18n";
+import {shallowRef} from "vue";
 
 export default {
   props: {
@@ -37,61 +39,113 @@ export default {
       default: () => []
     }
   },
+  setup(props) {
+    const {t} = useI18n();
+
+    return {...props, t};
+  },
   data() {
     return {
       chart: undefined
     }
   },
   watch: {
-    data: function () {
-      this.chart.update()
+    data: {
+      handler(newData) {
+        if (this.chart) {
+          const data = newData[newData.length - 1];
+          const chartData = this.chart.data;
+          const datasets = chartData.datasets;
+
+
+          datasets.find(ds => ds.id === "used").data.push(data.used);
+          datasets.find(ds => ds.id === "metaspace").data.push(data.metaspace);
+          datasets.find(ds => ds.id === "committed").data.push(data.committed);
+
+          chartData.labels.push(data.timestamp);
+
+          this.chart.update()
+        }
+      },
+      deep: true
     }
   },
   mounted() {
     const _data = this.data;
     const labels = _data.map(d => d.timestamp);
-    const max = _data.map(d => d.max).pop();
+    const minTimestamp = Math.min(...labels);
 
     const config = {
       type: 'line',
       data: {
         labels,
-        max,
         datasets: [
           {
-            label: 'used',
+            id: 'used',
+            borderColor: "#629655",
+            backgroundColor: "rgba(176,202,169,0.6)",
+            pointHoverRadius: 5,
+            label: this.t('instances.details.memory.used'),
             data: [..._data.map(d => d.used)]
           },
           {
-            label: 'committed',
-            data: [..._data.map(d => d.committed)]
+            id: 'metaspace',
+            borderColor: "#e12828",
+            backgroundColor: "rgb(211,141,141)",
+            pointHoverRadius: 5,
+            label: this.t('instances.details.memory.metaspace'),
+            data: [..._data.map(d => d.metaspace)]
           },
           {
-            label: 'metaspace',
-            data: [..._data.map(d => d.metaspace)]
+            id: 'committed',
+            borderColor: "#599DF6",
+            backgroundColor: "rgba(171,205,250,0.6)",
+            pointHoverRadius: 5,
+            label: this.t('instances.details.memory.committed'),
+            data: [..._data.map(d => d.committed)]
           }
         ]
       },
       options: {
+        animation: {
+          duration: 0
+        },
+        fill: true,
         plugins: {
           filler: {
             propagate: true
           },
+          tooltip: {
+            callbacks: {
+              title: function(ctx) {
+                return prettyBytes(ctx[0].parsed.y);
+              },
+              label: function(ctx) {
+                return ctx.dataset.label;
+              }
+            }
+          }
         },
         elements: {
           line: {
-            tension: 0.5
+            tension: 0,
+            borderWidth: 2
+          },
+          point: {
+            radius: 0,
+            hitRadius: 30,
           }
         },
         scales: {
           y: {
-            stacked: true,
+            min: 0,
             ticks: {
               callback: (label) => prettyBytes(label),
             },
           },
           x: {
             type: 'linear',
+            min: minTimestamp,
             time: {
               displayFormats: {
                 quarter: 'HH:mm:ss'
@@ -108,17 +162,11 @@ export default {
         }
       }
     };
-    this.chart = new Chart(this.$refs.chart, config)
+    this.chart = shallowRef(new Chart(this.$refs.chart, config));
   },
   beforeUnmount() {
     this.chart.destroy();
   },
-  methods: {
-    drawChart(_data) {
-      console.log(_data);
-
-    },
-  }
 }
 </script>
 

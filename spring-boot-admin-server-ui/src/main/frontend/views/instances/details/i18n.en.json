@@ -33,7 +33,8 @@
         "metaspace": "Metaspace",
         "size": "Size",
         "title": "Memory",
-        "used": "Used"
+        "used": "Used",
+        "committed": "Committed"
       },
       "metadata": {
         "no_data_provided": "No metadata provided.",
