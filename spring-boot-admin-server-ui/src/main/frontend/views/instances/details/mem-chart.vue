@@ -15,18 +15,14 @@
   -->
 
 <template>
-  <div class="mem-chart">
-    <canvas
-      id="chart"
-      ref="chart"
-    />
-    <svg class="mem-chart__svg hidden" />
-  </div>
+  <canvas
+    id="chart"
+    ref="chart"
+  />
 </template>
 
 <script>
 import Chart from "chart.js/auto";
-import 'chartjs-adapter-moment';
 import prettyBytes from "pretty-bytes";
 import moment from "moment";
 import {useI18n} from "vue-i18n";
@@ -37,7 +33,7 @@ export default {
     data: {
       type: Array,
       default: () => []
-    }
+    },
   },
   setup(props) {
     const {t} = useI18n();
@@ -46,7 +42,34 @@ export default {
   },
   data() {
     return {
-      chart: undefined
+      chart: undefined,
+      label: "timestamp",
+      datasets: {
+        used: {
+          label: this.t('instances.details.memory.used')
+        },
+        metaspace: {
+          label: this.t('instances.details.memory.metaspace')
+        },
+        committed: {
+          label: this.t('instances.details.memory.committed')
+        }
+      },
+      colors: [
+        {
+          borderColor: "rgb(62, 142, 208)",
+          backgroundColor: "rgba(62, 142, 208, 0.9)",
+        },
+        {
+          borderColor: "rgb(0, 209, 178)",
+          backgroundColor: "rgba(0, 209, 178, 0.5)",
+        },
+        {
+          borderColor: "rgb(255, 224, 138)",
+          backgroundColor: "rgba(255, 224, 138, 0.5)",
+        },
+
+      ]
     }
   },
   watch: {
@@ -57,12 +80,11 @@ export default {
           const chartData = this.chart.data;
           const datasets = chartData.datasets;
 
+          Object.keys(this.datasets).forEach(id => {
+            datasets.find(dataset => dataset.id === id).data.push(data[id]);
+          })
 
-          datasets.find(ds => ds.id === "used").data.push(data.used);
-          datasets.find(ds => ds.id === "metaspace").data.push(data.metaspace);
-          datasets.find(ds => ds.id === "committed").data.push(data.committed);
-
-          chartData.labels.push(data.timestamp);
+          chartData.labels.push(data[this.label]);
 
           this.chart.update()
         }
@@ -72,39 +94,27 @@ export default {
   },
   mounted() {
     const _data = this.data;
-    const labels = _data.map(d => d.timestamp);
+    const labels = _data.map(d => d[this.label]);
     const minTimestamp = Math.min(...labels);
+
+    const datasets = Object.keys(this.datasets).map((id, idx) => {
+      const config = this.datasets[id];
+
+      return {
+        id,
+        borderColor: config.borderColor ?? this.colors[idx].borderColor,
+        backgroundColor: config.backgroundColor ?? this.colors[idx].backgroundColor,
+        pointHoverRadius: 5,
+        label: config.label,
+        data: [..._data.map(d => d[id])]
+      }
+    })
 
     const config = {
       type: 'line',
       data: {
         labels,
-        datasets: [
-          {
-            id: 'used',
-            borderColor: "#629655",
-            backgroundColor: "rgba(176,202,169,0.6)",
-            pointHoverRadius: 5,
-            label: this.t('instances.details.memory.used'),
-            data: [..._data.map(d => d.used)]
-          },
-          {
-            id: 'metaspace',
-            borderColor: "#e12828",
-            backgroundColor: "rgb(211,141,141)",
-            pointHoverRadius: 5,
-            label: this.t('instances.details.memory.metaspace'),
-            data: [..._data.map(d => d.metaspace)]
-          },
-          {
-            id: 'committed',
-            borderColor: "#599DF6",
-            backgroundColor: "rgba(171,205,250,0.6)",
-            pointHoverRadius: 5,
-            label: this.t('instances.details.memory.committed'),
-            data: [..._data.map(d => d.committed)]
-          }
-        ]
+        datasets
       },
       options: {
         animation: {
@@ -117,10 +127,10 @@ export default {
           },
           tooltip: {
             callbacks: {
-              title: function(ctx) {
+              title: function (ctx) {
                 return prettyBytes(ctx[0].parsed.y);
               },
-              label: function(ctx) {
+              label: function (ctx) {
                 return ctx.dataset.label;
               }
             }
@@ -138,6 +148,7 @@ export default {
         },
         scales: {
           y: {
+            stacked: true,
             min: 0,
             ticks: {
               callback: (label) => prettyBytes(label),
@@ -169,30 +180,3 @@ export default {
   },
 }
 </script>
-
-<style lang="css">
-.mem-chart__svg {
-  height: 159px;
-  width: 100%;
-}
-
-.mem-chart__area--committed {
-  fill: #ffe08a;
-  opacity: 0.8;
-}
-
-.mem-chart__area--used {
-  fill: #3e8ed0;
-  opacity: 0.8;
-}
-
-.mem-chart__area--metaspace {
-  fill: #00d1b2;
-  opacity: 0.8;
-}
-
-.mem-chart__line--max {
-  stroke: #3e8ed0;
-}
-
-</style>

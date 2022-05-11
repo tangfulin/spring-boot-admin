@@ -15,46 +15,66 @@
   -->
 
 <template>
-  <sba-instance-section :loading="!hasLoaded" :error="error">
-    <div v-if="isOldMetrics" class="message is-warning">
-      <div class="message-body" v-text="$t('instances.mappings.mappings_not_supported_spring_boot_1')" />
+  <sba-instance-section
+    :loading="!hasLoaded"
+    :error="error"
+  >
+    <div
+      v-if="isOldMetrics"
+      class="message is-warning"
+    >
+      <div
+        class="message-body"
+        v-text="$t('instances.mappings.mappings_not_supported_spring_boot_1')"
+      />
     </div>
-    <template v-for="(context, ctxName) in contexts">
-      <h3 :key="ctxName" class="title" v-text="ctxName" />
+    <template
+      v-for="(context, ctxName) in contexts"
+      :key="ctxName"
+    >
+      <sba-panel
+        :title="ctxName"
+        :seamless="true"
+      >
+        <dispatcher-mappings
+          v-if="hasDispatcherServlets(context)"
+          :key="`${ctxName}_dispatcherServlets`"
+          :dispatchers="context.mappings.dispatcherServlets"
+        />
 
-      <dispatcher-mappings v-if="hasDispatcherServlets(context)"
-                           :key="`${ctxName}_dispatcherServlets`"
-                           :dispatchers="context.mappings.dispatcherServlets"
-      />
+        <dispatcher-mappings
+          v-if="hasDispatcherHandlers(context)"
+          :key="`${ctxName}_dispatcherHandlers`"
+          :dispatchers="context.mappings.dispatcherHandlers"
+        />
 
-      <dispatcher-mappings v-if="hasDispatcherHandlers(context)"
-                           :key="`${ctxName}_dispatcherHandlers`"
-                           :dispatchers="context.mappings.dispatcherHandlers"
-      />
+        <servlet-mappings
+          v-if="hasServlet(context)"
+          :key="`${ctxName}_servlets`"
+          :servlets="context.mappings.servlets"
+        />
 
-      <servlet-mappings v-if="hasServlet(context)"
-                        :key="`${ctxName}_servlets`"
-                        :servlets="context.mappings.servlets"
-      />
-
-      <servlet-filter-mappings v-if="hasServletFilters(context)"
-                               :key="`${ctxName}_servletFilters`"
-                               :servlet-filters="context.mappings.servletFilters"
-      />
+        <servlet-filter-mappings
+          v-if="hasServletFilters(context)"
+          :key="`${ctxName}_servletFilters`"
+          :servlet-filters="context.mappings.servletFilters"
+        />
+      </sba-panel>
     </template>
   </sba-instance-section>
 </template>
 
 <script>
-import Instance from '@/services/instance';
-import DispatcherMappings from '@/views/instances/mappings/DispatcherMappings';
-import ServletFilterMappings from '@/views/instances/mappings/ServletFilterMappings';
-import ServletMappings from '@/views/instances/mappings/ServletMappings';
-import {VIEW_GROUP} from '../../index';
-import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
+import Instance from '@/services/instance.js';
+import DispatcherMappings from '@/views/instances/mappings/DispatcherMappings.vue';
+import ServletFilterMappings from '@/views/instances/mappings/ServletFilterMappings.vue';
+import ServletMappings from '@/views/instances/mappings/ServletMappings.vue';
+import SbaInstanceSection from '@/views/instances/shell/sba-instance-section.vue';
+import {VIEW_GROUP} from "../../ViewGroup.js";
+import SbaPanel from "../../../components/sba-panel.vue";
 
 export default {
-  components: {SbaInstanceSection, DispatcherMappings, ServletMappings, ServletFilterMappings},
+  components: {SbaPanel, SbaInstanceSection, DispatcherMappings, ServletMappings, ServletFilterMappings},
   props: {
     instance: {
       type: Instance,
