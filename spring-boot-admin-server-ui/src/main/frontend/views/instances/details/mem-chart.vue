@@ -37,7 +37,6 @@ export default {
   },
   setup(props) {
     const {t} = useI18n();
-
     return {...props, t};
   },
   data() {
