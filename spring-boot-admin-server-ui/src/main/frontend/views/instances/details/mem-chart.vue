@@ -67,7 +67,6 @@ export default {
           borderColor: "rgb(255, 224, 138)",
           backgroundColor: "rgba(255, 224, 138, 0.5)",
         },
-
       ]
     }
   },
