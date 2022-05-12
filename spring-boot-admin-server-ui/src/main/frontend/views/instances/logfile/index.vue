@@ -29,7 +29,6 @@
               v-text="skippedBytesString"
             />
           </div>
-
           <div class="flex items-start">
             <div class="flex items-center h-5">
               <input
