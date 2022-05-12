@@ -48,12 +48,12 @@
         <td colspan="2">
           <span class="label" v-text="$t('term.stacktrace')" />
           <div class="text-sm">
-            <template v-for="(frame, idx) in details.stackTrace">
-              <div class="whitespace-pre font-mono" :key="`frame-${thread.threadId}-${idx}`">
+            <template v-for="(frame, idx) in details.stackTrace" :key="`frame-${thread.threadId}-${idx}`">
+              <div class="whitespace-pre font-mono">
                 <span v-text="`${frame.className}.${frame.methodName}(${frame.fileName}:${frame.lineNumber})`" />
                 <sba-tag
-                  :key="`frame-${thread.threadId}-${idx}-native`"
                   v-if="frame.nativeMethod"
+                  :key="`frame-${thread.threadId}-${idx}-native`"
                   value="native"
                 />
               </div>

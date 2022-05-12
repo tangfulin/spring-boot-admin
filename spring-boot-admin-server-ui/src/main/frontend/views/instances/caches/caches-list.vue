@@ -41,9 +41,10 @@
           />
         </td>
         <td class="is-narrow text-right">
-          <sba-button class="button"
-                      :class="{ 'is-loading' : clearing[cache.key] === 'executing', 'is-info' : clearing[cache.key] === 'completed', 'is-danger' : clearing[cache.key] === 'failed' }"
-                      :disabled="cache.key in clearing" @click="clearCache(cache)"
+          <sba-button
+            class="button"
+            :class="{ 'is-loading' : clearing[cache.key] === 'executing', 'is-info' : clearing[cache.key] === 'completed', 'is-danger' : clearing[cache.key] === 'failed' }"
+            :disabled="cache.key in clearing" @click="clearCache(cache)"
           >
             <span v-if="clearing[cache.key] === 'completed'" v-text="$t('term.cleared')" />
             <span v-else-if="clearing[cache.key] === 'failed'" v-text="$t('term.failed')" />
@@ -64,15 +65,12 @@
   </table>
 </template>
 <script>
-import Instance from '@/services/instance';
+import Instance from '@/services/instance.js';
 import {concatMap, listen, of, tap} from '@/utils/rxjs';
-import SbaActionButtonScoped from '@/components/sba-action-button-scoped';
-import Application from '@/services/application';
-import SbaButton from '@/components/sba-button';
+import Application from '@/services/application.js';
 
 export default {
   name: 'CachesList',
-  components: {SbaButton, SbaActionButtonScoped},
   props: {
     caches: {
       type: Array,

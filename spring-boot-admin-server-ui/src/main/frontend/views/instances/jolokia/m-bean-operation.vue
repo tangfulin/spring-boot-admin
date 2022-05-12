@@ -18,8 +18,8 @@
   <div class="field">
     <div class="control">
       <button class="button is-light is-fullwidth columns has-text-left" @click="$emit('click', $event)">
-        <small class="is-light is-muted column is-flex-grow-0 is-flex-shrink-0 p-1" v-text="shortenedRet" :title="descriptor.ret" />
-        <span class="column is-flex-grow-1 is-flex-shrink-0 p-1 is-truncated" v-text="shortenedName" :title="name" />
+        <small class="is-light is-muted column is-flex-grow-0 is-flex-shrink-0 p-1" :title="descriptor.ret" v-text="shortenedRet" />
+        <span class="column is-flex-grow-1 is-flex-shrink-0 p-1 is-truncated" :title="name" v-text="shortenedName" />
       </button>
       <p class="help" v-text="descriptor.desc" />
     </div>

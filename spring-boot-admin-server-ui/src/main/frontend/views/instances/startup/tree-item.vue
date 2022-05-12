@@ -23,11 +23,11 @@
         </a>
         <span v-text="item.startupStep.name" />&nbsp;<small>(#<span v-text="item.startupStep.id" />)</small>
       </div>
-      <div class="column column--duration" v-text="item.duration.toFixed(4)" :title="item.duration + 'ms'" />
+      <div class="column column--duration" :title="item.duration + 'ms'" v-text="item.duration.toFixed(4)" />
       <div class="column column--details">
         <span v-for="(tag, index) in item.startupStep.tags" :key="index">
           <strong>{{ tag.key }}: </strong>
-          <span v-text="tag.value" class="enforce-word-wrap" />
+          <span class="enforce-word-wrap" v-text="tag.value" />
           <br>
         </span>
       </div>
@@ -55,21 +55,24 @@ export default {
     },
     expand: Set
   },
+  emits: [
+    'toggle'
+  ],
   data: () => ({
     isOpen: false,
   }),
-  created() {
-      this.isOpen = this.expand.has(this.item.startupStep.id);
+  computed: {
+    hasChildren: function () {
+      return this.item.startupStep.children && this.item.startupStep.children.length;
+    }
   },
   watch: {
     expand: function (newVal) {
       this.isOpen = newVal.has(this.item.startupStep.id);
     }
   },
-  computed: {
-    hasChildren: function () {
-      return this.item.startupStep.children && this.item.startupStep.children.length;
-    }
+  created() {
+      this.isOpen = this.expand.has(this.item.startupStep.id);
   },
   methods: {
     onToggle: function ($event) {

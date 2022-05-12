@@ -17,7 +17,7 @@
 </template>
 
 <script>
-import Instance from '@/services/instance';
+import Instance from '@/services/instance.js';
 
 export default {
   name: 'DetailsHero',

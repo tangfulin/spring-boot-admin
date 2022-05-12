@@ -78,7 +78,7 @@
   import Instance from '@/services/instance.js';
   import CachesList from '@/views/instances/caches/caches-list.vue';
   import {flatMap, isEmpty} from 'lodash-es';
-  import {VIEW_GROUP} from '../../index';
+  import {VIEW_GROUP} from '../../ViewGroup.js';
   import Application from '@/services/application.js';
   import SbaInstanceSection from '@/views/instances/shell/sba-instance-section.vue';
 

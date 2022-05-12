@@ -22,9 +22,9 @@
         <span v-text="$t('instances.gateway.route.predicates')" />
       </div>
       <div
-        class="route-definition-content"
         v-for="predicate in routeDefinition.predicates"
         :key="predicate.name"
+        class="route-definition-content"
       >
         <div class="route-definition-category" v-text="predicate.name" />
         <ul>
@@ -42,15 +42,15 @@
       class="route-definition-spacer"
     />
 
-    <div class="route-definition" v-if="routeDefinition.filters.length > 0">
+    <div v-if="routeDefinition.filters.length > 0" class="route-definition">
       <div class="route-definition-header">
         <font-awesome-icon icon="filter" />&nbsp;
         <span v-text="$t('instances.gateway.route.filters')" />
       </div>
       <div
-        class="route-definition-content"
         v-for="filter in routeDefinition.filters"
         :key="filter.name"
+        class="route-definition-content"
       >
         <div class="route-definition-category" v-text="filter.name" />
         <ul>
@@ -64,9 +64,9 @@
     </div>
 
     <font-awesome-icon
+      v-if="routeDefinition.filters.length > 0"
       icon="angle-double-right"
       class="route-definition-spacer"
-      v-if="routeDefinition.filters.length > 0"
     />
 
     <div class="route-definition">

@@ -13,26 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-import Application from '@/services/application';
-import {bufferTime, concat, concatMap, defer, delay, filter, map, retryWhen, tap} from '@/utils/rxjs';
+import Application from './services/application.js';
+import {bufferTime, concat, concatMap, defer, delay, filter, map, retryWhen, tap} from './utils/rxjs.js';
+
+export const findInstance = (applications, instanceId) => {
+  for (let application of applications) {
+    const instance = application.findInstance(instanceId);
+    if (instance) {
+      return instance;
+    }
+  }
+  return undefined;
+}
+
+export const findApplicationForInstance = (applications, instanceId) => {
+  return applications.find(application => Boolean(application.findInstance(instanceId)));
+}
 
 export default class ApplicationStore {
   constructor() {
     this._listeners = {};
     this._applications = new Map();
     this.applications = [];
-    this.applications.findInstance = (instanceId) => {
-      for (let application of this.applications) {
-        const instance = application.findInstance(instanceId);
-        if (instance) {
-          return instance;
-        }
-      }
-      return undefined;
-    };
-    this.applications.findApplicationForInstance = (instanceId) => {
-      return this.applications.find(application => Boolean(application.findInstance(instanceId)));
-    };
   }
 
   addEventListener(type, listener) {
@@ -75,8 +77,10 @@ export default class ApplicationStore {
         ),
         concatMap(message => message.data)
       );
+
     const stream = Application.getStream()
-      .pipe(map(message => message.data));
+      .pipe(map(message => message.data))
+
     this.subscription = concat(list, stream)
       .pipe(
         retryWhen(errors => errors.pipe(
@@ -85,14 +89,16 @@ export default class ApplicationStore {
         )),
         bufferTime(250),
         filter(a => a.length > 0)
-      ).subscribe({
+      )
+      .subscribe({
         next: applications => this.updateApplications(applications)
       });
   }
 
   updateApplications(applications) {
     applications.forEach(a => this.updateApplication(a));
-    this.applications.splice(0, this.applications.length, ...Array.from(this._applications.values()));
+    this.applications = [...this._applications.values()];
+    this._dispatchEvent('changed', this.applications);
   }
 
   updateApplication(application) {

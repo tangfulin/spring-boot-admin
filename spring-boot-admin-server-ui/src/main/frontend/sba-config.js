@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-import merge from 'lodash/merge';
+import {merge} from 'lodash-es';
 
 const DEFAULT_CONFIG = {
   uiSettings: {
@@ -55,4 +55,4 @@ const DEFAULT_CONFIG = {
   }
 };
 
-export default merge(DEFAULT_CONFIG, global.SBA)
+export default merge(DEFAULT_CONFIG, window.SBA)

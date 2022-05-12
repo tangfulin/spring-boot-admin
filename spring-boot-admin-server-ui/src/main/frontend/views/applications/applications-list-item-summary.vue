@@ -49,6 +49,7 @@
   import Application from '../../services/application';
 
   export default {
+    name: 'ApplicationsListItemSummary',
     props: {
       application: {
         type: Application,

@@ -27,8 +27,7 @@
   </div>
 </template>
 <script>
-  import SbaTag from '@/components/sba-tag';
-  import SbaStatusBadge from '@/components/sba-status-badge';
+  import SbaTag from '@/components/sba-tag.vue';
   export default {
     components: { SbaTag},
     props: {

@@ -1,8 +1,9 @@
 <template>
-  <button @click="$emit('click', $event)"
-          :disabled="disabled"
-          class="btn relative"
-          :class="classNames"
+  <button
+    :class="classNames"
+    :disabled="disabled===true"
+    class="btn relative"
+    @click="$emit('click', $event)"
   >
     <slot />
   </button>

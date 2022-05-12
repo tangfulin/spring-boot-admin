@@ -25,13 +25,13 @@
 
         <template v-if="state === 'input-args'">
           <section class="modal-card-body" @keyup.ctrl.enter="invoke(args)">
-            <div class="field" v-for="(arg, idx) in descriptor.args" :key="arg.name">
+            <div v-for="(arg, idx) in descriptor.args" :key="arg.name" class="field">
               <label class="label">
                 <span v-text="arg.name" />
                 <small class="is-muted has-text-weight-normal pl-1" v-text="arg.type" />
               </label>
               <div class="control">
-                <input type="text" class="input" v-model="args[idx]">
+                <input v-model="args[idx]" type="text" class="input">
               </div>
               <p class="help" v-text="arg.desc" />
             </div>
@@ -76,19 +76,22 @@
             <div class="message is-danger">
               <div class="message-body">
                 <strong>
-                  <font-awesome-icon class="has-text-danger"
-                                     icon="exclamation-triangle"
+                  <font-awesome-icon
+                    class="has-text-danger"
+                    icon="exclamation-triangle"
                   />
                   <span v-text="$t('instances.jolokia.execution_failed')" />
                 </strong>
                 <p v-text="error.message" />
               </div>
             </div>
-            <pre v-if="error.stacktrace"
-                 v-text="error.stacktrace"
+            <pre
+              v-if="error.stacktrace"
+              v-text="error.stacktrace"
             />
-            <pre v-if="error.response && error.response.data"
-                 v-text="error.response.data"
+            <pre
+              v-if="error.response && error.response.data"
+              v-text="error.response.data"
             />
           </section>
           <footer class="modal-card-foot">
@@ -156,6 +159,15 @@ export default {
       return this.result;
     }
   },
+  created() {
+    this.invoke();
+  },
+  mounted() {
+    document.addEventListener('keyup', this.keyHandler)
+  },
+  beforeUnmount() {
+    document.removeEventListener('keyup', this.keyHandler)
+  },
   methods: {
     abort() {
       this.onClose();
@@ -189,15 +201,6 @@ export default {
         this.abort()
       }
     },
-  },
-  created() {
-    this.invoke();
-  },
-  mounted() {
-    document.addEventListener('keyup', this.keyHandler)
-  },
-  beforeDestroy() {
-    document.removeEventListener('keyup', this.keyHandler)
   },
 }
 </script>

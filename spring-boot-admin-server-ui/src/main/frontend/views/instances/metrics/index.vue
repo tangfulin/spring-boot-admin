@@ -113,7 +113,7 @@
 import {sortBy} from 'lodash-es';
 import Instance from '@/services/instance.js';
 import Metric from './metric.vue';
-import {VIEW_GROUP} from '../../index.js';
+import {VIEW_GROUP} from '../../ViewGroup.js';
 import SbaInstanceSection from '@/views/instances/shell/sba-instance-section.vue';
 
 export default {

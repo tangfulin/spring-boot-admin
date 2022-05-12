@@ -18,7 +18,7 @@ import SbaConfirmButton from './sba-confirm-button.vue';
 
 export default {
   component: SbaConfirmButton,
-  title: 'Components/Confirm Button',
+  title: 'Components/Buttons/Confirm Button',
 };
 
 const Template = (args) => {

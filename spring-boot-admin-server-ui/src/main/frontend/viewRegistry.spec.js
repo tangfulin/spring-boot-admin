@@ -94,8 +94,8 @@ describe('viewRegistry', () => {
   it('parent/child routes are generated correctly', () => {
     const viewRegistry = new ViewRegistry();
     viewRegistry.addView(...[
-      {path: 'parent'},
-      {parent: 'parent', path: 'path'},
+      {path: 'parent', component: {}},
+      {parent: 'parent', path: 'path', component: {}},
     ]);
 
     expect(viewRegistry.routes).toContainEqual(expect.objectContaining({

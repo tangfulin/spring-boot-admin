@@ -38,7 +38,7 @@
         :key="'page_' + idx"
         :aria-hidden="page === skipPageString"
         :aria-current="page === modelValue"
-        :disabled="page === skipPageString"
+        :disabled="page === skipPageString || page === modelValue"
         :class="{'is-active': page === modelValue, 'cursor-not-allowed': page === skipPageString}"
         @click="() => changePage(page)"
       >
@@ -65,7 +65,7 @@
       >
         <span
           class="sr-only"
-          v-text="$t('term.go_to_previous_page')"
+          v-text="$t('term.go_to_next_page')"
         />
         <font-awesome-icon
           class="h-5 w-10"
@@ -97,6 +97,7 @@ export default {
   },
   computed: {
     pageRange() {
+      const pageCount = this.pageCount <= 0 ? 1 : this.pageCount;
       const current = this.modelValue;
       const delta = this.delta;
       const left = current - delta;
@@ -104,10 +105,10 @@ export default {
 
       let prevPageNum;
 
-      return Array(this.pageCount).fill(0)
+      return Array(pageCount).fill(0)
         .reduce((pageNumsRemaining, cur, idx) => {
           const pageNum = idx + 1;
-          if (pageNum === 1 || pageNum === this.pageCount || (pageNum >= left && pageNum < right)) {
+          if (pageNum === 1 || pageNum === pageCount || (pageNum >= left && pageNum < right)) {
             pageNumsRemaining.push(pageNum);
           }
           return pageNumsRemaining;

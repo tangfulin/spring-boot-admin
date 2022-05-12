@@ -8,7 +8,6 @@
 
     <div class="modal-card">
       <header
-        v-if="'header' in $slots"
         class="modal-card-head"
       >
         <p class="modal-card-title">

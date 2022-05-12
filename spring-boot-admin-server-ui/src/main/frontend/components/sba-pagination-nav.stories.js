@@ -39,7 +39,7 @@ const Template = (args) => {
       }
     },
     template: `
-      <sba-pagination-nav v-model="current" v-bind="args" @update="change"/>
+      <sba-pagination-nav v-bind="args" @update="change"/>
     `,
     i18n
   });
@@ -48,6 +48,7 @@ const Template = (args) => {
 export const NoPages = Template.bind({});
 NoPages.args = {
   pageCount: 0,
+  modelValue: 1
 };
 
 export const OnePage = Template.bind({});
@@ -57,6 +58,6 @@ OnePage.args = {
 
 export const ManyPages = Template.bind({});
 ManyPages.args = {
-  current: 1,
+  modelValue: 1,
   pageCount: 12,
 };

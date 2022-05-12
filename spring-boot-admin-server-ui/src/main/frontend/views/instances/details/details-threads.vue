@@ -64,21 +64,21 @@
 <script>
 import sbaConfig from '@/sba-config';
 import subscribing from '@/mixins/subscribing';
-import Instance from '@/services/instance';
+import Instance from '@/services/instance.js';
 import {concatMap, delay, retryWhen, timer} from '@/utils/rxjs';
 import moment from 'moment';
-import threadsChart from './threads-chart';
+import threadsChart from './threads-chart.vue';
 import {take} from 'rxjs/operators';
 
 export default {
+  components: {threadsChart},
+  mixins: [subscribing],
   props: {
     instance: {
       type: Instance,
       required: true
     }
   },
-  mixins: [subscribing],
-  components: {threadsChart},
   data: () => ({
     hasLoaded: false,
     error: null,

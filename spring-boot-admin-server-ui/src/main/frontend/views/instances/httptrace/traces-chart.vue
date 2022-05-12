@@ -16,9 +16,10 @@
 
 <template>
   <div class="trace-chart">
-    <div class="trace-chart__tooltip"
-         v-if="tooltipSelection "
-         :class="`trace-chart__tooltip--${this.x(tooltipSelection[0]) > this.width / 2 ? 'left' : 'right'}`"
+    <div
+      v-if="tooltipSelection "
+      class="trace-chart__tooltip"
+      :class="`trace-chart__tooltip--${x(tooltipSelection[0]) > width / 2 ? 'left' : 'right'}`"
     >
       <table class="is-narrow is-size-7">
         <tr>
@@ -140,6 +141,54 @@ const interval = 1000;
         };
       }
     },
+    watch: {
+      chartData: 'drawChart',
+      hovered(newVal) {
+        if (newVal) {
+          this.hover.attr('opacity', 1)
+            .attr('d', `M${this.x(newVal)},${this.height} ${this.x(newVal)},0`);
+        } else {
+          this.hover.attr('opacity', 0);
+        }
+      },
+      brushSelection(newVal) {
+        this.$emit('selected', newVal);
+      }
+    },
+    mounted() {
+      const margin = {
+        top: 20,
+        right: 20,
+        bottom: 30,
+        left: 20,
+      };
+
+      this.width = this.$el.getBoundingClientRect().width - margin.left - margin.right;
+      this.height = this.$el.getBoundingClientRect().height - margin.top - margin.bottom;
+
+      this.chartLayer = d3.select(this.$el.querySelector('.trace-chart__svg'))
+        .append('g')
+        .attr('transform', `translate(${margin.left},${margin.top})`);
+
+      this.xAxis = this.chartLayer.append('g')
+        .attr('class', 'trace-chart__axis-x')
+        .attr('transform', `translate(0,${this.height})`);
+
+      this.yAxis = this.chartLayer.append('g')
+        .attr('class', 'trace-chart__axis-y')
+        .attr('stroke', null);
+
+      this.areas = this.chartLayer.append('g');
+
+      this.hover = this.chartLayer.append('path')
+        .attr('class', 'trace-chart__hover')
+        .attr('opacity', 0);
+
+      this.brushGroup = this.chartLayer.append('g')
+        .attr('class', 'trace-chart__brush');
+
+      this.drawChart(this.chartData);
+    },
     methods: {
       drawChart(data) {
         const vm = this;
@@ -230,54 +279,6 @@ const interval = 1000;
 
         brush.move(vm.brushGroup, vm.brushSelection ? vm.brushSelection.map(x) : null);
       },
-    },
-    mounted() {
-      const margin = {
-        top: 20,
-        right: 20,
-        bottom: 30,
-        left: 20,
-      };
-
-      this.width = this.$el.getBoundingClientRect().width - margin.left - margin.right;
-      this.height = this.$el.getBoundingClientRect().height - margin.top - margin.bottom;
-
-      this.chartLayer = d3.select(this.$el.querySelector('.trace-chart__svg'))
-        .append('g')
-        .attr('transform', `translate(${margin.left},${margin.top})`);
-
-      this.xAxis = this.chartLayer.append('g')
-        .attr('class', 'trace-chart__axis-x')
-        .attr('transform', `translate(0,${this.height})`);
-
-      this.yAxis = this.chartLayer.append('g')
-        .attr('class', 'trace-chart__axis-y')
-        .attr('stroke', null);
-
-      this.areas = this.chartLayer.append('g');
-
-      this.hover = this.chartLayer.append('path')
-        .attr('class', 'trace-chart__hover')
-        .attr('opacity', 0);
-
-      this.brushGroup = this.chartLayer.append('g')
-        .attr('class', 'trace-chart__brush');
-
-      this.drawChart(this.chartData);
-    },
-    watch: {
-      chartData: 'drawChart',
-      hovered(newVal) {
-        if (newVal) {
-          this.hover.attr('opacity', 1)
-            .attr('d', `M${this.x(newVal)},${this.height} ${this.x(newVal)},0`);
-        } else {
-          this.hover.attr('opacity', 0);
-        }
-      },
-      brushSelection(newVal) {
-        this.$emit('selected', newVal);
-      }
     }
   }
 </script>

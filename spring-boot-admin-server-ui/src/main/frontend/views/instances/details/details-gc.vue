@@ -56,21 +56,21 @@
 
 <script>
 import sbaConfig from '@/sba-config';
-import subscribing from '@/mixins/subscribing';
-import Instance from '@/services/instance';
+import subscribing from '../../../mixins/subscribing.js';
+import Instance from '@/services/instance.js';
 import {concatMap, delay, retryWhen, timer} from '@/utils/rxjs';
 import moment from 'moment';
-import {toMillis} from '../metrics/metric';
+import {toMillis} from '../metrics/metric.vue';
 import {take} from 'rxjs/operators';
 
 export default {
+  mixins: [subscribing],
   props: {
     instance: {
       type: Instance,
       required: true
     }
   },
-  mixins: [subscribing],
   data: () => ({
     hasLoaded: false,
     error: null,

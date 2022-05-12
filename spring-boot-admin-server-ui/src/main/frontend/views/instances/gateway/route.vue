@@ -29,23 +29,23 @@
       class="route-spacer"
     />
 
-    <div class="route" v-if="route.filters.length > 0">
+    <div v-if="route.filters.length > 0" class="route">
       <div class="route-header">
         <font-awesome-icon icon="filter" />&nbsp;
         <span v-text="$t('instances.gateway.route.filters')" />
       </div>
       <div
-        class="route-content"
         v-for="filter in route.filters"
         :key="filter"
+        class="route-content"
         v-text="filter"
       />
     </div>
 
     <font-awesome-icon
+      v-if="route.filters.length > 0"
       icon="angle-double-right"
       class="route-spacer"
-      v-if="route.filters.length > 0"
     />
 
     <div class="route">

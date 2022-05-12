@@ -22,10 +22,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-import org.jetbrains.annotations.Nullable;
-
 import lombok.Data;
 import lombok.Getter;
+import org.jetbrains.annotations.Nullable;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.boot.convert.DurationUnit;
 import org.springframework.http.CacheControl;

@@ -24,7 +24,7 @@
       v-if="confirm"
       name="confirm"
     >
-      <div v-text="$t('term.confirm')" />
+      {{ $t('term.confirm') }}
     </slot>
     <slot v-else />
   </sba-button>

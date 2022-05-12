@@ -68,7 +68,7 @@
 <script>
 import Instance from '@/services/instance.js';
 import {isEmpty, mapKeys, pickBy} from 'lodash-es';
-import {VIEW_GROUP} from '../../index';
+import {VIEW_GROUP} from '../../ViewGroup.js';
 import SbaInstanceSection from '@/views/instances/shell/sba-instance-section.vue';
 
 const filterProperty = (needle) => (value, name) => {

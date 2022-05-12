@@ -18,7 +18,7 @@ import SbaButton from './sba-button.vue';
 
 export default {
   component: SbaButton,
-  title: 'Components/Button',
+  title: 'Components/Buttons/Button',
 };
 
 const Template = (args) => {

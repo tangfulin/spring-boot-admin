@@ -99,7 +99,7 @@ import {concatMap, debounceTime, mergeWith, Subject, tap, timer} from 'rxjs';
 import AuditeventsList from './auditevents-list.vue';
 import {uniqBy} from 'lodash-es';
 import moment from 'moment';
-import {VIEW_GROUP} from '../../index';
+import {VIEW_GROUP} from '../../ViewGroup.js';
 
 class Auditevent {
   constructor({timestamp, ...event}) {

@@ -36,8 +36,8 @@
 </template>
 
 <script>
-import TreeItem from '@/views/instances/startup/tree-item';
 import {StartupActuatorEventTree} from '@/services/startup-activator-tree';
+import TreeItem from "./tree-item.vue";
 
 export default {
   components: {TreeItem},
@@ -52,15 +52,11 @@ export default {
       default: null
     }
   },
+  emits: ['change'],
   data: () => ({
     expandedNodes: new Set(),
     isExpanded: false
   }),
-  created() {
-    if (this.expand) {
-      this.expandedNodes = this.expand;
-    }
-  },
   computed: {
     treeSize() {
       return new Set(this.tree.getEvents()).size
@@ -74,6 +70,11 @@ export default {
       this.$emit('change', {
         expandedNodes: this.expandedNodes
       });
+    }
+  },
+  created() {
+    if (this.expand) {
+      this.expandedNodes = this.expand;
     }
   },
   methods: {

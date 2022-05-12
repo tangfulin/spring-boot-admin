@@ -60,7 +60,7 @@ import {compareBy} from '@/utils/collections';
 import shortenClassname from '@/utils/shortenClassname';
 import BeansList from '@/views/instances/beans/beans-list.vue';
 import {isEmpty} from 'lodash-es';
-import {VIEW_GROUP} from '../../index';
+import {VIEW_GROUP} from '../../ViewGroup.js';
 import SbaInstanceSection from '@/views/instances/shell/sba-instance-section.vue';
 
 class Bean {

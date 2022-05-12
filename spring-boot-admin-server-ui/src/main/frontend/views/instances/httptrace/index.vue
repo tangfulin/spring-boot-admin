@@ -98,7 +98,7 @@ import {concatMap, delay, retryWhen, timer} from '../../../utils/rxjs.js';
 import {debounce, mapKeys} from 'lodash-es';
 import {take} from 'rxjs/operators';
 import moment from 'moment';
-import {VIEW_GROUP} from '../../index.js';
+import {VIEW_GROUP} from '../../ViewGroup.js';
 import sbaTracesChart from './traces-chart.vue';
 import sbaTracesList from './traces-list.vue';
 import SbaInstanceSection from "../shell/sba-instance-section.vue";

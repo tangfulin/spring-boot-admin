@@ -14,13 +14,24 @@
  * limitations under the License.
  */
 
-module.exports = {
-  presets: [
-    ['@babel/preset-env', {modules: 'commonjs'}]
-  ],
-  env: {
-    test: {
-      plugins: ["@babel/plugin-transform-runtime"]
-    }
-  }
-};
+import sbaStatusBadge from "./sba-status-badge.vue";
+import {HealthStatus} from "../HealthStatus.js";
+import {render} from "@testing-library/vue";
+
+describe('sba-status-badge.vue', () => {
+  it('should accept valid HealthStatus', () => {
+    render(sbaStatusBadge, {
+      props: {
+        status: HealthStatus.DOWN
+      }
+    });
+  });
+
+  it('should accept String', () => {
+    render(sbaStatusBadge, {
+      props: {
+        status: "down"
+      }
+    });
+  });
+});

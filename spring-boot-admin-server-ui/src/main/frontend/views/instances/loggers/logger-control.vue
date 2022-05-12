@@ -21,8 +21,8 @@
         v-for="levelOption in levelOptions"
         :key="levelOption"
         :button-class="cssClass(levelOption)"
-        v-text="levelOption"
         @click.stop="selectLevel(levelOption)"
+        v-text="levelOption"
       />
     </div>
     <sba-button
@@ -36,10 +36,7 @@
 </template>
 
 <script>
-import SbaButton from '@/components/sba-button';
-
 export default {
-  components: {SbaButton},
   props: {
     value: {
       type: Array,

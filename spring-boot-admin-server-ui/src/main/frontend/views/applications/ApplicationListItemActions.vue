@@ -67,6 +67,7 @@ export default {
   emits: ['filter-settings', 'unregister', 'shutdown', 'restart']
 }
 </script>
+
 <style scoped>
 .application-list-item__header__actions {
   @apply hidden md:flex;

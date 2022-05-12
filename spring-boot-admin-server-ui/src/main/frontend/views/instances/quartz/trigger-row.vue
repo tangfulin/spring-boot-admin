@@ -2,7 +2,7 @@
   <tbody>
     <tr>
       <td>
-        <a class="icon" :class="{'icon--open': isOpen}" @click="toggle" role="button" />
+        <a class="icon" :class="{'icon--open': isOpen}" role="button" @click="toggle" />
         <span v-text="triggerDetail.name" />
       </td>
       <td v-text="triggerDetail.description" />

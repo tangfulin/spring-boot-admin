@@ -64,11 +64,11 @@
 </template>
 
 <script>
-import Instance from '@/services/instance';
+import Instance from '@/services/instance.js';
 import {anyValueMatches, compareBy} from '@/utils/collections';
-import addRoute from './add-route';
-import refreshRouteCache from './refresh-route-cache';
-import routesList from './routes-list';
+import addRoute from './add-route.vue';
+import refreshRouteCache from './refresh-route-cache.vue';
+import routesList from './routes-list.vue';
 
 const routeDefinitionMatches = (routeDef, keyword) => {
   if (!routeDef) {
@@ -103,15 +103,15 @@ export default {
   data: () => ({
     isLoading: false,
     error: null,
-    _routes: [],
+    $routes: [],
     routesFilterCriteria: null
   }),
   computed: {
     routes() {
       if (!this.routesFilterCriteria) {
-        return sortRoutes(this.$data._routes);
+        return sortRoutes(this.$data.$routes);
       }
-      const filtered = this.$data._routes.filter(route => routeMatches(route, this.routesFilterCriteria.toLowerCase()));
+      const filtered = this.$data.$routes.filter(route => routeMatches(route, this.routesFilterCriteria.toLowerCase()));
       return sortRoutes(filtered);
     }
   },
@@ -124,7 +124,7 @@ export default {
       this.isLoading = true;
       try {
         const response = await this.instance.fetchGatewayRoutes();
-        this.$data._routes = response.data
+        this.$data.$routes = response.data
       } catch (error) {
         console.warn('Fetching routes failed:', error);
         this.error = error;

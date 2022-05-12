@@ -116,7 +116,7 @@
 <script>
 import Instance from '@/services/instance.js';
 import {pickBy} from 'lodash-es';
-import {VIEW_GROUP} from '../../index.js';
+import {VIEW_GROUP} from '../../ViewGroup.js';
 import sbaEnvManager from './env-manager.vue';
 import refresh from './refresh.vue';
 import Application from '../../../services/application';

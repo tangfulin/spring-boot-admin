@@ -24,8 +24,8 @@
         </th>
       </tr>
     </thead>
-    <template v-for="thread in threadTimelines">
-      <tbody :key="thread.threadId">
+    <template v-for="thread in threadTimelines" :key="thread.threadId">
+      <tbody>
         <tr>
           <td class="threads__thread-name">
             <thread-tag :thread-state="thread.threadState" />
@@ -35,8 +35,9 @@
             <svg :id="`thread-${thread.threadId}`" height="32px" />
           </td>
         </tr>
-        <tr :key="`${thread.threadId}-detail`"
-            v-if="showDetails[thread.threadId]"
+        <tr
+          v-if="showDetails[thread.threadId]"
+          :key="`${thread.threadId}-detail`"
         >
           <td colspan="2">
             <thread-list-item :thread="thread" :details="getThreadDetails(thread, showDetails[thread.threadId])" />
@@ -49,12 +50,13 @@
 <script>
 import d3 from '@/utils/d3';
 import moment from 'moment';
-import threadTag from './thread-tag';
-import ThreadListItem from '@/views/instances/threaddump/thread-list-item';
+import threadTag from './thread-tag.vue';
+import ThreadListItem from "./thread-list-item.vue";
 
 const maxPixelsPerSeconds = 15;
 
   export default {
+    components: {ThreadListItem, threadTag},
     props: {
       threadTimelines: {
         type: Object,
@@ -65,7 +67,6 @@ const maxPixelsPerSeconds = 15;
       showDetails: {},
       lastEndPosition: 0
     }),
-    components: {ThreadListItem, threadTag},
     watch: {
       threadTimelines: {
         deep: true,

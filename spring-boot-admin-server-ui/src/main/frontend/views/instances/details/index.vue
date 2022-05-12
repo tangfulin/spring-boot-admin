@@ -109,7 +109,7 @@ import detailsMetadata from './details-metadata.vue';
 import detailsProcess from './details-process.vue';
 import detailsThreads from './details-threads.vue';
 import DetailsHero from './details-hero.vue';
-import {VIEW_GROUP} from '../../index';
+import {VIEW_GROUP} from '../../ViewGroup.js';
 import DetailsNav from '@/views/instances/details/details-nav.vue';
 import SbaInstanceSection from '@/views/instances/shell/sba-instance-section.vue';
 import Application from '@/services/application.js';

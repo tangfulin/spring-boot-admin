@@ -88,15 +88,17 @@
 </template>
 
 <script>
-import sbaConfig from '@/sba-config';
-import subscribing from '@/mixins/subscribing';
-import Instance from '@/services/instance';
-import {concatMap, delay, retryWhen, timer} from '@/utils/rxjs';
+import sbaConfig from '../../../sba-config.js';
+import subscribing from '../../../mixins/subscribing.js';
+import Instance from '../../../services/instance.js';
+import {concatMap, delay, retryWhen, timer} from '../../../utils/rxjs.js';
 import moment from 'moment';
-import cacheChart from './cache-chart';
+import cacheChart from './cache-chart.vue';
 import {take} from 'rxjs/operators';
 
 export default {
+  components: { cacheChart},
+  mixins: [subscribing],
   props: {
     instance: {
       type: Instance,
@@ -107,8 +109,6 @@ export default {
       required: true
     }
   },
-  mixins: [subscribing],
-  components: { cacheChart},
   data: () => ({
     hasLoaded: false,
     error: null,

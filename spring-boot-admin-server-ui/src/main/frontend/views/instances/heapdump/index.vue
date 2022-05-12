@@ -16,7 +16,7 @@
 
 <template>
   <sba-instance-section>
-    <template v-slot:before>
+    <template #before>
       <sba-sticky-subnav>
         <div class="text-right">
           <sba-button @click="downloadHeap()">
@@ -55,13 +55,12 @@
 </template>
 
 <script>
-  import Instance from '@/services/instance';
-  import {VIEW_GROUP} from '../../index';
-  import SbaButton from '@/components/sba-button';
-  import SbaInstanceSection from '@/views/instances/shell/sba-instance-section';
+  import Instance from '@/services/instance.js';
+  import {VIEW_GROUP} from '../../ViewGroup.js';
+  import SbaInstanceSection from '@/views/instances/shell/sba-instance-section.vue';
 
   export default {
-    components: {SbaInstanceSection, SbaButton},
+    components: {SbaInstanceSection},
     props: {
       instance: {
         type: Instance,

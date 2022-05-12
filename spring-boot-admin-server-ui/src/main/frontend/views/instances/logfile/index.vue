@@ -117,7 +117,7 @@ import {animationFrameScheduler, concatAll, concatMap, map, of, tap} from '@/uti
 import AnsiUp from 'ansi_up';
 import {chunk} from 'lodash-es';
 import prettyBytes from 'pretty-bytes';
-import {VIEW_GROUP} from '../../index';
+import {VIEW_GROUP} from '../../ViewGroup.js';
 import SbaInstanceSection from '@/views/instances/shell/sba-instance-section.vue';
 import subscribing from '@/mixins/subscribing';
 import {debounceTime, fromEvent} from 'rxjs';

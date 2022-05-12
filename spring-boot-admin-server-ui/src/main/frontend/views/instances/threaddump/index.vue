@@ -54,7 +54,7 @@ import Instance from '@/services/instance.js';
 import {concatMap, delay, retryWhen, timer} from '@/utils/rxjs.js';
 import threadsList from './threads-list.vue';
 import moment from 'moment';
-import {VIEW_GROUP} from '../../index.js';
+import {VIEW_GROUP} from '../../ViewGroup.js';
 import SbaInstanceSection from '@/views/instances/shell/sba-instance-section.vue';
 
 export default {

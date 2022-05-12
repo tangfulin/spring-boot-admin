@@ -16,28 +16,30 @@
 
 <template>
   <div>
-    <div class="field is-grouped control" v-if="application.instances.length > 1">
-      <sba-toggle-scope-button :instance-count="application.instances.length" v-model="scope" />
+    <div v-if="application.instances.length > 1" class="field is-grouped control">
+      <sba-toggle-scope-button v-model="scope" :instance-count="application.instances.length" />
     </div>
 
-    <mBeanOperation v-for="(operation, name) in mBean.op" :key="`op-${name}`"
-                    :name="name" :descriptor="operation" @click="invoke(name, operation)"
+    <mBeanOperation
+      v-for="(operation, name) in mBean.op" :key="`op-${name}`"
+      :name="name" :descriptor="operation" @click="invoke(name, operation)"
     />
-    <m-bean-operation-invocation v-if="invocation" :name="invocation.name" :descriptor="invocation.descriptor"
-                                 :on-execute="execute" :on-close="closeInvocation"
+    <m-bean-operation-invocation
+      v-if="invocation" :name="invocation.name" :descriptor="invocation.descriptor"
+      :on-execute="execute" :on-close="closeInvocation"
     />
   </div>
 </template>
 
 <script>
-  import Application from '@/services/application';
-  import Instance from '@/services/instance';
-  import {MBean} from './index';
-  import mBeanOperation from './m-bean-operation';
-  import mBeanOperationInvocation from './m-bean-operation-invocation';
-  import SbaToggleScopeButton from '@/components/sba-toggle-scope-button';
+  import Application from '@/services/application.js';
+  import Instance from '@/services/instance.js';
+  import mBeanOperation from './m-bean-operation.vue';
+  import mBeanOperationInvocation from './m-bean-operation-invocation.vue';
+  import {MBean} from './MBean';
 
   export default {
+    components: {mBeanOperation, mBeanOperationInvocation},
     props: {
       domain: {
         type: String,
@@ -56,7 +58,6 @@
         required: true
       }
     },
-    components: {mBeanOperation, mBeanOperationInvocation, SbaToggleScopeButton},
     data: () => ({
       invocation: null,
       scope: 'instance'
