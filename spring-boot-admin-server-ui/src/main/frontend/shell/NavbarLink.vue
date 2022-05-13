@@ -67,7 +67,7 @@ export default {
 
 <style scoped>
 .link {
-  @apply flex w-full items-center rounded-md text-sba-900 px-3 py-2 text-white text-sm hover:bg-sba-700 transition-colors
+  @apply flex w-full items-center rounded-md text-sba-900 px-3 py-2 text-inherit text-sm hover:bg-sba-700 transition-colors;
 }
 .link--active {
   @apply bg-sba-700;

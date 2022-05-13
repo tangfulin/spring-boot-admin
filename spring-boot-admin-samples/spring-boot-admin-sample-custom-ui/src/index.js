@@ -16,8 +16,8 @@
 
 /* global SBA */
 import custom from './custom.vue';
-import customEndpoint from './custom-endpoint.vue';
 import customSubitem from './custom-subitem.vue';
+import customEndpoint from './custom-endpoint.vue';
 
 // tag::customization-ui-toplevel[]
 SBA.use({
@@ -33,15 +33,32 @@ SBA.use({
 });
 // end::customization-ui-toplevel[]
 
+// tag::customization-ui-child[]
 SBA.use({
   install({viewRegistry}) {
     viewRegistry.addView({
-      name: 'custom2',  //<1>
-      path: '/subitem', //<2>
-      parent: 'custom',
-      component: customSubitem, //<3>
-      label: 'Custom Subitem', //<4>
-      order: 1000, //<5>
+      name: 'customSub',
+      parent: 'custom', // <1>
+      path: '/customSub', // <2>
+      isChildRoute: false, // <3>
+      component: customSubitem,
+      label: 'Custom Sub',
+      order: 1000,
+    });
+  }
+});
+// end::customization-ui-child[]
+
+SBA.use({
+  install({viewRegistry}) {
+    viewRegistry.addView({
+      name: 'customSubUser',
+      parent: 'user', // <1>
+      path: '/customSub', // <2>
+      isChildRoute: false, // <3>
+      component: customSubitem,
+      label: 'Custom Sub',
+      order: 1000,
     });
   }
 });

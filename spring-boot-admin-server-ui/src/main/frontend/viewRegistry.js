@@ -41,7 +41,7 @@ export default class ViewRegistry {
 
   get routes() {
     return [
-      ...this._toRoutes(this._views, v => v.path && !v.parent),
+      ...this._toRoutes(this._views, v => v.path && (!v.parent || !v.isChildRoute)),
       ...this._redirects
     ]
   }
@@ -72,12 +72,14 @@ export default class ViewRegistry {
     if (!view.name) {
       view.name = [view.parent, view.path].filter(p => !!p).join("/");
     }
-
     if (view.handle) {
       view.handle = markRaw(view.handle);
     }
     if (view.component) {
       view.component = markRaw(view.component);
+    }
+    if (view.isChildRoute === undefined) {
+      view.isChildRoute = true;
     }
 
     if (!view.isEnabled) {
@@ -99,7 +101,7 @@ export default class ViewRegistry {
   _toRoutes(views, filter) {
     return views.filter(filter).map(
       p => {
-        const children = this._toRoutes(views, v => v.parent === p.name);
+        const children = this._toRoutes(views, v => v.parent === p.name && v.isChildRoute);
         return ({
           path: p.path,
           name: p.name,

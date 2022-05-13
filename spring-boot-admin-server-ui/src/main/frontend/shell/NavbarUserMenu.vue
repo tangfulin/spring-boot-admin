@@ -16,6 +16,9 @@
     </template>
 
     <template #menuItems>
+
+      <NavbarLink v-for="userSubMenuItem in submenuItems" :key="userSubMenuItem.name" :view="userSubMenuItem"/>
+
       <form
         action="logout"
         method="post"
@@ -40,10 +43,11 @@
 
 <script>
 import NavbarMenu from "./navbar-menu.vue";
+import NavbarLink from "./NavbarLink.vue";
 
 export default {
   name: 'NavbarUserMenu',
-  components: {NavbarMenu},
+  components: {NavbarMenu, NavbarLink},
   props: {
     csrfParameterName: {
       type: String,
@@ -52,6 +56,10 @@ export default {
     csrfToken: {
       type: String,
       default: undefined
+    },
+    submenuItems: {
+      type: Array,
+      default: () => []
     }
   }
 }

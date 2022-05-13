@@ -9,7 +9,7 @@
     >
       <template #default="slotProps">
         <NavbarLink
-          :has-subitems="slotProps.slotProps"
+          :has-subitems="slotProps.hasSubitems"
           :applications="applications"
           :error="error"
           :view="view"

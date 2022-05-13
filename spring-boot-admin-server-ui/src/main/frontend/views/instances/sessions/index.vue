@@ -90,8 +90,12 @@ export default {
     error: null,
     filter: {value: '', type: null},
     sessions: [],
-    isLoading: false
+    isLoading: false,
+    currentRouteName: null,
   }),
+  mounted() {
+    this.currentRouteName = this.$route.name;
+  },
   watch: {
     '$route.query': {
       immediate: true,
@@ -109,7 +113,7 @@ export default {
       immediate: true,
       handler() {
         const oldQuery = {[this.filter.type]: this.filter.value};
-        if (!isEqual(oldQuery, this.$route.query)) {
+        if (!isEqual(oldQuery, this.$route.query) && this.currentRouteName === this.$route.name) {
           this.$router.replace({
             name: 'instances/sessions',
             query: oldQuery

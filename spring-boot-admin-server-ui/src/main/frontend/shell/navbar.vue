@@ -17,7 +17,7 @@
 <template>
   <nav
     id="navigation"
-    class="bg-black fixed top-0 w-full h-14 z-50"
+    class="bg-black fixed top-0 w-full h-14 z-50 text-white"
   >
     <div class="mx-auto px-4 sm:px-6 lg:px-8">
       <div class="flex items-center justify-between h-14">
@@ -55,6 +55,7 @@
               :csrf-parameter-name="csrfParameterName"
               :csrf-token="csrfToken"
               :user-name="userName"
+              :submenu-items="userSubMenuItems"
             />
           </div>
         </div>
@@ -159,9 +160,14 @@
               class="text-base font-medium leading-none text-white"
               v-text="userName"
             />
+            adsa
           </div>
         </div>
-        <div class="mt-3 px-2 space-y-1">
+        <div class="mt-3 px-2 space-y-1 text-black">
+
+          <NavbarLink v-for="userSubMenuItem in userSubMenuItems" :key="userSubMenuItem.name"
+                       :applications="applications" :error="error" :view="userSubMenuItem"/>
+
           <form
             action="logout"
             method="post"
@@ -195,6 +201,7 @@ import {AVAILABLE_LANGUAGES} from '../i18n';
 import NavbarItems from "./NavbarItems.vue";
 import NavbarUserMenu from "./NavbarUserMenu.vue";
 import {useViewRegistry} from "../composables/ViewRegistry.js";
+import NavbarLink from "./NavbarLink.vue";
 
 const readCookie = (name) => {
   const match = document.cookie.match(new RegExp('(^|;\\s*)(' + name + ')=([^;]*)'));
@@ -203,7 +210,7 @@ const readCookie = (name) => {
 
 export default {
   name: 'SbaNavbar',
-  components: {NavbarUserMenu, NavbarItems, NavbarItemLanguageSelector},
+  components: {NavbarLink, NavbarUserMenu, NavbarItems, NavbarItemLanguageSelector},
   props: {
     applications: {
       type: Array,
@@ -237,6 +244,9 @@ export default {
     },
     topLevelViews() {
       return this.views.filter(view => !['instances'].includes(view.parent))
+    },
+    userSubMenuItems() {
+      return this.enabledViews.filter(v => v.parent === 'user');
     }
   },
   watch: {

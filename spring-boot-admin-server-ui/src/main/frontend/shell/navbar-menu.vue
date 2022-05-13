@@ -20,22 +20,20 @@
     class="relative items-stretch"
   >
     <MenuButton
-      v-if="menuItems.length > 0"
+      v-if="hasChildren"
       :as="buttonType"
       class="inline-flex items-center rounded-md text-gray-300 text-sm font-medium "
-      :class="{'py-2': !$slots.default, '': menuItems.length <= 0}"
       :open="open"
     >
-      <slot :has-subitems="menuItems.length >= 0" />
+      <slot :has-subitems="true"/>
     </MenuButton>
 
-    <slot
-      v-else
-      :has-subitems="menuItems.length >= 0"
+    <slot v-if="!hasChildren"
+      :has-subitems="false"
     />
 
     <transition
-      v-if="menuItems.length > 0"
+      v-if="hasChildren"
       enter-active-class="transition ease-out duration-200"
       enter-from-class="opacity-0 translate-y-1"
       enter-to-class="opacity-100 translate-y-0"
@@ -44,7 +42,7 @@
       leave-to-class="opacity-0 translate-y-1"
     >
       <MenuItems
-        class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
+        class="absolute right-0 mt-2 w-56 origin-top-right divide-y divide-gray-100 rounded-md bg-white text-black shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none"
       >
         <div class="px-1 py-1">
           <slot name="menuItems">
@@ -77,12 +75,12 @@ export default {
   emits: ['click'],
   data() {
     return {
-      open: false
+      open: true
     }
   },
-  methods: {
-    mouseover(e) {
-      console.log(e);
+  computed: {
+    hasChildren() {
+      return this.menuItems.length > 0;
     }
   }
 }

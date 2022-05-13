@@ -20,6 +20,10 @@
   </div>
 </template>
 
+<script>
+export default {};
+</script>
+
 <style scoped lang="css">
   .custom {
     font-size: 20px;
