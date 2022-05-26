@@ -1,41 +1,45 @@
-{"groups": [
-  {
-    "name": "spring.boot.admin.hazelcast",
-    "sourceType": "de.codecentric.boot.admin.config.HazelcastStoreConfiguration"
-  },
-  {
-    "name": "spring.boot.admin.discovery",
-    "sourceType": "de.codecentric.boot.admin.config.DiscoveryClientConfiguration"
-  }
-],"properties": [
-  {
-    "name": "spring.boot.admin.hazelcast.enabled",
-    "type": "java.lang.Boolean",
-    "description": "Enable Hazelcast support.",
-    "defaultValue": "true"
-  },
-  {
-    "name": "spring.boot.admin.hazelcast.map",
-    "type": "java.lang.String",
-    "description": "Name of backing Hazelcast-Map",
-    "defaultValue": "spring-boot-admin-application-store"
-  },
-  {
-    "name": "spring.boot.admin.discovery.enabled",
-    "type": "java.lang.Boolean",
-    "description": "Enable Spring Cloud Discovery support.",
-    "defaultValue": "true"
-  },
-  {
-    "name": "spring.boot.admin.discovery.management.context-path",
-    "type": "java.lang.String",
-    "description": "management-path suffix for discovered applications",
-    "defaultValue": ""
-  },
-  {
-    "name": "spring.boot.admin.discovery.monitor.period",
-    "type": "long",
-    "description": "time interval in ms to update the status of applications with expired statusInfo",
-    "defaultValue": "10000"
-  }
-]}
+{
+  "groups": [
+  ],
+  "properties": [
+    {
+      "name": "spring.boot.admin.hazelcast.enabled",
+      "type": "java.lang.Boolean",
+      "description": "Enable Hazelcast support.",
+      "defaultValue": "true"
+    },
+    {
+      "name": "spring.boot.admin.hazelcast.event-store",
+      "type": "java.lang.String",
+      "description": "Name of backing Hazelcast-Map for storing the instance events.",
+      "defaultValue": "spring-boot-admin-application-store"
+    },
+    {
+      "name": "spring.boot.admin.hazelcast.sent-notifications",
+      "type": "java.lang.String",
+      "description": "Name of backing Hazelcast-Map for storing the sent notifications.",
+      "defaultValue": "spring-boot-admin-sent-notifications"
+    },
+    {
+      "name": "spring.boot.admin.monitor.period",
+      "deprecation": {
+        "level": "warning",
+        "replacement": "spring.boot.admin.monitor.status-interval"
+      }
+    },
+    {
+      "name": "spring.boot.admin.monitor.read-timeout",
+      "deprecation": {
+        "replacement": "spring.boot.admin.monitor.default-timeout",
+        "level": "error"
+      }
+    },
+    {
+      "name": "spring.boot.admin.monitor.connect-timeout",
+      "deprecation": {
+        "replacement": "spring.boot.admin.monitor.default-timeout",
+        "level": "error"
+      }
+    }
+  ]
+}

@@ -1,43 +1,43 @@
 spring-boot-admin-server-ui
 ================================
 
-This is the user-interface for the spring-boot-admin-server.
-There are neither configuration nor customization options. 
-If you want to change something, copy this project and build your own static resources and ship 'em with your spring-boot-admin-server.
-
 ### Building this module
-The jar **can be build with Maven** with the maven-exec-plugin, node.js and npm must be installed on your machine and be on your $PATH.
-If you dont want to use the maven exec run the following commands:
+The jar **can be build with Maven** with the maven-exec-plugin. To do this node.js and npm must be installed on your machine and be on your `$PATH`.
+If you don't want to use the maven exec run the following commands:
+
+### Running Spring Boot Admin Server for development
+To develop the ui on an running server the best to do is
+
+1. Running the ui build in watch mode so the resources get updated:
+```shell
+npm run watch
+```
+2. Run a Spring Boot Admin Server instances with the template-location and resource-location pointing to the build output and disable caching:
+```
+spring.boot.admin.ui.cache.no-cache: true
+spring.boot.admin.ui.resource-locations: file:@project.basedir@/../../spring-boot-admin-server-ui/target/dist/
+spring.boot.admin.ui.template-location: file:@project.basedir@/../../spring-boot-admin-server-ui/target/dist/
+spring.boot.admin.ui.cache-templates: false
+```
+Or just start the [spring-boot-admin-sample-servlet](../spring-boot-admin-samples/spring-boot-admin-sample-servlet) project using the `dev` profile.
 
 ### Build
 ```shell
 npm install
-gulp
+npm run build
 ```
 
-### Run server (with watchify)
+Repeated build with watching the files:
 ```shell
-npm install
-gulp watch
+npm run watch
 ```
 
-#### Building on windows
-
-Install gulp globally  - http://omcfarlane.co.uk/install-gulp-js-windows/
-
-Update the maven pom to run gulp directly
+## Run tests
 ```shell
-    <configuration>
-        <executable>gulp</executable>
-        <arguments>
-            <argument>--skipTests=${skipTests}</argument>
-        </arguments>
-    </configuration>
+npm run test
 ```
 
-Update the packages json
+Repeated tests with watching the files:
 ```shell
-    "postinstall": "node node_modules/protractor/bin/webdriver-manager update",
-    "pretest": "node node_modules/protractor/bin/webdriver-manager start &",
-    "test": "node node_modules/gulp/bin/gulp.js"
+npm run watch:test
 ```

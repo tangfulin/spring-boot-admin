@@ -1,190 +1,141 @@
-spring-boot-admin
-=================
+codecentric's Spring Boot Admin
+===============================
 [![Apache License 2](https://img.shields.io/badge/license-ASF2-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 [![Build Status](https://travis-ci.org/codecentric/spring-boot-admin.svg?branch=master)](https://travis-ci.org/codecentric/spring-boot-admin)
-[![Coverage Status](https://coveralls.io/repos/codecentric/spring-boot-admin/badge.svg)](https://coveralls.io/r/codecentric/spring-boot-admin)
+[![Coverage Status](https://coveralls.io/repos/github/codecentric/spring-boot-admin/badge.svg?branch=master)](https://coveralls.io/github/codecentric/spring-boot-admin?branch=master)
 [![Maven Central](https://maven-badges.herokuapp.com/maven-central/de.codecentric/spring-boot-admin/badge.svg)](https://maven-badges.herokuapp.com/maven-central/de.codecentric/spring-boot-admin/)
-[![Gitter](https://badges.gitter.im/Join Chat.svg)](https://gitter.im/codecentric/spring-boot-admin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge&utm_content=badge)
+[![Gitter](https://badges.gitter.im/codecentric/spring-boot-admin.svg)](https://gitter.im/codecentric/spring-boot-admin?utm_source=badge&utm_medium=badge&utm_campaign=pr-badge)
 
-This is a simple admin interface for [Spring Boot](http://projects.spring.io/spring-boot/ "Official Spring-Boot website") applications.
+![](./images/logo-spring-boot-admin.png)
 
-This application provides a simple GUI to administrate Spring Boot applications in some ways. At the moment it provides the following features for every registered application.
+This community project provides an admin interface for [Spring Boot <sup>®</sup>](http://projects.spring.io/spring-boot/ "Official Spring-Boot website") applications.
 
-* Show name/id and version number
+It provides the following features for registered applications.
+
 * Show health status
-* Download main logfile
 * Show details, like
- * JVM & memory metrics
- * Counter & gauge Metrics
- * Datasource Metrics
-* View Java, System- & Environment-properties
-* Support for Spring Clouds postable /env- &/refresh-endpoint
-* Easy loggerlevel management (for Logback)
-* Interact with JMX-Beans
-* View Threaddump
-* View Traces
-* Mail and desktop notification on status change
+  * JVM & memory metrics
+  * micrometer.io metrics
+  * Datasource metrics
+  * Cache metrics
+* Show build-info number
+* Follow and download logfile
+* View jvm system- & environment-properties
+* View Spring Boot Configuration Properties
+* Support for Spring Cloud's postable /env- &/refresh-endpoint
+* Easy loglevel management
+* Interact with JMX-beans
+* View thread dump
+* View http-traces
+* View auditevents
+* View http-endpoints
+* View scheduled tasks
+* View and delete active sessions (using spring-session)
+* View Flyway / Liquibase database migrations
+* Download heapdump
+* Notification on status change (via e-mail, Slack, Hipchat, ...)
 * Event journal of status changes (non persistent)
 
-#### Server application
-Add the following dependency to your pom.xml.
+## Getting Started
+
+[A quick guide](http://codecentric.github.io/spring-boot-admin/2.1.6/#getting-started) to get started can be found in our docs.
+
+There are introductory talks available on YouTube:
+
+<a href="https://youtu.be/Ql1Gnz4L_-c" target="_blank"><img src="https://i.ytimg.com/vi/Ql1Gnz4L_-c/maxresdefault.jpg" 
+alt="Cloud Native Spring Boot® Admin by Johannes Edmeier @ Spring I/O 2019" width="240" height="135" border="10" /></a><br>
+**Cloud Native Spring Boot® Admin by Johannes Edmeier @ Spring I/O 2019**
+
+<a href="https://youtu.be/__zkypwjSMs" target="_blank"><img src="https://i.ytimg.com/vi/__zkypwjSMs/maxresdefault.jpg" 
+alt="Monitoring Spring Boot® Applications with Spring Boot Admin @ Spring I/O 2018" width="240" height="135" border="10" /></a><br>
+**Monitoring Spring Boot® Applications with Spring Boot Admin @ Spring I/O 2018**
+
+<a href="https://goo.gl/2tRiUi" target="_blank"><img src="https://i.ytimg.com/vi/PWd9Q8_4OFo/maxresdefault.jpg"
+alt="Spring Boot® Admin - Monitoring and Configuring Spring Boot Applications at Runtime" width="240" height="135" border="10" /></a><br>
+**Spring Boot® Admin - Monitoring and Configuring Spring Boot Applications at Runtime**
+
+## Getting Help
+
+Having trouble with codecentric's Spring Boot Admin? We’d like to help!
+
+ * Check the [reference documentation](http://codecentric.github.io/spring-boot-admin/current/).
+
+ * Ask a question on [stackoverflow.com](http://stackoverflow.com/questions/tagged/spring-boot-admin) - we monitor questions tagged with `spring-boot-admin`.
+
+ * Ask for help in our [spring-boot-admin Gitter chat](https://gitter.im/codecentric/spring-boot-admin)
+
+ * Report bugs at http://github.com/codecentric/spring-boot-admin/issues.
+
+## Reference Guide
+[Version 2.1.6](http://codecentric.github.io/spring-boot-admin/2.1.6/)
+
+[Version 2.0.6](http://codecentric.github.io/spring-boot-admin/2.0.6/)
+
+[Version 1.5.7](http://codecentric.github.io/spring-boot-admin/1.5.7/)
+
+## Trademarks and licenses
+The source code of codecentric's Spring Boot Admin is licensed under [Apache License 2.0](https://www.apache.org/licenses/LICENSE-2.0)
+
+Spring, Spring Boot and Spring Cloud are trademarks of [Pivotal Software, Inc.](https://pivotal.io/) in the U.S. and other countries.
+
+## Snapshot builds
+You can access snapshot builds from the sonatype snapshot repository by adding the following to your `repositories`:
 ```xml
-<dependency>
-	<groupId>de.codecentric</groupId>
-	<artifactId>spring-boot-admin-server</artifactId>
-	<version>1.2.4</version>
-</dependency>
-<dependency>
-	<groupId>de.codecentric</groupId>
-	<artifactId>spring-boot-admin-server-ui</artifactId>
-	<version>1.2.4</version>
-</dependency>
+<repository>
+	<id>sonatype-nexus-snapshots</id>
+	<name>Sonatype Nexus Snapshots</name>
+	<url>https://oss.sonatype.org/content/repositories/snapshots/</url>
+	<snapshots>
+		<enabled>true</enabled>
+	</snapshots>
+	<releases>
+		<enabled>false</enabled>
+	</releases>
+</repository>
 ```
 
-Create the Spring Boot Admin Server with only one single Annotation.
-```java
-@Configuration
-@EnableAutoConfiguration
-@EnableAdminServer
-public class Application {
-	public static void main(String[] args) {
-		SpringApplication.run(Application.class, args);
-	}
-}
-```
+## Screenshots
 
-See also the [example project](https://github.com/codecentric/spring-boot-admin/tree/master/spring-boot-admin-samples/spring-boot-admin-sample) in this repository.
+![Screenshot application list](/images/screenshot.png)
+*Dashboard with desktop notifications*
 
-For configuring Hazelcast support see [spring-boot-admin-server](https://github.com/codecentric/spring-boot-admin/tree/master/spring-boot-admin-server/README.md) or [hazelcast-example project](https://github.com/codecentric/spring-boot-admin/tree/master/spring-boot-admin-samples/spring-boot-admin-sample-hazelcast)
+![Screenshot details](/images/screenshot-details.png)
+*View application health, info and details*
 
-#### Register / Discover client applications
-To get all your boot applications shown in spring boot admin you have two choices:
+![Screenshot metrics](/images/screenshot-metrics.png)
+*View metric counters and gauges*
 
-1) either you include the spring-boot-admint-starter-client into your applications
+![Screenshot logfile](/images/screenshot-logfile.png)
+*View logfile (with follow)*
 
-or
+![Screenshot environment](/images/screenshot-environment.png)
+*View and change Spring environment (via Spring Cloud)*
 
-2) you add a DiscoveryClient (e.g. Eureka) to your spring boot admin server.
+![Screenshot logging](/images/screenshot-logging.png)
+*Manage Logback logger levels*
 
-**Note:** If you don't include the spring-boot-admin-starter-client the logfile won't be availible, due to the fact that the logfile endpoint won't be exposed.
+![Screenshot jmx](/images/screenshot-jmx.png)
+*View and use JMX beans via jolokia*
 
-##### Register client applications via spring-boot-admin-starter-client
-Each application that want to register itself to the admin application has to include the [spring-boot-admin-starter-client](https://github.com/codecentric/spring-boot-admin/tree/master/spring-boot-admin-starter-client) as dependency. This starter JAR includes some [AutoConfiguration](http://docs.spring.io/spring-boot/docs/current-SNAPSHOT/reference/htmlsingle/#using-boot-auto-configuration "Spring Boot documentation") features that includes registering tasks, controller, etc.
-```xml
-<dependency>
-	<groupId>de.codecentric</groupId>
-	<artifactId>spring-boot-admin-starter-client</artifactId>
-	<version>1.2.4</version>
-</dependency>
-```
-Inside your configuration (e.g. application.properties) you also have to define the URL of the Spring Boot Admin Server, e.g.
-```
-spring.boot.admin.url=http://localhost:8080
-```
-For all configuration options see [spring-boot-admin-starter-client](https://github.com/codecentric/spring-boot-admin/tree/master/spring-boot-admin-starter-client/README.md)
+![Screenshot threads](/images/screenshot-threads.png)
+*View thread dump*
 
-##### Discover client applications via DiscoveryClient
-Just add spring-clouds ``@EnableDiscoveryClient`` annotation and include an appropriate implementation (e.g. Eureka) to your classpath.
-```java
-@Configuration
-@EnableAutoConfiguration
-@EnableDiscoveryClient
-@EnableAdminServer
-public class SpringBootAdminApplication {
-	public static void main(String[] args) {
-		SpringApplication.run(SpringBootAdminApplication.class, args);
-	}
-}
-```
+![Screenshot traces](/images/screenshot-trace.png)
+*View http request traces*
 
-```xml
-<dependency>
-	<groupId>org.springframework.cloud</groupId>
-	<artifactId>spring-cloud-starter-eureka</artifactId>
-	<version>1.0.3.RELEASE</version>
-</dependency>
-```
-See the sample [discovery sample project](https://github.com/codecentric/spring-boot-admin/tree/master/spring-boot-admin-samples/spring-boot-admin-sample-discovery)
+![Screenshot journal](/images/screenshot-journal.png)
+*View history of registered applications*
 
-#### Mail notification on status change
+## Build
+**Requirements:**
+* [Node.js v8.x (LTS)](https://nodejs.org/en/download/)
+* JDK >= 1.8
 
-Configure a JavaMailSender using spring-boot-starter-mail and set a recipient:
-```xml
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-starter-mail</artifactId>
-		</dependency>
-```
-
-```
-spring.mail.host=smtp.example.com
-spring.boot.admin.notify.to=admin@example.com
-```
-
-For all configuration options see [spring-boot-admin-server](https://github.com/codecentric/spring-boot-admin/tree/master/spring-boot-admin-server/README.md)
-
-
-#### Screenshots
-
-##### Dashboard
-
-[](url "title")
-<img src="https://raw.githubusercontent.com/codecentric/spring-boot-admin/master/screenshot.png">
-
-##### Details
-
-[](url "title")
-<img src="https://raw.githubusercontent.com/codecentric/spring-boot-admin/master/screenshot-details.png">
-
-##### Environment
-
-[](url "title")
-<img src="https://raw.githubusercontent.com/codecentric/spring-boot-admin/master/screenshot-environment.png">
-
-##### Logging
-
-[](url "title")
-<img src="https://raw.githubusercontent.com/codecentric/spring-boot-admin/master/screenshot-logging.png">
-
-##### JMX
-
-[](url "title")
-<img src="https://raw.githubusercontent.com/codecentric/spring-boot-admin/master/screenshot-jmx.png">
-
-##### Threads
-
-[](url "title")
-<img src="https://raw.githubusercontent.com/codecentric/spring-boot-admin/master/screenshot-threads.png">
-
-##### Trace
-
-[](url "title")
-<img src="https://raw.githubusercontent.com/codecentric/spring-boot-admin/master/screenshot-trace.png">
-
-##### Journal
-
-[](url "title")
-<img src="https://raw.githubusercontent.com/codecentric/spring-boot-admin/master/screenshot-journal.png">
-
-
-#### Build
-In order to build spring-boot-admin you need to have node.js and npm on your PATH.
+Please make sure you set `$JAVA_HOME` points to the correct JDK and that the `node` and `npm` commands are on your `$PATH`.
 
 ```shell
-mvn clean package
+./mvnw clean package
 ```
 
-#### Release
-
-```shell
-mvn build-helper:parse-version versions:set -DnewVersion=${parsedVersion.majorVersion}.${parsedVersion.minorVersion}.${parsedVersion.incrementalVersion}
-mvn -Psign-artifacts clean deploy
-```
-
-#### Increment version for next release
-
-Example:
-
-```shell
-mvn build-helper:parse-version versions:set versions:commit -DnewVersion=1.0.0-SNAPSHOT
-```
+## Contributing
+See [CONTRIBUTING.md](CONTRIBUTING.md) file.
